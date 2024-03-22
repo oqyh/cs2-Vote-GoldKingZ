@@ -13,7 +13,7 @@
 - [ ] Vote Banned
 - [ ] Vote Mute (Chat)
 - [ ] Vote Gag (Voice)
-- [ ] Vote Silent (Both)
+- [ ] Vote Silent (Chat + Voice)
 
 
 ## .:[ Dependencies ]:.
