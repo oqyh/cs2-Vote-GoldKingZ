@@ -1,11 +1,12 @@
-# [CS2] Vote-Kick (1.0.0)
+# [CS2] Vote-GoldKingZ (1.0.0)
 
 ### Vote Kick Players With SteamID/IpAddress Restrict From Joining
 
 
 ![hud](https://github.com/oqyh/cs2-vote-kick/assets/48490385/8ae6ab2b-6772-48fb-8737-4a6aa479c3f1)
 
-![chat](https://github.com/oqyh/cs2-vote-kick/assets/48490385/b6484550-9d44-46d8-aee0-ee75f4e8ef4a)
+![vk](https://github.com/oqyh/cs2-Vote-GoldKingZ/assets/48490385/c9029fe0-3d29-4c9c-90e3-dc814c738c35)
+
 
 
 ## .:[ Dependencies ]:.
@@ -13,42 +14,50 @@
 
 [CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp/releases)
 
+[Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json)
 
 ## .:[ Configuration ]:.
 ```json
 {
-  //Immunity From Getting Vote To Kick
-  "ImmunityGroupsFromGettingVoted": "#css/vip1,#css/vip2,#css/vip3",
-  
-  //Make Vote Kick TeamSide Only
-  "VoteTeamMateOnly": false,
-  
-  //Vote Percentage To Pass The Vote 6 means 0.6 || 5 means 0.5 Half
-  "VotePercentage": 6,
-  
-  //If Vote Reach Half Do You Want Annoce Player To Vote shortcut !yes/!y or !no/n To Kick Player Annoce
-  "VoteMessageAnnounceOnHalfVotes": false,
-  
-  //if VoteMessageAnnounceOnHalfVotes Enabled How Many In Secs To Show Message
-  "VoteTimer": 25,
-  
-//-----------------------------------------------------------------------------------------
-
   //After Kicking Player Which Method Do You Like
-  //RestrictPlayersMethod (0) = Kick Only
-  //RestrictPlayersMethod (1) = Kick And Restrict SteamID From Joining
-  //RestrictPlayersMethod (2) = Kick And Restrict IpAddress From Joining
-  //RestrictPlayersMethod (3) = Kick And Restrict SteamID And IpAddress From Joining
-  "RestrictPlayersMethod": 1,
+  //VoteKick_Mode (0) = Disable
+  //VoteKick_Mode (1) = Kick Only
+  //VoteKick_Mode (2) = Kick And Restrict SteamID From Joining
+  //VoteKick_Mode (3) = Kick And Restrict IpAddress From Joining
+  //VoteKick_Mode (4) = Kick And Restrict SteamID And IpAddress From Joining
+  "VoteKick_Mode": 2,
   
   //If Vote Pass How Many In Mins Should Kicked Player Wait To Join Back
-  "AfterKickGivePlayerXMinsFromJoining": 5,
+  "VoteKick_TimeInMins": 5,
   
   //Rest And Cancel AfterKickGivePlayerXMinsFromJoining On Map Change
-  "ResetKickedPlayersOnMapChange": false,
+  "VoteKick_AllowKickedPlayersToJoinOnMapChange": false,
   
-//-----------------------------------------------------------------------------------------
-  "ConfigVersion": 1
+  //VoteKick_TeamOnly (false) = Cross Teams Voting
+  //VoteKick_TeamOnly (true) = Vote On Team Side Only
+  "VoteKick_TeamOnly": false,
+  
+  //Vote Percentage To Pass The Vote 6 means 0.6 || 5 means 0.5 Half
+  "VoteKick_Percentage": 6,
+  
+  //If Vote Reach Half Depend Percentage On VoteKick_Percentage Do You Want Annoce Player To Vote shortcut Depend [VoteKick_CommandsOnHalfVoteAccept] And [VoteKick_CommandsOnHalfVoteRefuse] To Kick Player Announced
+  "VoteKick_CenterMessageAnnouncementOnHalfVotes": true,
+  
+  //If VoteKick_CenterMessageAnnouncementOnHalfVotes Enabled How Many In Secs To Show Message
+  "VoteKick_CenterMessageAnnouncementTimer": 25,
+  
+  //Enable Punishment Only Who Try To Evasion VoteKick_Mode Only Works 2 to 4
+  "VoteKick_EvasionPunishment": false,
+  
+  //If VoteKick_EvasionPunishment Enabled How Many In Mins Give Extra For Evasion Punishment
+  "VoteKick_EvasionPunishmentTimeInMins": 10,
+  //Commands Ingame
+  "VoteKick_CommandsToVote": "!votekick,!kick,!vk",
+  "VoteKick_CommandsOnHalfVoteAccept": "!yes,yes,!y,y",
+  "VoteKick_CommandsOnHalfVoteRefuse": "!no,no,!n,n",
+  //Immunity From Getting Vote To Kick
+  "VoteKick_ImmunityGroups": "@css/root,@css/admin,@css/vip,#css/admin,#css/vip",
+  
 }
 ```
 
@@ -59,19 +68,31 @@
 ## .:[ Language ]:.
 ```json
 {
-	//==========================
-	//        Colors
-	//==========================
-	//{Yellow} {Gold} {Silver} {Blue} {DarkBlue} {BlueGrey} {Magenta} {LightRed}
-	//{LightBlue} {Olive} {Lime} {Red} {Purple} {Grey}
-	//{Default} {White} {Darkred} {Green} {LightYellow}
-	//==========================
-	"Vote_YourSelf": "{green}Gold KingZ {grey}| You Cant Vote Kick Your Self",
-    "This_User_IS_VIP": "{green}Gold KingZ {grey}| {darkred}Vote Failed On {Purple}{0} {darkred}You Cant Vote Kick VIPs", //========={0} = Vip Player Name
-    "Vote_TeamMateOnly": "{green}Gold KingZ {grey}| You Cant Vote Kick Opposite Team",
-    "Vote_KickMessage": "{green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted to kick {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]", //========={0} = Name Who Called The Vote || {1} = Name Who Got Voted On || {2} = How Many Total Votes On Voted || {3} = How Many Needed 
-    "Vote_KickMessageDuplicate": "{green}Gold KingZ {grey}| You've Already Voted To Kick {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]", //========={0} = Name Who Got Voted On || {1} = How Many Total Votes On Voted || {2} = How Many Needed 
-    "Vote_KickMessagePassed": "{green}Gold KingZ {grey}| Vote Successfully, {Purple}{0} {grey}Has Been Kicked" //========={0} = Name Who Got Successfully Kicked
+    //==========================
+    //        Colors
+    //==========================
+    //{Yellow} {Gold} {Silver} {Blue} {DarkBlue} {BlueGrey} {Magenta} {LightRed}
+    //{LightBlue} {Olive} {Lime} {Red} {Purple} {Grey}
+    //{Default} {White} {Darkred} {Green} {LightYellow}
+    //==========================
+    //        Other
+    //==========================
+    //{nextline} = Print On Next Line
+    //==========================
+	
+    "votekick.menu.name": "{purple}Vote Kick Menu",
+    "votekick.player.vote.on.halfvotes.center.message": "{green}Gold KingZ {grey}| {darkred}Please Wait For Timer To End",
+    "votekick.player.is.immunity": "{green}Gold KingZ {grey}| {darkred}Vote Failed On {Purple}{0} {darkred}You Cant Vote Kick VIPs",//{0} Vip PlayerName 
+
+    "votekick.player.vote.same.player": "{green}Gold KingZ {grey}| You've Already Voted To Kick {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]", //{0} PlayerName Vote On - {1} Votes - {2} Needed
+    "votekick.player.vote.same.yes": "{green}Gold KingZ {grey}| You've Already Voted {lime}Yes {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]", //{0} PlayerName Vote On - {1} Votes - {2} Needed
+    "votekick.player.vote.same.no": "{green}Gold KingZ {grey}| You've Already Voted {red}No {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]", //{0} PlayerName Vote On - {1} Votes - {2} Needed
+    
+    "votekick.chat.message": " {green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted to kick {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]", //{0} PlayerName Rock The Vote - {1} PlayerName Vote On - {1} Votes - {2} Needed
+    "votekick.announce.kick.successfully.message": "{green}Gold KingZ {grey}| Vote Successfully, {Purple}{0} {grey}Has Been Kicked",{0} PlayerName Kicked
+
+    "votekick.announce.halfvotes.chat.message": "{green}Gold KingZ {grey}| Votes Reached Half Type {yellow}!yes {grey}/ {yellow}!y {grey}Or {red}!no {grey}/ {red}!n {grey}To Vote Kick",
+    "votekick.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='grey'>Kick player: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Kick Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Remove Kick Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>"// {0} Timer - {1} PlayerName Vote On - {2} Votes - {3} Needed 
 }
 ```
 
