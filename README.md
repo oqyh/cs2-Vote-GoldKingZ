@@ -28,10 +28,13 @@
 [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json)
 
 
+
+
+## .:[ Configuration ]:.
+
 > [!CAUTION]
 > Config Located In ..\addons\counterstrikesharp\plugins\Vote-GoldKingZ\config\config.json
 
-## .:[ Configuration ]:.
 ```json
 {
   //After Kicking Player Which Method Do You Like
