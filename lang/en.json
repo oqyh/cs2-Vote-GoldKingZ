@@ -1,8 +1,0 @@
-{
-	"Vote_YourSelf": "{green}Gold KingZ {grey}| You Cant Vote Kick Your Self",
-    "This_User_IS_VIP": "{green}Gold KingZ {grey}| {darkred}Vote Failed On {Purple}{0} {darkred}You Cant Vote Kick VIPs",
-    "Vote_TeamMateOnly": "{green}Gold KingZ {grey}| You Cant Vote Kick Opposite Team",
-    "Vote_KickMessage": "{green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted to kick {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",
-    "Vote_KickMessageDuplicate": "{green}Gold KingZ {grey}| You've Already Voted To Kick {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
-    "Vote_KickMessagePassed": "{green}Gold KingZ {grey}| Vote Successfully, {Purple}{0} {grey}Has Been Kicked"
-}

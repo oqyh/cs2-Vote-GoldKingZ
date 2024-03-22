@@ -1,8 +1,0 @@
-{
-	"Vote_YourSelf": "{green}Gold KingZ {grey}| Nie można głosować na samego siebie",
-  "This_User_IS_VIP": "{green}Gold KingZ {grey}| {darkred}Głosowanie na {Purple}{0} {darkred} nie powiodło się, nie możesz głosować na VIP-ów.",
-  "Vote_TeamMateOnly": "{green}Gold KingZ {grey}| Nie można głosować na przeciwną drużynę",
-  "Vote_KickMessage": "{green}Gold KingZ {grey}| {Purple}{0} {grey}Chciał wyrzucić {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",
-  "Vote_KickMessageDuplicate": "{green}Gold KingZ {grey}| Już zagłosowałeś za wyrzuceniem{Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
-  "Vote_KickMessagePassed": "{green}Gold KingZ {grey}|  Głosowanie zakończone sukcesem, {Purple}{0} {grey} został wyrzucony"
-}

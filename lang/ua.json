@@ -1,8 +1,0 @@
-{
-	"Vote_YourSelf": "{green}Gold KingZ {grey}| Ви не можете голосувати за вилучення себе",
-    "This_User_IS_VIP": "{green}Gold KingZ {grey}| {darkred}Голосування не вдалося для {Purple}{0} {darkred}Ви не можете голосувати за вилучення VIP-користувачів",
-    "Vote_TeamMateOnly": "{green}Gold KingZ {grey}| Ви не можете голосувати за вилучення гравців протилежної команди",
-    "Vote_KickMessage": "{green}Gold KingZ {grey}| {Purple}{0} {grey}хотів вилучити {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",
-    "Vote_KickMessageDuplicate": "{green}Gold KingZ {grey}| Ви вже проголосували за вилучення {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
-    "Vote_KickMessagePassed": "{green}Gold KingZ {grey}| Голосування успішно, {Purple}{0} {grey}був вилучений"
-}
