@@ -51,10 +51,12 @@
   
   //If VoteKick_EvasionPunishment Enabled How Many In Mins Give Extra For Evasion Punishment
   "VoteKick_EvasionPunishmentTimeInMins": 10,
+
   //Commands Ingame
   "VoteKick_CommandsToVote": "!votekick,!kick,!vk",
   "VoteKick_CommandsOnHalfVoteAccept": "!yes,yes,!y,y",
   "VoteKick_CommandsOnHalfVoteRefuse": "!no,no,!n,n",
+
   //Immunity From Getting Vote To Kick
   "VoteKick_ImmunityGroups": "@css/root,@css/admin,@css/vip,#css/admin,#css/vip",
   
