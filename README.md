@@ -14,7 +14,8 @@
 - [ ] Vote Mute (Chat)
 - [ ] Vote Gag (Voice)
 - [ ] Vote Silent (Chat + Voice)
-
+- [ ] Vote Send Play Spec
+- [ ] Vote A Map
 
 ## .:[ Dependencies ]:.
 [Metamod:Source (2.x)](https://www.sourcemm.net/downloads.php/?branch=master)
