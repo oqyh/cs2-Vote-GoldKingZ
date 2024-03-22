@@ -1,6 +1,6 @@
 # [CS2] Vote-GoldKingZ (1.0.0)
 
-### Vote Kick Players With SteamID/IpAddress Restrict From Joining
+### Vote System (Kick , Mute , Banned, Vips)
 
 
 ![hud](https://github.com/oqyh/cs2-vote-kick/assets/48490385/8ae6ab2b-6772-48fb-8737-4a6aa479c3f1)
