@@ -7,6 +7,13 @@
 
 ![vk](https://github.com/oqyh/cs2-Vote-GoldKingZ/assets/48490385/c9029fe0-3d29-4c9c-90e3-dc814c738c35)
 
+### Todo List
+
+- [x] Vote Kick 
+- [ ] Vote Banned
+- [ ] Vote Mute (Chat)
+- [ ] Vote Gag (Voice)
+- [ ] Vote Silent (Both)
 
 
 ## .:[ Dependencies ]:.
