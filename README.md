@@ -3,9 +3,10 @@
 ### Vote System (Kick , Mute , Banned, Vips)
 
 
-![hud](https://github.com/oqyh/cs2-vote-kick/assets/48490385/8ae6ab2b-6772-48fb-8737-4a6aa479c3f1)
+![center](https://github.com/oqyh/cs2-Vote-GoldKingZ/assets/48490385/16a5904b-d618-4082-8678-ddbf7f42dce4)
 
-![vk](https://github.com/oqyh/cs2-Vote-GoldKingZ/assets/48490385/c9029fe0-3d29-4c9c-90e3-dc814c738c35)
+![vk](https://github.com/oqyh/cs2-Vote-GoldKingZ/assets/48490385/45e3352d-7b9d-4d56-810e-df7efba9ca3d)
+
 
 ## Todo List
 
