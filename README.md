@@ -27,6 +27,10 @@
 
 [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json)
 
+
+> [!CAUTION]
+> Config Located In ..\addons\counterstrikesharp\plugins\Vote-GoldKingZ\config\config.json
+
 ## .:[ Configuration ]:.
 ```json
 {
