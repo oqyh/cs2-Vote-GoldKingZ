@@ -7,6 +7,8 @@
 
 ![vk](https://github.com/oqyh/cs2-Vote-GoldKingZ/assets/48490385/45e3352d-7b9d-4d56-810e-df7efba9ca3d)
 
+![kicked](https://github.com/oqyh/cs2-Vote-GoldKingZ/assets/48490385/1034a12f-91b2-4d67-8775-bf180c5d6839)
+
 
 ## Todo List
 
