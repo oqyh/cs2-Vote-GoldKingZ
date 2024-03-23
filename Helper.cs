@@ -97,340 +97,66 @@ public class Helper
     {
         return Utilities.GetPlayers().Count(p => !p.IsHLTV);
     }
-    public class PersonData
-    {
-        public ulong PlayerSteamID { get; set; }
-        public string? PlayerName { get; set; }
-        public string? PlayerIPAddress { get; set; }
-        public DateTime DateAndTime { get; set; }
-        public int RestrictedFor { get; set; }
-        public string? Reason { get; set; }
-    }
-
-    public static void SaveToJsonFile(ulong PlayerSteamID, string PlayerName, string PlayerIPAddress, DateTime DateAndTime, bool days, int RestrictedFor, string Reason, string filename)
-    {
-        string cookiesFilePath = Configs.Shared.CookiesFolderPath!;
-        string Fpath = Path.Combine(cookiesFilePath, "../../plugins/Vote-GoldKingZ/Cookies/");
-        string Fpathc = Path.Combine(cookiesFilePath, Fpath + filename);
-        try
-        {
-            if (!Directory.Exists(Fpath))
-            {
-                Directory.CreateDirectory(Fpath);
-            }
-
-            if (!File.Exists(Fpathc))
-            {
-                File.WriteAllText(Fpathc, "[]");
-            }
-
-            List<PersonData> allPersonsData;
-            string jsonData = File.ReadAllText(Fpathc);
-            allPersonsData = JsonConvert.DeserializeObject<List<PersonData>>(jsonData) ?? new List<PersonData>();
-
-            PersonData existingPerson = allPersonsData.Find(p => p.PlayerSteamID == PlayerSteamID)!;
-
-            if (existingPerson != null)
-            {
-                existingPerson.DateAndTime = DateAndTime;
-                existingPerson.Reason = Reason;
-            }
-            else
-            {
-                PersonData newPerson = new PersonData { PlayerSteamID = PlayerSteamID, PlayerName = PlayerName, PlayerIPAddress = PlayerIPAddress, DateAndTime = DateAndTime, RestrictedFor = RestrictedFor, Reason = Reason };
-                allPersonsData.Add(newPerson);
-            }
-
-            int day = RestrictedFor; 
-            double interval = days ? day : day; 
-
-            allPersonsData.RemoveAll(p => (DateTime.Now - p.DateAndTime).TotalMinutes > interval);
-
-            string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
-            try
-            {
-                File.WriteAllText(Fpathc, updatedJsonData);
-            }
-            catch
-            {
-                // Handle exception
-            }
-        }
-        catch
-        {
-            // Handle exception
-        }
-    }
-
-    public static PersonData RetrievePersonDataById(ulong targetId, bool days, int Time, string filename)
-    {
-        string cookiesFilePath = Configs.Shared.CookiesFolderPath!;
-        string Fpath = Path.Combine(cookiesFilePath, "../../plugins/Vote-GoldKingZ/Cookies/");
-        string Fpathc = Path.Combine(cookiesFilePath, Fpath + filename);
-        try
-        {
-            if (File.Exists(Fpathc))
-            {
-                string jsonData = File.ReadAllText(Fpathc);
-                List<PersonData> allPersonsData = JsonConvert.DeserializeObject<List<PersonData>>(jsonData) ?? new List<PersonData>();
-
-                PersonData targetPerson = allPersonsData.Find(p => p.PlayerSteamID == targetId)!;
-
-                int day = Time; 
-                double interval = days ? day : day;
-                if (targetPerson != null && (DateTime.Now - targetPerson.DateAndTime).TotalMinutes <= interval)
-                {
-                    return targetPerson;
-                }
-                else if (targetPerson != null)
-                {
-                    allPersonsData.Remove(targetPerson);
-                    string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
-                    try
-                    {
-                        File.WriteAllText(Fpathc, updatedJsonData);
-                    }
-                    catch
-                    {
-                        // Handle exception
-                    }
-                }
-            }
-        }
-        catch
-        {
-            // Handle exception
-        }
-        return new PersonData();
-    }
-    public static PersonData RetrievePersonDataByIp(string PlayerIPAddress, bool days, int Time, string filename)
-    {
-        string cookiesFilePath = Configs.Shared.CookiesFolderPath!;
-        string Fpath = Path.Combine(cookiesFilePath, "../../plugins/Vote-GoldKingZ/Cookies/");
-        string Fpathc = Path.Combine(cookiesFilePath, Fpath + filename);
-        try
-        {
-            if (File.Exists(Fpathc))
-            {
-                string jsonData = File.ReadAllText(Fpathc);
-                List<PersonData> allPersonsData = JsonConvert.DeserializeObject<List<PersonData>>(jsonData) ?? new List<PersonData>();
-
-                PersonData targetPerson = allPersonsData.Find(p => p.PlayerIPAddress == PlayerIPAddress)!;
-
-                int day = Time; 
-                double interval = days ? day : day;
-                if (targetPerson != null && (DateTime.Now - targetPerson.DateAndTime).TotalMinutes <= interval)
-                {
-                    return targetPerson;
-                }
-                else if (targetPerson != null)
-                {
-                    allPersonsData.Remove(targetPerson);
-                    string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
-                    try
-                    {
-                        File.WriteAllText(Fpathc, updatedJsonData);
-                    }
-                    catch
-                    {
-                        // Handle exception
-                    }
-                }
-            }
-        }
-        catch
-        {
-            // Handle exception
-        }
-        return new PersonData();
-    }
-    public static PersonData RetrievePersonDataByReason(string reason, bool days, int Time, string filename)
-    {
-        string cookiesFilePath = Configs.Shared.CookiesFolderPath!;
-        string Fpath = Path.Combine(cookiesFilePath, "../../plugins/Vote-GoldKingZ/Cookies/");
-        string Fpathc = Path.Combine(cookiesFilePath, Fpath + filename);
-        try
-        {
-            if (File.Exists(Fpathc))
-            {
-                string jsonData = File.ReadAllText(Fpathc);
-                List<PersonData> allPersonsData = JsonConvert.DeserializeObject<List<PersonData>>(jsonData) ?? new List<PersonData>();
-
-                PersonData targetPerson = allPersonsData.Find(p => p.Reason == reason)!;
-
-                int day = Time; 
-                double interval = days ? day : day;
-                if (targetPerson != null && (DateTime.Now - targetPerson.DateAndTime).TotalMinutes <= interval)
-                {
-                    return targetPerson;
-                }
-                else if (targetPerson != null)
-                {
-                    allPersonsData.Remove(targetPerson);
-                    string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
-                    try
-                    {
-                        File.WriteAllText(Fpathc, updatedJsonData);
-                    }
-                    catch
-                    {
-                        // Handle exception
-                    }
-                }
-            }
-        }
-        catch
-        {
-            // Handle exception
-        }
-        return new PersonData();
-    }
-    public static void RemoveAnyByReason(string Reason, string filename)
-    {
-        string cookiesFilePath = Configs.Shared.CookiesFolderPath!;
-        string Fpath = Path.Combine(cookiesFilePath, "../../plugins/Vote-GoldKingZ/Cookies/");
-        string Fpathc = Path.Combine(cookiesFilePath, Fpath + filename);
-        try
-        {
-            if (File.Exists(Fpathc))
-            {
-                string jsonData = File.ReadAllText(Fpathc);
-                List<PersonData> allPersonsData = JsonConvert.DeserializeObject<List<PersonData>>(jsonData) ?? new List<PersonData>();
-
-                List<PersonData> kickedPersons = allPersonsData.Where(p => p.Reason == Reason).ToList();
-
-                foreach (var kickedPerson in kickedPersons)
-                {
-                    allPersonsData.Remove(kickedPerson);
-                }
-
-                string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
-                try
-                {
-                    File.WriteAllText(Fpathc, updatedJsonData);
-                }
-                catch
-                {
-                    // Handle exception
-                }
-            }
-        }
-        catch
-        {
-            // Handle exception
-        }
-    }
-    public static bool IsPlayerIPRestricted(string PlayerIPAddress, bool days, int Time, string filename)
-    {
-        string cookiesFilePath = Configs.Shared.CookiesFolderPath!;
-        string Fpath = Path.Combine(cookiesFilePath, "../../plugins/Vote-GoldKingZ/Cookies/");
-        string Fpathc = Path.Combine(cookiesFilePath, Fpath + filename);
-        try
-        {
-            if (File.Exists(Fpathc))
-            {
-                string jsonData = File.ReadAllText(Fpathc);
-                List<PersonData> allPersonsData = JsonConvert.DeserializeObject<List<PersonData>>(jsonData) ?? new List<PersonData>();
-                int day = Time; 
-                double interval = days ? day : day; 
-
-                allPersonsData.RemoveAll(p => (DateTime.Now - p.DateAndTime).TotalMinutes > interval);
-
-                string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
-                try
-                {
-                    File.WriteAllText(Fpathc, updatedJsonData);
-                }
-                catch
-                {
-                    // Handle exception
-                }
-
-                foreach (var personData in allPersonsData)
-                {
-                    if (personData.PlayerIPAddress != null && personData.PlayerIPAddress == PlayerIPAddress)
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
-        catch
-        {
-            // Handle exception
-        }
-        return false;
-    }
-    public static bool IsPlayerSteamIDRestricted(ulong PlayerId, bool days, int Time, string filename)
-    {
-        string cookiesFilePath = Configs.Shared.CookiesFolderPath!;
-        string Fpath = Path.Combine(cookiesFilePath, "../../plugins/Vote-GoldKingZ/Cookies/");
-        string Fpathc = Path.Combine(cookiesFilePath, Fpath + filename);
-        try
-        {
-            if (File.Exists(Fpathc))
-            {
-                string jsonData = File.ReadAllText(Fpathc);
-                List<PersonData> allPersonsData = JsonConvert.DeserializeObject<List<PersonData>>(jsonData) ?? new List<PersonData>();
-                int day = Time; 
-                double interval = days ? day : day; 
-
-                allPersonsData.RemoveAll(p => (DateTime.Now - p.DateAndTime).TotalMinutes > interval);
-
-                string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
-                try
-                {
-                    File.WriteAllText(Fpathc, updatedJsonData);
-                }
-                catch
-                {
-                    // Handle exception
-                }
-                foreach (var personData in allPersonsData)
-                {
-                    if (personData.PlayerIPAddress != null && personData.PlayerSteamID == PlayerId)
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
-        catch
-        {
-            // Handle exception
-        }
-        return false;
-    }
-
+    
     public static void ClearVariablesVoteKick()
     {
-        Globals.VoteKick_timerCT = 0f;
-        Globals.VoteKick_timerT = 0f;
-        Globals.VoteKick_timerBOTH = 0f;
-        Globals.VoteKick_targetPlayerNameCT = "";
-        Globals.VoteKick_targetPlayerNameT = "";
-        Globals.VoteKick_targetPlayerNameBOTH = "";
-        Globals.VoteKick_targetPlayerIPCT = "";
-        Globals.VoteKick_targetPlayerIPT = "";
-        Globals.VoteKick_targetPlayerIPBOTH = "";
-        Globals.VoteKick_targetPlayerSTEAMCT = 0;
-        Globals.VoteKick_targetPlayerSTEAMT = 0;
-        Globals.VoteKick_targetPlayerSTEAMBOTH = 0;
-        Globals.VoteKick_ReachHalfVoteCT = false;
-        Globals.VoteKick_ReachHalfVoteT = false;
-        Globals.VoteKick_ReachHalfVoteBoth = false;
-        Globals.VoteKick_countingCT = 0;
-        Globals.VoteKick_countingT = 0;
-        Globals.VoteKick_countingBoth = 0;
-        Globals.VoteKick_requiredct = 0;
-        Globals.VoteKick_requiredt = 0;
-        Globals.VoteKick_requiredboth = 0;
-        Globals.VoteKick_ShowMenuCT.Clear();
-        Globals.VoteKick_ShowMenuT.Clear();
-        Globals.VoteKick_ShowMenuBOTH.Clear();
-        Globals.VoteKick_Immunity.Clear();
-        Globals.VoteKick_GetVoted.Clear();
-        Globals.VoteKick_CallerVotedTo.Clear();
+        Globals_VoteKick.VoteKick_timerCT = 0f;
+        Globals_VoteKick.VoteKick_timerT = 0f;
+        Globals_VoteKick.VoteKick_timerBOTH = 0f;
+        Globals_VoteKick.VoteKick_targetPlayerNameCT = "";
+        Globals_VoteKick.VoteKick_targetPlayerNameT = "";
+        Globals_VoteKick.VoteKick_targetPlayerNameBOTH = "";
+        Globals_VoteKick.VoteKick_targetPlayerIPCT = "";
+        Globals_VoteKick.VoteKick_targetPlayerIPT = "";
+        Globals_VoteKick.VoteKick_targetPlayerIPBOTH = "";
+        Globals_VoteKick.VoteKick_targetPlayerSTEAMCT = 0;
+        Globals_VoteKick.VoteKick_targetPlayerSTEAMT = 0;
+        Globals_VoteKick.VoteKick_targetPlayerSTEAMBOTH = 0;
+        Globals_VoteKick.VoteKick_ReachHalfVoteCT = false;
+        Globals_VoteKick.VoteKick_ReachHalfVoteT = false;
+        Globals_VoteKick.VoteKick_ReachHalfVoteBoth = false;
+        Globals_VoteKick.VoteKick_countingCT = 0;
+        Globals_VoteKick.VoteKick_countingT = 0;
+        Globals_VoteKick.VoteKick_countingBoth = 0;
+        Globals_VoteKick.VoteKick_requiredct = 0;
+        Globals_VoteKick.VoteKick_requiredt = 0;
+        Globals_VoteKick.VoteKick_requiredboth = 0;
+        Globals_VoteKick.VoteKick_ShowMenuCT.Clear();
+        Globals_VoteKick.VoteKick_ShowMenuT.Clear();
+        Globals_VoteKick.VoteKick_ShowMenuBOTH.Clear();
+        Globals_VoteKick.VoteKick_Immunity.Clear();
+        Globals_VoteKick.VoteKick_GetVoted.Clear();
+        Globals_VoteKick.VoteKick_CallerVotedTo.Clear();
+    }
+    public static void ClearVariablesVoteBanned()
+    {
+        Globals_VoteBanned.VoteBanned_timerCT = 0f;
+        Globals_VoteBanned.VoteBanned_timerT = 0f;
+        Globals_VoteBanned.VoteBanned_timerBOTH = 0f;
+        Globals_VoteBanned.VoteBanned_targetPlayerNameCT = "";
+        Globals_VoteBanned.VoteBanned_targetPlayerNameT = "";
+        Globals_VoteBanned.VoteBanned_targetPlayerNameBOTH = "";
+        Globals_VoteBanned.VoteBanned_targetPlayerIPCT = "";
+        Globals_VoteBanned.VoteBanned_targetPlayerIPT = "";
+        Globals_VoteBanned.VoteBanned_targetPlayerIPBOTH = "";
+        Globals_VoteBanned.VoteBanned_targetPlayerSTEAMCT = 0;
+        Globals_VoteBanned.VoteBanned_targetPlayerSTEAMT = 0;
+        Globals_VoteBanned.VoteBanned_targetPlayerSTEAMBOTH = 0;
+        Globals_VoteBanned.VoteBanned_ReachHalfVoteCT = false;
+        Globals_VoteBanned.VoteBanned_ReachHalfVoteT = false;
+        Globals_VoteBanned.VoteBanned_ReachHalfVoteBoth = false;
+        Globals_VoteBanned.VoteBanned_countingCT = 0;
+        Globals_VoteBanned.VoteBanned_countingT = 0;
+        Globals_VoteBanned.VoteBanned_countingBoth = 0;
+        Globals_VoteBanned.VoteBanned_requiredct = 0;
+        Globals_VoteBanned.VoteBanned_requiredt = 0;
+        Globals_VoteBanned.VoteBanned_requiredboth = 0;
+        Globals_VoteBanned.VoteBanned_ShowMenuCT.Clear();
+        Globals_VoteBanned.VoteBanned_ShowMenuT.Clear();
+        Globals_VoteBanned.VoteBanned_ShowMenuBOTH.Clear();
+        Globals_VoteBanned.VoteBanned_Immunity.Clear();
+        Globals_VoteBanned.VoteBanned_GetVoted.Clear();
+        Globals_VoteBanned.VoteBanned_CallerVotedTo.Clear();
     }
     public static bool IsDirectoryReadable(string directoryPath)
     {

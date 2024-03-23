@@ -25,73 +25,76 @@ public class VoteKickCenterAnnouncement
             var playerid = player.SteamID;
             if(Configs.GetConfigData().VoteKick_TeamOnly)
             {
-                if (Globals.VoteKick_ShowMenuCT.ContainsKey(playerid) && Globals.VoteKick_ShowMenuCT[playerid] && player.TeamNum == (byte)CsTeam.CounterTerrorist)
+                if (Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(playerid) && Globals_VoteBanned.VoteBanned_ShowMenuCT[playerid])continue;
+                if (Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(playerid) && Globals_VoteKick.VoteKick_ShowMenuCT[playerid] && player.TeamNum == (byte)CsTeam.CounterTerrorist)
                 {
-                    if (Globals.VoteKick_timerCT < 1 || Globals.VoteKick_countingCT >= Globals.VoteKick_requiredct)
+                    if (Globals_VoteKick.VoteKick_timerCT < 1 || Globals_VoteKick.VoteKick_countingCT >= Globals_VoteKick.VoteKick_requiredct)
                     {
-                        Globals.VoteKick_timerCT = Configs.GetConfigData().VoteKick_CenterMessageAnnouncementTimer;
-                        Globals.VoteKick_stopwatchCT.Stop();
-                        Globals.VoteKick_ShowMenuCT.Clear();
+                        Globals_VoteKick.VoteKick_timerCT = Configs.GetConfigData().VoteKick_CenterMessageAnnouncementTimer;
+                        Globals_VoteKick.VoteKick_stopwatchCT.Stop();
+                        Globals_VoteKick.VoteKick_ShowMenuCT.Clear();
                     }
                     
-                    if (Globals.VoteKick_timerCT > 0)
+                    if (Globals_VoteKick.VoteKick_timerCT > 0)
                     {
-                        if (Globals.VoteKick_stopwatchCT.ElapsedMilliseconds >= 1000)
+                        if (Globals_VoteKick.VoteKick_stopwatchCT.ElapsedMilliseconds >= 1000)
                         {
-                            Globals.VoteKick_timerCT--;
-                            Globals.VoteKick_stopwatchCT.Restart();
+                            Globals_VoteKick.VoteKick_timerCT--;
+                            Globals_VoteKick.VoteKick_stopwatchCT.Restart();
                         }
                     }
                     StringBuilder builder = new StringBuilder();
-                    builder.AppendFormat(Localizer!["votekick.announce.halfvotes.center.message", Globals.VoteKick_timerCT,  Globals.VoteKick_targetPlayerNameCT, Globals.VoteKick_countingCT, Globals.VoteKick_requiredct]);
+                    builder.AppendFormat(Localizer!["votekick.announce.halfvotes.center.message", Globals_VoteKick.VoteKick_timerCT,  Globals_VoteKick.VoteKick_targetPlayerNameCT, Globals_VoteKick.VoteKick_countingCT, Globals_VoteKick.VoteKick_requiredct]);
                     var centerhtml = builder.ToString();
                     player.PrintToCenterHtml(centerhtml);
                     
                 }
-                if (Globals.VoteKick_ShowMenuT.ContainsKey(playerid) && Globals.VoteKick_ShowMenuT[playerid] && player.TeamNum == (byte)CsTeam.Terrorist)
+                if (Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(playerid) && Globals_VoteKick.VoteKick_ShowMenuT[playerid] && player.TeamNum == (byte)CsTeam.Terrorist)
                 {
-                    if (Globals.VoteKick_timerT < 1 || Globals.VoteKick_countingT >= Globals.VoteKick_requiredt)
+                    if (Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(playerid) && Globals_VoteBanned.VoteBanned_ShowMenuT[playerid])continue;
+                    if (Globals_VoteKick.VoteKick_timerT < 1 || Globals_VoteKick.VoteKick_countingT >= Globals_VoteKick.VoteKick_requiredt)
                     {
-                        Globals.VoteKick_timerT = Configs.GetConfigData().VoteKick_CenterMessageAnnouncementTimer;
-                        Globals.VoteKick_stopwatchT.Stop();
-                        Globals.VoteKick_ShowMenuT.Clear();
+                        Globals_VoteKick.VoteKick_timerT = Configs.GetConfigData().VoteKick_CenterMessageAnnouncementTimer;
+                        Globals_VoteKick.VoteKick_stopwatchT.Stop();
+                        Globals_VoteKick.VoteKick_ShowMenuT.Clear();
                     }
                     
-                    if (Globals.VoteKick_timerT > 0)
+                    if (Globals_VoteKick.VoteKick_timerT > 0)
                     {
-                        if (Globals.VoteKick_stopwatchT.ElapsedMilliseconds >= 1000)
+                        if (Globals_VoteKick.VoteKick_stopwatchT.ElapsedMilliseconds >= 1000)
                         {
-                            Globals.VoteKick_timerT--;
-                            Globals.VoteKick_stopwatchT.Restart();
+                            Globals_VoteKick.VoteKick_timerT--;
+                            Globals_VoteKick.VoteKick_stopwatchT.Restart();
                         }
                     }
                     StringBuilder builder = new StringBuilder();
-                    builder.AppendFormat(Localizer!["votekick.announce.halfvotes.center.message", Globals.VoteKick_timerT,  Globals.VoteKick_targetPlayerNameT, Globals.VoteKick_countingT, Globals.VoteKick_requiredt]);
+                    builder.AppendFormat(Localizer!["votekick.announce.halfvotes.center.message", Globals_VoteKick.VoteKick_timerT,  Globals_VoteKick.VoteKick_targetPlayerNameT, Globals_VoteKick.VoteKick_countingT, Globals_VoteKick.VoteKick_requiredt]);
                     var centerhtml = builder.ToString();
                     player.PrintToCenterHtml(centerhtml);
                     
                 }
             }else
             {
-                if (Globals.VoteKick_ShowMenuBOTH.ContainsKey(playerid) && Globals.VoteKick_ShowMenuBOTH[playerid])
+                if (Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(playerid) && Globals_VoteKick.VoteKick_ShowMenuBOTH[playerid])
                 {
-                    if (Globals.VoteKick_timerBOTH < 1 || Globals.VoteKick_countingBoth >= Globals.VoteKick_requiredboth)
+                    if (Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(playerid) && Globals_VoteBanned.VoteBanned_ShowMenuBOTH[playerid])continue;
+                    if (Globals_VoteKick.VoteKick_timerBOTH < 1 || Globals_VoteKick.VoteKick_countingBoth >= Globals_VoteKick.VoteKick_requiredboth)
                     {
-                        Globals.VoteKick_timerBOTH = Configs.GetConfigData().VoteKick_CenterMessageAnnouncementTimer;
-                        Globals.VoteKick_stopwatchBOTH.Stop();
-                        Globals.VoteKick_ShowMenuBOTH.Clear();
+                        Globals_VoteKick.VoteKick_timerBOTH = Configs.GetConfigData().VoteKick_CenterMessageAnnouncementTimer;
+                        Globals_VoteKick.VoteKick_stopwatchBOTH.Stop();
+                        Globals_VoteKick.VoteKick_ShowMenuBOTH.Clear();
                     }
                     
-                    if (Globals.VoteKick_timerBOTH > 0)
+                    if (Globals_VoteKick.VoteKick_timerBOTH > 0)
                     {
-                        if (Globals.VoteKick_stopwatchBOTH.ElapsedMilliseconds >= 1000)
+                        if (Globals_VoteKick.VoteKick_stopwatchBOTH.ElapsedMilliseconds >= 1000)
                         {
-                            Globals.VoteKick_timerBOTH--;
-                            Globals.VoteKick_stopwatchBOTH.Restart();
+                            Globals_VoteKick.VoteKick_timerBOTH--;
+                            Globals_VoteKick.VoteKick_stopwatchBOTH.Restart();
                         }
                     }
                     StringBuilder builder = new StringBuilder();
-                    builder.AppendFormat(Localizer!["votekick.announce.halfvotes.center.message", Globals.VoteKick_timerBOTH,  Globals.VoteKick_targetPlayerNameBOTH, Globals.VoteKick_countingBoth, Globals.VoteKick_requiredboth]);
+                    builder.AppendFormat(Localizer!["votekick.announce.halfvotes.center.message", Globals_VoteKick.VoteKick_timerBOTH,  Globals_VoteKick.VoteKick_targetPlayerNameBOTH, Globals_VoteKick.VoteKick_countingBoth, Globals_VoteKick.VoteKick_requiredboth]);
                     var centerhtml = builder.ToString();
                     player.PrintToCenterHtml(centerhtml);
                     
