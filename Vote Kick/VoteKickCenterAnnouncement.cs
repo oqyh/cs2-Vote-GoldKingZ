@@ -25,7 +25,6 @@ public class VoteKickCenterAnnouncement
             var playerid = player.SteamID;
             if(Configs.GetConfigData().VoteKick_TeamOnly)
             {
-                if (Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(playerid) && Globals_VoteBanned.VoteBanned_ShowMenuCT[playerid])continue;
                 if (Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(playerid) && Globals_VoteKick.VoteKick_ShowMenuCT[playerid] && player.TeamNum == (byte)CsTeam.CounterTerrorist)
                 {
                     if (Globals_VoteKick.VoteKick_timerCT < 1 || Globals_VoteKick.VoteKick_countingCT >= Globals_VoteKick.VoteKick_requiredct)
@@ -51,7 +50,6 @@ public class VoteKickCenterAnnouncement
                 }
                 if (Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(playerid) && Globals_VoteKick.VoteKick_ShowMenuT[playerid] && player.TeamNum == (byte)CsTeam.Terrorist)
                 {
-                    if (Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(playerid) && Globals_VoteBanned.VoteBanned_ShowMenuT[playerid])continue;
                     if (Globals_VoteKick.VoteKick_timerT < 1 || Globals_VoteKick.VoteKick_countingT >= Globals_VoteKick.VoteKick_requiredt)
                     {
                         Globals_VoteKick.VoteKick_timerT = Configs.GetConfigData().VoteKick_CenterMessageAnnouncementTimer;
@@ -77,7 +75,6 @@ public class VoteKickCenterAnnouncement
             {
                 if (Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(playerid) && Globals_VoteKick.VoteKick_ShowMenuBOTH[playerid])
                 {
-                    if (Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(playerid) && Globals_VoteBanned.VoteBanned_ShowMenuBOTH[playerid])continue;
                     if (Globals_VoteKick.VoteKick_timerBOTH < 1 || Globals_VoteKick.VoteKick_countingBoth >= Globals_VoteKick.VoteKick_requiredboth)
                     {
                         Globals_VoteKick.VoteKick_timerBOTH = Configs.GetConfigData().VoteKick_CenterMessageAnnouncementTimer;

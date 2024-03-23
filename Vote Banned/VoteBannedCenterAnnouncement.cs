@@ -27,7 +27,6 @@ public class VoteBannedCenterAnnouncement
             {
                 if (Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(playerid) && Globals_VoteBanned.VoteBanned_ShowMenuCT[playerid] && player.TeamNum == (byte)CsTeam.CounterTerrorist)
                 {
-                    if (Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(playerid) && Globals_VoteKick.VoteKick_ShowMenuCT[playerid])continue;
                     if (Globals_VoteBanned.VoteBanned_timerCT < 1 || Globals_VoteBanned.VoteBanned_countingCT >= Globals_VoteBanned.VoteBanned_requiredct)
                     {
                         Globals_VoteBanned.VoteBanned_timerCT = Configs.GetConfigData().VoteBanned_CenterMessageAnnouncementTimer;
@@ -51,7 +50,6 @@ public class VoteBannedCenterAnnouncement
                 }
                 if (Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(playerid) && Globals_VoteBanned.VoteBanned_ShowMenuT[playerid] && player.TeamNum == (byte)CsTeam.Terrorist)
                 {
-                    if (Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(playerid) && Globals_VoteKick.VoteKick_ShowMenuT[playerid])continue;
                     if (Globals_VoteBanned.VoteBanned_timerT < 1 || Globals_VoteBanned.VoteBanned_countingT >= Globals_VoteBanned.VoteBanned_requiredt)
                     {
                         Globals_VoteBanned.VoteBanned_timerT = Configs.GetConfigData().VoteBanned_CenterMessageAnnouncementTimer;
@@ -77,7 +75,6 @@ public class VoteBannedCenterAnnouncement
             {
                 if (Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(playerid) && Globals_VoteBanned.VoteBanned_ShowMenuBOTH[playerid])
                 {
-                    if (Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(playerid) && Globals_VoteKick.VoteKick_ShowMenuBOTH[playerid])continue;
                     if (Globals_VoteBanned.VoteBanned_timerBOTH < 1 || Globals_VoteBanned.VoteBanned_countingBoth >= Globals_VoteBanned.VoteBanned_requiredboth)
                     {
                         Globals_VoteBanned.VoteBanned_timerBOTH = Configs.GetConfigData().VoteBanned_CenterMessageAnnouncementTimer;

@@ -101,10 +101,8 @@ namespace Vote_GoldKingZ.Config
                     }
                 }
             }
-
-            
-
             public int VoteKick_TimeInMins { get; set; }
+            public int VoteKick_StartOnMinimumOfXPlayers { get; set; }
             public bool VoteKick_AllowKickedPlayersToJoinOnMapChange { get; set; }
             public bool VoteKick_TeamOnly { get; set; }
             public float VoteKick_Percentage { get; set; }
@@ -116,12 +114,50 @@ namespace Vote_GoldKingZ.Config
             public string VoteKick_CommandsOnHalfVoteAccept { get; set; }
             public string VoteKick_CommandsOnHalfVoteRefuse { get; set; }
             public string VoteKick_ImmunityGroups { get; set; }
+
+            public string empty { get; set; }
+
+
+            private int _voteBannedMode;
+            public int VoteBanned_Mode
+            {
+                get => _voteBannedMode;
+                set
+                {
+                    _voteBannedMode = value;
+                    if (_voteBannedMode < 0 || _voteBannedMode > 3)
+                    {
+                        VoteBanned_Mode = 0;
+                        Console.WriteLine("|||||||||||||||||||||||||||||||||||||||||||||||| I N V A L I D ||||||||||||||||||||||||||||||||||||||||||||||||");
+                        Console.WriteLine("[Vote-GoldKingZ] VoteBanned_Mode: is invalid, setting to default value (0) Please Choose 0 or 1 or 2 or 3.");
+                        Console.WriteLine("[Vote-GoldKingZ] VoteBanned_Mode (0) = Disable");
+                        Console.WriteLine("[Vote-GoldKingZ] VoteBanned_Mode (1) = Banned And Restrict SteamID From Joining");
+                        Console.WriteLine("[Vote-GoldKingZ] VoteBanned_Mode (2) = Banned And Restrict IpAddress From Joining");
+                        Console.WriteLine("[Vote-GoldKingZ] VoteBanned_Mode (3) = Banned And Restrict SteamID And IpAddress From Joining");
+                        Console.WriteLine("|||||||||||||||||||||||||||||||||||||||||||||||| I N V A L I D ||||||||||||||||||||||||||||||||||||||||||||||||");
+                    }
+                }
+            }
+            public int VoteBanned_TimeInDays { get; set; }
+            public int VoteBanned_StartOnMinimumOfXPlayers { get; set; }
+            public bool VoteBanned_TeamOnly { get; set; }
+            public float VoteBanned_Percentage { get; set; }
+            public bool VoteBanned_CenterMessageAnnouncementOnHalfVotes { get; set; }
+            public float VoteBanned_CenterMessageAnnouncementTimer { get; set; }
+            public bool VoteBanned_EvasionPunishment { get; set; }
+            public int VoteBanned_EvasionPunishmentTimeInDays { get; set; }
+            public string VoteBanned_CommandsToVote { get; set; }
+            public string VoteBanned_CommandsOnHalfVoteAccept { get; set; }
+            public string VoteBanned_CommandsOnHalfVoteRefuse { get; set; }
+            public string VoteBanned_ImmunityGroups { get; set; }
+            public string empty2 { get; set; }
             public string Info_AboutAllAbove { get; set; }
             
             public ConfigData()
             {
                 VoteKick_Mode = 2;
                 VoteKick_TimeInMins = 5;
+                VoteKick_StartOnMinimumOfXPlayers  = 5;
                 VoteKick_AllowKickedPlayersToJoinOnMapChange = false;
                 VoteKick_TeamOnly = false;
                 VoteKick_Percentage = 6;
@@ -133,6 +169,21 @@ namespace Vote_GoldKingZ.Config
                 VoteKick_CommandsOnHalfVoteAccept = "!yes,yes,!y,y";
                 VoteKick_CommandsOnHalfVoteRefuse = "!no,no,!n,n";
                 VoteKick_ImmunityGroups = "@css/root,@css/admin,@css/vip,#css/admin,#css/vip";
+                empty = "-----------------------------------------------------------------------------------";
+                VoteBanned_Mode = 0;
+                VoteBanned_TimeInDays = 1;
+                VoteBanned_StartOnMinimumOfXPlayers  = 8;
+                VoteBanned_TeamOnly = false;
+                VoteBanned_Percentage = 8;
+                VoteBanned_CenterMessageAnnouncementOnHalfVotes = false;
+                VoteBanned_CenterMessageAnnouncementTimer = 25;
+                VoteBanned_EvasionPunishment = false;
+                VoteBanned_EvasionPunishmentTimeInDays = 2;
+                VoteBanned_CommandsToVote = "!votebanned,!banned,!vb";
+                VoteBanned_CommandsOnHalfVoteAccept = "!yes,yes,!y,y";
+                VoteBanned_CommandsOnHalfVoteRefuse = "!no,no,!n,n";
+                VoteBanned_ImmunityGroups = "@css/root,@css/admin,@css/vip,#css/admin,#css/vip";
+                empty2 = "-----------------------------------------------------------------------------------";
                 Info_AboutAllAbove = " For More Info Vist  [https://github.com/oqyh/cs2-Vote-GoldKingZ/tree/main?tab=readme-ov-file#-configuration-]";
             }
         }

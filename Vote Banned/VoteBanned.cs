@@ -465,6 +465,7 @@ public class VoteBanned
             {
                 if(players == null || !players.IsValid)continue;
                 var steamid = players.SteamID;
+                if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if (!Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid))
                 {
                     Globals_VoteBanned.VoteBanned_ShowMenuCT.Add(steamid, true);
@@ -493,8 +494,11 @@ public class VoteBanned
             if (Configs.GetConfigData().VoteBanned_CenterMessageAnnouncementOnHalfVotes && Globals_VoteBanned.VoteBanned_GetVoted[TargetPlayerName] >= requiredct/2 && !string.IsNullOrEmpty(Localizer!["votebanned.announce.halfvotes.chat.message"]))
             {
                 playersct.ForEach(player => 
-                Helper.AdvancedPrintToChat(player, Localizer["votebanned.announce.halfvotes.chat.message"])
-                );
+                {
+                    var steamid = player.SteamID;
+                    if (Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
+                    Helper.AdvancedPrintToChat(player, Localizer["votekick.announce.halfvotes.chat.message"]);
+                }); 
             }
             
             if (Globals_VoteBanned.VoteBanned_GetVoted[TargetPlayerName] >= requiredct && !string.IsNullOrEmpty(Localizer!["votebanned.announce.banned.successfully.message"]))
@@ -580,6 +584,7 @@ public class VoteBanned
             {
                 if(players == null || !players.IsValid)continue;
                 var steamid = players.SteamID;
+                if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if (!Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid))
                 {
                     Globals_VoteBanned.VoteBanned_ShowMenuT.Add(steamid, true);
@@ -609,8 +614,11 @@ public class VoteBanned
             if (Configs.GetConfigData().VoteBanned_CenterMessageAnnouncementOnHalfVotes && Globals_VoteBanned.VoteBanned_GetVoted[TargetPlayerName] >= requiredt/2 && !string.IsNullOrEmpty(Localizer!["votebanned.announce.halfvotes.chat.message"]))
             {
                 playerst.ForEach(player => 
-                Helper.AdvancedPrintToChat(player, Localizer["votebanned.announce.halfvotes.chat.message"])
-                );
+                {
+                    var steamid = player.SteamID;
+                    if (Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
+                    Helper.AdvancedPrintToChat(player, Localizer["votekick.announce.halfvotes.chat.message"]);
+                }); 
             }
             
             if (Globals_VoteBanned.VoteBanned_GetVoted[TargetPlayerName] >= requiredt && !string.IsNullOrEmpty(Localizer!["votebanned.announce.banned.successfully.message"]))
@@ -693,6 +701,7 @@ public class VoteBanned
             {
                 if(players == null || !players.IsValid)continue;
                 var steamid = players.SteamID;
+                if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if (!Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))
                 {
                     Globals_VoteBanned.VoteBanned_ShowMenuBOTH.Add(steamid, true);
@@ -716,7 +725,13 @@ public class VoteBanned
         
         if (Configs.GetConfigData().VoteBanned_CenterMessageAnnouncementOnHalfVotes && Globals_VoteBanned.VoteBanned_GetVoted[TargetPlayerName] >= requiredall/2 && !string.IsNullOrEmpty(Localizer!["votebanned.announce.halfvotes.chat.message"]))
         {
-            Helper.AdvancedPrintToServer(Localizer["votebanned.announce.halfvotes.chat.message"]);
+            var playersall = Helper.GetCounterTerroristController();
+            playersall.ForEach(player => 
+            {
+                var steamid = player.SteamID;
+                if (Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
+                Helper.AdvancedPrintToChat(player, Localizer["votekick.announce.halfvotes.chat.message"]);
+            }); 
         }
         
         if (Globals_VoteBanned.VoteBanned_GetVoted[TargetPlayerName] >= requiredall && !string.IsNullOrEmpty(Localizer!["votebanned.announce.banned.successfully.message"]))
