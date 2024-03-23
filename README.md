@@ -1,4 +1,4 @@
-# [CS2] Vote-GoldKingZ (1.0.1)
+# [CS2] Vote-GoldKingZ (1.0.2)
 
 ### Vote System (Kick , Mute , Banned, Vips)
 
@@ -206,6 +206,9 @@
 
 ## .:[ Change Log ]:.
 ```
+(1.0.2)
+-Fix Cross Vote Announcement Banned, Kick
+
 (1.0.1)
 -Added "VoteKick_StartOnMinimumOfXPlayers" In Json To Vote Kick
 -Added "votekick.minimum.needed" In Lang For Vote Kick
