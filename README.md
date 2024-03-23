@@ -104,10 +104,10 @@
   //VoteBanned_Mode (3) = Banned And Restrict SteamID And IpAddress From Joining
   "VoteBanned_Mode": 0,
   
-  //If Vote Pass How Many In Days Should Kicked Player Wait To Join Back
+  //If Vote Pass How Many In Days Should Banned Player Wait To Join Back
   "VoteBanned_TimeInDays": 5,
 
-  //Minimum Of Players To Start Vote Kick
+  //Minimum Of Players To Start Vote Ban
   "VoteBanned_StartOnMinimumOfXPlayers": 5,
 
   //VoteBanned_TeamOnly (false) = Cross Teams Voting
