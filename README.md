@@ -17,7 +17,7 @@
 - [ ] Vote Mute (Chat)
 - [ ] Vote Gag (Voice)
 - [ ] Vote Silent (Chat + Voice)
-- [ ] Vote Send Play Spec
+- [ ] Vote Send Player Spec
 - [ ] Vote A Map
 
 ## .:[ Dependencies ]:.
