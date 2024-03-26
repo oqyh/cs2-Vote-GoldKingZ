@@ -1,4 +1,4 @@
-# [CS2] Vote-GoldKingZ (1.0.2)
+# [CS2] Vote-GoldKingZ (1.0.3)
 
 ### Vote System (Kick , Mute , Banned, Vips)
 
@@ -14,7 +14,7 @@
 
 - [x] Vote Kick 
 - [x] Vote Banned
-- [ ] Vote Mute (Chat)
+- [x] Vote Mute (Chat)
 - [ ] Vote Gag (Voice)
 - [ ] Vote Silent (Chat + Voice)
 - [ ] Vote Send Player Spec
@@ -34,9 +34,7 @@
 
 > [!CAUTION]
 > Config Located In ..\addons\counterstrikesharp\plugins\Vote-GoldKingZ\config\config.json                                           
-> After Upload Plugin Check Server Console For 100% Loaded Message And Not Facing Any Errors                                          
->                                                                                      
-> ![loaded](https://github.com/oqyh/cs2-Vote-GoldKingZ/assets/48490385/18b78f36-7129-494c-8e0d-655609d3bd06)
+>
 
 <p><details><summary> [ Vote Kick ] </summary>
 
@@ -56,7 +54,7 @@
   //Minimum Of Players To Start Vote Kick
   "VoteKick_StartOnMinimumOfXPlayers": 5,
 
-  //Rest And Cancel AfterKickGivePlayerXMinsFromJoining On Map Change
+  //Rest And Cancel VoteKick_TimeInMins On Map Change
   "VoteKick_AllowKickedPlayersToJoinOnMapChange": false,
   
   //VoteKick_TeamOnly (false) = Cross Teams Voting
@@ -72,11 +70,14 @@
   //If VoteKick_CenterMessageAnnouncementOnHalfVotes Enabled How Many In Secs To Show Message
   "VoteKick_CenterMessageAnnouncementTimer": 25,
   
-  //Enable Punishment Only Who Try To Evasion VoteKick_Mode Only Works 2 to 4
+  //Enable Punishment Only Who Try To Evasion VoteKick_Mode Only Works 2 to 4 With New Accounts
   "VoteKick_EvasionPunishment": false,
   
   //If VoteKick_EvasionPunishment Enabled How Many In Mins Give Extra For Evasion Punishment
   "VoteKick_EvasionPunishmentTimeInMins": 10,
+
+  //Delay Kick To Show Message (votekick.player.delay.message) Then Kick
+  "VoteKick_DelayKick": false,
 
   //Commands Ingame
   "VoteKick_CommandsToVote": "!votekick,!kick,!vk",
@@ -123,11 +124,14 @@
   //If VoteBanned_CenterMessageAnnouncementOnHalfVotes Enabled How Many In Secs To Show Message
   "VoteBanned_CenterMessageAnnouncementTimer": 25,
   
-  //Enable Punishment Only Who Try To Evasion VoteBanned_Mode Only Works 2 to 4
+  //Enable Punishment Only Who Try To Evasion VoteBanned_Mode Only Works 2 to 4 With New Accounts
   "VoteBanned_EvasionPunishment": false,
   
   //If VoteBanned_EvasionPunishment Enabled How Many In Days Give Extra For Evasion Punishment
   "VoteBanned_EvasionPunishmentTimeInDays": 10,
+
+  //Delay Kick To Show Message (votebanned.player.delay.message) Then Kick
+  "VoteBanned_DelayKick": false,
 
   //Commands Ingame
   "VoteBanned_CommandsToVote": "!votebanned,!banned,!vb",
@@ -136,6 +140,54 @@
 
   //Immunity From Getting Vote To Banned
   "VoteBanned_ImmunityGroups": "@css/root,@css/admin,@css/vip,#css/admin,#css/vip",
+}
+```
+
+</details>
+</p>
+
+
+<p><details><summary> [ Vote Mute ] </summary>
+
+```json
+{
+  //Enable Or Disable Vote Mute
+  "VoteMute": false,
+
+  //If Vote Pass How Many In Mins Should Mute Player
+  "VoteMute_TimeInMins": 5,
+
+  //Minimum Of Players To Start Vote Mute
+  "VoteMute_StartOnMinimumOfXPlayers": 5,
+
+  //Rest And Cancel VoteMute_TimeInMins On Map Change
+  "VoteMute_RemoveMutedPlayersOnMapChange": false,
+
+  //VoteMute_TeamOnly (false) = Cross Teams Voting
+  //VoteMute_TeamOnly (true) = Vote On Team Side Only
+  "VoteMute_TeamOnly": false,
+
+  //Vote Percentage To Pass The Vote 6 means 0.6 || 5 means 0.5 Half
+  "VoteMute_Percentage": 7,
+
+  //If Vote Reach Half Depend Percentage On VoteMute_Percentage Do You Want Annoce Player To Vote shortcut Depend [VoteMute_CommandsOnHalfVoteAccept] And [VoteMute_CommandsOnHalfVoteRefuse] To Mute Player Announced
+  "VoteMute_CenterMessageAnnouncementOnHalfVotes": false,
+
+  //If VoteMute_CenterMessageAnnouncementOnHalfVotes Enabled How Many In Secs To Show Message
+  "VoteMute_CenterMessageAnnouncementTimer": 25,
+
+  //Enable Punishment Only Who Try To Evasion VoteMute With New Accounts
+  "VoteMute_EvasionPunishment": false,
+
+  //If VoteMute_EvasionPunishment Enabled How Many In Mins Give Extra For Evasion Punishment
+  "VoteMute_EvasionPunishmentTimeInMins": 10,
+  //Commands Ingame
+  "VoteMute_CommandsToVote": "!votemute,!mute,!vm",
+  "VoteMute_CommandsOnHalfVoteAccept": "!yes,yes,!y,y",
+  "VoteMute_CommandsOnHalfVoteRefuse": "!no,no,!n,n",
+
+  //Immunity From Getting Vote To Mute
+  "VoteMute_ImmunityGroups": "@css/root,@css/admin,@css/vip,#css/admin,#css/vip",
 }
 ```
 
@@ -163,49 +215,86 @@
     //==========================
 	
     "votekick.menu.name": "{purple}Vote Kick Menu",
-
-    "votekick.minimum.needed": "{green}Gold KingZ {grey}| {grey}You Cant Start Vote Kick You Need Minimum {lime}{0} {grey}Players",    //{0} Players Needed
-    "votekick.player.is.immunity": "{green}Gold KingZ {grey}| {darkred}Vote Failed On {Purple}{0} {darkred}You Cant Vote Kick VIPs",    //{0} Vip PlayerName 
-
-    "votekick.player.vote.same.player": "{green}Gold KingZ {grey}| You've Already Voted To Kick {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",    //{0} PlayerName Vote On - {1} Votes - {2} Needed
-    "votekick.player.vote.same.yes": "{green}Gold KingZ {grey}| You've Already Voted {lime}Yes {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",    //{0} PlayerName Vote On - {1} Votes - {2} Needed
-    "votekick.player.vote.same.no": "{green}Gold KingZ {grey}| You've Already Voted {red}No {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",    //{0} PlayerName Vote On - {1} Votes - {2} Needed
-
-    "votekick.chat.message": " {green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted To Kick {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",    //{0} PlayerName Rock The Vote - {1} PlayerName Vote On - {1} Votes - {2} Needed
-
-    "votekick.announce.kick.successfully.message": "{green}Gold KingZ {grey}| Vote Successfully, {Purple}{0} {grey}Has Been Kicked",    //{0} PlayerName Kicked
+    "votekick.minimum.needed": "{green}Gold KingZ {grey}| {grey}You Cant Start Vote Kick You Need Minimum {lime}{0} {grey}Players",
+    "votekick.player.is.immunity": "{green}Gold KingZ {grey}| {darkred}Vote Failed On {Purple}{0} {darkred}You Cant Vote Kick VIPs",
+    "votekick.player.vote.same.player": "{green}Gold KingZ {grey}| You've Already Voted To Kick {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votekick.player.vote.same.yes": "{green}Gold KingZ {grey}| You've Already Voted {lime}Yes {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votekick.player.vote.same.no": "{green}Gold KingZ {grey}| You've Already Voted {red}No {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votekick.player.delay.message": "{green}Gold KingZ {grey}| You Will Be Kicked Need To Wait {red}{0} Mins",
+    "votekick.chat.message": " {green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted To Kick {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",
+    "votekick.announce.kick.successfully.message": "{green}Gold KingZ {grey}| Vote Successfully, {Purple}{0} {grey}Has Been Kicked",
     "votekick.announce.halfvotes.chat.message": "{green}Gold KingZ {grey}| Votes Reached Half Type {yellow}!yes {grey}/ {yellow}!y {grey}Or {red}!no {grey}/ {red}!n {grey}To Vote Kick",
-
-    "votekick.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='grey'>Kick player: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Kick Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Remove Kick Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>",    // {0} Timer - {1} PlayerName Vote On - {2} Votes - {3} Needed
-
-
-    
+    "votekick.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='grey'>Kick player: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Kick Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Remove Kick Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>",
 
 
+    "votebanned.menu.name": "{purple}Vote Ban Menu",
+    "votebanned.minimum.needed": "{green}Gold KingZ {grey}| {grey}You Cant Start Vote Ban You Need Minimum {lime}{0} {grey}Players",
+    "votebanned.player.is.immunity": "{green}Gold KingZ {grey}| {darkred}Vote Failed On {Purple}{0} {darkred}You Cant Vote Ban VIPs",
+    "votebanned.player.vote.same.player": "{green}Gold KingZ {grey}| You've Already Voted To Ban {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votebanned.player.vote.same.yes": "{green}Gold KingZ {grey}| You've Already Voted {lime}Yes {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votebanned.player.vote.same.no": "{green}Gold KingZ {grey}| You've Already Voted {red}No {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votebanned.player.delay.message": "{green}Gold KingZ {grey}| You Are Banned Need To Wait {red}{0} Days",
+    "votebanned.chat.message": " {green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted To Ban {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",
+    "votebanned.announce.banned.successfully.message": "{green}Gold KingZ {grey}| Vote Successfully, {Purple}{0} {grey}Has Been Banned",
+    "votebanned.announce.halfvotes.chat.message": "{green}Gold KingZ {grey}| Votes Reached Half Type {yellow}!yes {grey}/ {yellow}!y {grey}Or {red}!no {grey}/ {red}!n {grey}To Vote Ban",
+    "votebanned.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='red'>Ban player: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Ban Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Remove Ban Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>",
 
-    
 
-    "votebanned.menu.name": "{purple}Vote Banned Menu",
-
-    "votebanned.minimum.needed": "{green}Gold KingZ {grey}| {grey}You Cant Start Vote Banned You Need Minimum {lime}{0} {grey}Players",    //{0} Players Needed
-    "votebanned.player.is.immunity": "{green}Gold KingZ {grey}| {darkred}Vote Failed On {Purple}{0} {darkred}You Cant Vote Banned VIPs",    //{0} Vip PlayerName 
-
-    "votebanned.player.vote.same.player": "{green}Gold KingZ {grey}| You've Already Voted To Banned {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",    //{0} PlayerName Vote On - {1} Votes - {2} Needed
-    "votebanned.player.vote.same.yes": "{green}Gold KingZ {grey}| You've Already Voted {lime}Yes {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",    //{0} PlayerName Vote On - {1} Votes - {2} Needed
-    "votebanned.player.vote.same.no": "{green}Gold KingZ {grey}| You've Already Voted {red}No {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",    //{0} PlayerName Vote On - {1} Votes - {2} Needed
-
-    "votebanned.chat.message": " {green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted To Banned {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",    //{0} PlayerName Rock The Vote - {1} PlayerName Vote On - {1} Votes - {2} Needed
-
-    "votebanned.announce.banned.successfully.message": "{green}Gold KingZ {grey}| Vote Successfully, {Purple}{0} {grey}Has Been Banned",    //{0} PlayerName Banned
-    "votebanned.announce.halfvotes.chat.message": "{green}Gold KingZ {grey}| Votes Reached Half Type {yellow}!yes {grey}/ {yellow}!y {grey}Or {red}!no {grey}/ {red}!n {grey}To Vote Banned",
-
-    "votebanned.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='red'>Banned player: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Banned Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Remove Banned Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>"    // {0} Timer - {1} PlayerName Vote On - {2} Votes - {3} Needed
-
+    "votemute.menu.name": "{purple}Vote Mute Menu",
+    "votemute.minimum.needed": "{green}Gold KingZ {grey}| {grey}You Cant Start Vote Mute You Need Minimum {lime}{0} {grey}Players",
+    "votemute.player.is.immunity": "{green}Gold KingZ {grey}| {darkred}Vote Failed On {Purple}{0} {darkred}You Cant Vote Mute VIPs",
+    "votemute.player.vote.same.player": "{green}Gold KingZ {grey}| You've Already Voted To Mute {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votemute.player.vote.same.yes": "{green}Gold KingZ {grey}| You've Already Voted {lime}Yes {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votemute.player.vote.same.no": "{green}Gold KingZ {grey}| You've Already Voted {red}No {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votemute.chat.message": " {green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted To Mute {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",
+    "votemute.player.muted.successfully.message": "{green}Gold KingZ {grey}| You Are Muted For {red}{0} {grey}Mins",
+    "votemute.announce.muted.successfully.message": "{green}Gold KingZ {grey}| Vote Successfully, {Purple}{0} {grey}Has Been Muted",
+    "votemute.announce.halfvotes.chat.message": "{green}Gold KingZ {grey}| Votes Reached Half Type {yellow}!yes {grey}/ {yellow}!y {grey}Or {red}!no {grey}/ {red}!n {grey}To Vote Mute",
+    "votemute.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='red'>Mute player: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Mute Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Remove Mute Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>"
 }
 ```
 
 ## .:[ Change Log ]:.
 ```
+(1.0.3)
+  - [ Vote Kick ]
+Fix Bugs Vote Kick
+Added VoteKick_DelayKick
+Lang "votekick.player.delay.message"
+ 
+  - [ Vote Ban ]
+Fix Bugs Vote Ban
+Added VoteBanned_DelayKick
+Lang "votebanned.player.delay.message"
+ 
+  - [ Vote Mute ]
+Added VoteMute 
+Added VoteMute_TimeInMins 
+Added VoteMute_StartOnMinimumOfXPlayers  
+Added VoteMute_RemoveMutedPlayersOnMapChange 
+Added VoteMute_TeamOnly 
+Added VoteMute_Percentage 
+Added VoteMute_CenterMessageAnnouncementOnHalfVotes 
+Added VoteMute_CenterMessageAnnouncementTimer 
+Added VoteMute_EvasionPunishment 
+Added VoteMute_EvasionPunishmentTimeInMins 
+Added VoteMute_CommandsToVote 
+Added VoteMute_CommandsOnHalfVoteAccept 
+Added VoteMute_CommandsOnHalfVoteRefuse 
+Added VoteMute_ImmunityGroups
+Lang VoteMute
+
+  - [ Logs ]
+  
+Added Log_SendLogToText 
+Added Log_TextMessageFormat 
+Added Log_AutoDeleteLogsMoreThanXdaysOld 
+Added Log_SendLogToDiscordOnMode 
+Added Log_DiscordSideColor 
+Added Log_DiscordWebHookURL 
+Added Log_DiscordMessageFormat 
+Added Log_DiscordUsersWithNoAvatarImage
+
 (1.0.2)
 -Fix Cross Vote Announcement Banned, Kick
 
