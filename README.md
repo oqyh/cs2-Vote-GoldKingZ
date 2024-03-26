@@ -194,6 +194,54 @@
 </details>
 </p>
 
+
+<p><details><summary> [ Log ] </summary>
+
+```json
+{
+    //==========================
+    //        Format
+    //==========================
+    //{DATE} = Date DD-MM-YYYY
+    //{TIME} = Time HH:mm:ss
+    //{PLAYERNAME} = Player Name
+    //{REASON} = Reason (votekick,vote banned,etc...)
+    //{STEAMID} = ex: 76561198206086993
+    //{IP} = ex: 127.0.0.0
+    //==========================
+
+    //Enable Or Disable Log Local
+    "Log_SendLogToText": false,
+
+    //If Log_SendLogToText Enabled How Do You Like Message Look Like
+    "Log_TextMessageFormat": "[{DATE} - {TIME}] {PLAYERNAME} Has Been ({REASON})  [SteamID: {STEAMID} - Ip: {IP}]",
+
+    //If Log_SendLogToText Enabled Auto Delete Logs If More Than X (Days) Old
+    "Log_AutoDeleteLogsMoreThanXdaysOld": 0,
+
+    //Send Log To Discord Via WebHookURL
+    //Log_SendLogToDiscordOnMode (0) = Disable
+    //Log_SendLogToDiscordOnMode (1) = Text Only
+    //Log_SendLogToDiscordOnMode (2) = Text With + Name + Hyperlink To Steam Profile
+    //Log_SendLogToDiscordOnMode (3) = Text With + Name + Hyperlink To Steam Profile + Profile Picture
+    "Log_SendLogToDiscordOnMode": 0,
+
+    //If Log_SendLogToDiscordOnMode (2) or Log_SendLogToDiscordOnMode (3) How Would You Side Color Message To Be Check (https://www.color-hex.com/) For Colors
+    "Log_DiscordSideColor": "00FFFF",
+
+    //Discord WebHook
+    "Log_DiscordWebHookURL": "https://discord.com/api/webhooks/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+
+    //If Log_SendLogToDiscordOnMode (1) or (2) or (3) How Do You Like Message Look Like
+    "Log_DiscordMessageFormat": "[{DATE} - {TIME}] {PLAYERNAME} Has Been ({REASON})  [SteamID: {STEAMID} - Ip: {IP}]",
+
+    //If Log_SendLogToDiscordOnMode (3) And Player Doesn't Have Profile Picture Which Picture Do You Like To Be Replaced
+    "Log_DiscordUsersWithNoAvatarImage": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b5/b5bd56c1aa4644a474a2e4972be27ef9e82e517e_full.jpg",
+}
+```
+
+</details>
+</p>
 ## .:[ Language ]:.
 
 ![colors](https://github.com/oqyh/cs2-vote-kick/assets/48490385/617503c9-fe77-480d-9ce2-fca5299cdcd5)
