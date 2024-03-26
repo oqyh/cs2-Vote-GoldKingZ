@@ -211,7 +211,7 @@
     //        Other
     //==========================
     //{nextline} = Print On Next Line
-	//<br> = Next Line On HUD Center Message
+    //<br> = Next Line On HUD Center Message
     //==========================
 	
     "votekick.menu.name": "{purple}Vote Kick Menu",
