@@ -33,6 +33,13 @@ public class VoteKick
     
     public void OnClientPutInServer(int playerSlot)
     {
+        string cookiesFilePath = Configs.Shared.CookiesFolderPath!;
+        string Fpath = Path.Combine(cookiesFilePath,"../../plugins/Vote-GoldKingZ/logs/");
+        string Time = DateTime.Now.ToString("HH:mm:ss");
+        string Date = DateTime.Now.ToString("MM-dd-yyyy");
+        string fileName = DateTime.Now.ToString("MM-dd-yyyy") + ".txt";
+        string Tpath = Path.Combine(cookiesFilePath,"../../plugins/Vote-GoldKingZ/logs/") + $"{fileName}";
+
         var player = Utilities.GetPlayerFromSlot(playerSlot);
         if (player == null || !player.IsValid || player.IsBot || player.IsHLTV)return;
         var playerid = player.SteamID;
@@ -52,8 +59,85 @@ public class VoteKick
             if(Configs.GetConfigData().VoteKick_EvasionPunishment && personDataID != null && personDataID.PlayerSteamID == playerid && personDataREASON != null && personDataID.Reason != Reason)
             {
                 Json_VoteKick.SaveToJsonFile(playerid, playername, PlayerIp!.ToString(), personDate, Configs.GetConfigData().VoteKick_EvasionPunishmentTimeInMins, "Kick Evasion", filename);
+
+                if(Configs.GetConfigData().Log_SendLogToText)
+                {
+                    var replacerlog = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, playername, playerid.ToString(), PlayerIp!.ToString(), "Kick Evasion");
+                    if(!Directory.Exists(Fpath))
+                    {
+                        Directory.CreateDirectory(Fpath);
+                    }
+
+                    if(!File.Exists(Tpath))
+                    {
+                        File.Create(Tpath);
+                    }
+
+                    try
+                    {
+                        File.AppendAllLines(Tpath, new[]{replacerlog});
+                    }catch
+                    {
+
+                    }
+                }
+                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, playername, playerid.ToString(), PlayerIp!.ToString(), "Kick Evasion");
+                if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
+                        });
+                    }
+                }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 2)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, playerid.ToString(), playername);
+                        });
+                    }
+                }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 3)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, playerid.ToString(), playername);
+                        });
+                    }
+                }
             }
-            Server.ExecuteCommand($"kick {playername}");
+            if(Configs.GetConfigData().VoteKick_DelayKick)
+            {
+                VoteGoldKingZ pluginInstance = new VoteGoldKingZ();
+                Server.NextFrame(() =>
+                {
+                    pluginInstance.AddTimer(3.30f, () =>
+                    {
+                        if (!string.IsNullOrEmpty(Localizer!["votekick.player.delay.message"]))
+                        {
+                            Helper.AdvancedPrintToChat(player, Localizer!["votekick.player.delay.message"], Configs.GetConfigData().VoteKick_TimeInMins);
+                        }
+                    });
+                    
+                    pluginInstance.AddTimer(10.30f, () =>
+                    {
+                        Server.ExecuteCommand($"kick {playername}");
+                        if (pluginInstance is IDisposable disposableInstance)
+                        {
+                            disposableInstance.Dispose();
+                        }
+                    });
+                });
+            }else
+            {
+                Server.ExecuteCommand($"kick {playername}");
+            }
+            
         }
         
         if(Configs.GetConfigData().VoteKick_Mode == 3 && Json_VoteKick.IsPlayerIPRestricted(PlayerIp, Configs.GetConfigData().VoteKick_TimeInMins, filename))
@@ -61,6 +145,57 @@ public class VoteKick
             if(Configs.GetConfigData().VoteKick_EvasionPunishment && personDataIP != null && personDataIP.PlayerIPAddress == PlayerIp && personDataREASON != null && personDataID!.Reason != Reason)
             {
                 Json_VoteKick.SaveToJsonFile(playerid, playername, PlayerIp!.ToString(), personDate, Configs.GetConfigData().VoteKick_EvasionPunishmentTimeInMins, "Kick Evasion", filename);
+
+                if(Configs.GetConfigData().Log_SendLogToText)
+                {
+                    var replacerlog = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, playername, playerid.ToString(), PlayerIp!.ToString(), "Kick Evasion");
+                    if(!Directory.Exists(Fpath))
+                    {
+                        Directory.CreateDirectory(Fpath);
+                    }
+
+                    if(!File.Exists(Tpath))
+                    {
+                        File.Create(Tpath);
+                    }
+
+                    try
+                    {
+                        File.AppendAllLines(Tpath, new[]{replacerlog});
+                    }catch
+                    {
+
+                    }
+                }
+                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, playername, playerid.ToString(), PlayerIp!.ToString(), "Kick Evasion");
+                if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
+                        });
+                    }
+                }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 2)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, playerid.ToString(), playername);
+                        });
+                    }
+                }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 3)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, playerid.ToString(), playername);
+                        });
+                    }
+                }
             }
             Server.ExecuteCommand($"kick {playername}");
         }
@@ -70,6 +205,57 @@ public class VoteKick
             if(Configs.GetConfigData().VoteKick_EvasionPunishment && (personDataIP != null && personDataIP.PlayerIPAddress == PlayerIp && personDataREASON != null && personDataID!.Reason != Reason || personDataID != null && personDataID.PlayerSteamID == playerid && personDataREASON != null && personDataID.Reason != Reason))
             {
                 Json_VoteKick.SaveToJsonFile(playerid, playername, PlayerIp!.ToString(), personDate, Configs.GetConfigData().VoteKick_EvasionPunishmentTimeInMins, "Kick Evasion", filename);
+
+                if(Configs.GetConfigData().Log_SendLogToText)
+                {
+                    var replacerlog = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, playername, playerid.ToString(), PlayerIp!.ToString(), "Kick Evasion");
+                    if(!Directory.Exists(Fpath))
+                    {
+                        Directory.CreateDirectory(Fpath);
+                    }
+
+                    if(!File.Exists(Tpath))
+                    {
+                        File.Create(Tpath);
+                    }
+
+                    try
+                    {
+                        File.AppendAllLines(Tpath, new[]{replacerlog});
+                    }catch
+                    {
+
+                    }
+                }
+                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, playername, playerid.ToString(), PlayerIp!.ToString(), "Kick Evasion");
+                if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
+                        });
+                    }
+                }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 2)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, playerid.ToString(), playername);
+                        });
+                    }
+                }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 3)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, playerid.ToString(), playername);
+                        });
+                    }
+                }
             }
             Server.ExecuteCommand($"kick {playername}");
         }
@@ -77,7 +263,7 @@ public class VoteKick
 
     public HookResult OnEventPlayerConnectFull(EventPlayerConnectFull @event, GameEventInfo info)
     {
-        if (@event == null)return HookResult.Continue;
+        if (string.IsNullOrEmpty(Configs.GetConfigData().VoteKick_ImmunityGroups) || @event == null)return HookResult.Continue;
         var player = @event.Userid;
 
         if (player == null || !player.IsValid || player.IsBot || player.IsHLTV) return HookResult.Continue;
@@ -97,6 +283,13 @@ public class VoteKick
     public HookResult OnEventPlayerChat(EventPlayerChat @event, GameEventInfo info)
     {
         if(Configs.GetConfigData().VoteKick_Mode == 0 || string.IsNullOrEmpty(Configs.GetConfigData().VoteKick_CommandsToVote) || @event == null)return HookResult.Continue;
+        string cookiesFilePath = Configs.Shared.CookiesFolderPath!;
+        string Fpath = Path.Combine(cookiesFilePath,"../../plugins/Vote-GoldKingZ/logs/");
+        string Time = DateTime.Now.ToString("HH:mm:ss");
+        string Date = DateTime.Now.ToString("MM-dd-yyyy");
+        string fileName = DateTime.Now.ToString("MM-dd-yyyy") + ".txt";
+        string Tpath = Path.Combine(cookiesFilePath,"../../plugins/Vote-GoldKingZ/logs/") + $"{fileName}";
+
         var eventplayer = @event.Userid;
         var eventmessage = @event.Text;
         var Caller = Utilities.GetPlayerFromUserid(eventplayer);
@@ -227,6 +420,57 @@ public class VoteKick
                         if (Configs.GetConfigData().VoteKick_Mode == 2 || Configs.GetConfigData().VoteKick_Mode == 3 || Configs.GetConfigData().VoteKick_Mode == 4)
                         {
                             Json_VoteKick.SaveToJsonFile(Globals_VoteKick.VoteKick_targetPlayerSTEAMCT, Globals_VoteKick.VoteKick_targetPlayerNameCT, Globals_VoteKick.VoteKick_targetPlayerIPCT!.ToString(), personDate, Configs.GetConfigData().VoteKick_TimeInMins, "Vote Kicked", filename);
+
+                            if(Configs.GetConfigData().Log_SendLogToText)
+                            {
+                                var replacerlog = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, Globals_VoteKick.VoteKick_targetPlayerNameCT, Globals_VoteKick.VoteKick_targetPlayerSTEAMCT.ToString(), Globals_VoteKick.VoteKick_targetPlayerIPCT!.ToString(), "Vote Kicked");
+                                if(!Directory.Exists(Fpath))
+                                {
+                                    Directory.CreateDirectory(Fpath);
+                                }
+
+                                if(!File.Exists(Tpath))
+                                {
+                                    File.Create(Tpath);
+                                }
+
+                                try
+                                {
+                                    File.AppendAllLines(Tpath, new[]{replacerlog});
+                                }catch
+                                {
+
+                                }
+                            }
+                            var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, Globals_VoteKick.VoteKick_targetPlayerNameCT, Globals_VoteKick.VoteKick_targetPlayerSTEAMCT.ToString(), Globals_VoteKick.VoteKick_targetPlayerIPCT!.ToString(), "Vote Kicked");
+                            if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
+                            {
+                                if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                                {
+                                    Server.NextFrame(() =>
+                                    {
+                                        _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
+                                    });
+                                }
+                            }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 2)
+                            {
+                                if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                                {
+                                    Server.NextFrame(() =>
+                                    {
+                                        _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteKick.VoteKick_targetPlayerSTEAMCT.ToString(), Globals_VoteKick.VoteKick_targetPlayerNameCT);
+                                    });
+                                }
+                            }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 3)
+                            {
+                                if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                                {
+                                    Server.NextFrame(() =>
+                                    {
+                                        _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteKick.VoteKick_targetPlayerSTEAMCT.ToString(), Globals_VoteKick.VoteKick_targetPlayerNameCT);
+                                    });
+                                }
+                            }
                         }
                         
                         Server.ExecuteCommand($"kick {Globals_VoteKick.VoteKick_targetPlayerNameCT}");
@@ -267,6 +511,57 @@ public class VoteKick
                         if (Configs.GetConfigData().VoteKick_Mode == 2 || Configs.GetConfigData().VoteKick_Mode == 3 || Configs.GetConfigData().VoteKick_Mode == 4)
                         {
                             Json_VoteKick.SaveToJsonFile(Globals_VoteKick.VoteKick_targetPlayerSTEAMT, Globals_VoteKick.VoteKick_targetPlayerNameT, Globals_VoteKick.VoteKick_targetPlayerIPT!.ToString(), personDate, Configs.GetConfigData().VoteKick_TimeInMins, "Vote Kicked", filename);
+
+                            if(Configs.GetConfigData().Log_SendLogToText)
+                            {
+                                var replacerlog = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, Globals_VoteKick.VoteKick_targetPlayerNameT, Globals_VoteKick.VoteKick_targetPlayerSTEAMT.ToString(), Globals_VoteKick.VoteKick_targetPlayerIPT!.ToString(), "Vote Kicked");
+                                if(!Directory.Exists(Fpath))
+                                {
+                                    Directory.CreateDirectory(Fpath);
+                                }
+
+                                if(!File.Exists(Tpath))
+                                {
+                                    File.Create(Tpath);
+                                }
+
+                                try
+                                {
+                                    File.AppendAllLines(Tpath, new[]{replacerlog});
+                                }catch
+                                {
+
+                                }
+                            }
+                            var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, Globals_VoteKick.VoteKick_targetPlayerNameT, Globals_VoteKick.VoteKick_targetPlayerSTEAMT.ToString(), Globals_VoteKick.VoteKick_targetPlayerIPT!.ToString(), "Vote Kicked");
+                            if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
+                            {
+                                if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                                {
+                                    Server.NextFrame(() =>
+                                    {
+                                        _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
+                                    });
+                                }
+                            }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 2)
+                            {
+                                if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                                {
+                                    Server.NextFrame(() =>
+                                    {
+                                        _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteKick.VoteKick_targetPlayerSTEAMT.ToString(), Globals_VoteKick.VoteKick_targetPlayerNameT);
+                                    });
+                                }
+                            }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 3)
+                            {
+                                if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                                {
+                                    Server.NextFrame(() =>
+                                    {
+                                        _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteKick.VoteKick_targetPlayerSTEAMT.ToString(), Globals_VoteKick.VoteKick_targetPlayerNameT);
+                                    });
+                                }
+                            }
                         }
                         
                         Server.ExecuteCommand($"kick {Globals_VoteKick.VoteKick_targetPlayerNameT}");
@@ -309,6 +604,57 @@ public class VoteKick
                         if (Configs.GetConfigData().VoteKick_Mode == 2 || Configs.GetConfigData().VoteKick_Mode == 3 || Configs.GetConfigData().VoteKick_Mode == 4)
                         {
                             Json_VoteKick.SaveToJsonFile(Globals_VoteKick.VoteKick_targetPlayerSTEAMBOTH, Globals_VoteKick.VoteKick_targetPlayerNameBOTH, Globals_VoteKick.VoteKick_targetPlayerIPBOTH!.ToString(), personDate, Configs.GetConfigData().VoteKick_TimeInMins, "Vote Kicked", filename);
+
+                            if(Configs.GetConfigData().Log_SendLogToText)
+                            {
+                                var replacerlog = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, Globals_VoteKick.VoteKick_targetPlayerNameBOTH, Globals_VoteKick.VoteKick_targetPlayerSTEAMBOTH.ToString(), Globals_VoteKick.VoteKick_targetPlayerIPBOTH!.ToString(), "Vote Kicked");
+                                if(!Directory.Exists(Fpath))
+                                {
+                                    Directory.CreateDirectory(Fpath);
+                                }
+
+                                if(!File.Exists(Tpath))
+                                {
+                                    File.Create(Tpath);
+                                }
+
+                                try
+                                {
+                                    File.AppendAllLines(Tpath, new[]{replacerlog});
+                                }catch
+                                {
+
+                                }
+                            }
+                            var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, Globals_VoteKick.VoteKick_targetPlayerNameBOTH, Globals_VoteKick.VoteKick_targetPlayerSTEAMBOTH.ToString(), Globals_VoteKick.VoteKick_targetPlayerIPBOTH!.ToString(), "Vote Kicked");
+                            if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
+                            {
+                                if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                                {
+                                    Server.NextFrame(() =>
+                                    {
+                                        _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
+                                    });
+                                }
+                            }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 2)
+                            {
+                                if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                                {
+                                    Server.NextFrame(() =>
+                                    {
+                                        _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteKick.VoteKick_targetPlayerSTEAMBOTH.ToString(), Globals_VoteKick.VoteKick_targetPlayerNameBOTH);
+                                    });
+                                }
+                            }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 3)
+                            {
+                                if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                                {
+                                    Server.NextFrame(() =>
+                                    {
+                                        _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteKick.VoteKick_targetPlayerSTEAMBOTH.ToString(), Globals_VoteKick.VoteKick_targetPlayerNameBOTH);
+                                    });
+                                }
+                            }
                         }
                         
                         Server.ExecuteCommand($"kick {Globals_VoteKick.VoteKick_targetPlayerNameBOTH}");
@@ -402,6 +748,13 @@ public class VoteKick
     }
     private void HandleMenuCT(CCSPlayerController Caller, ChatMenuOption option, int TargetPlayersUserID)
     {
+        string cookiesFilePath = Configs.Shared.CookiesFolderPath!;
+        string Fpath = Path.Combine(cookiesFilePath,"../../plugins/Vote-GoldKingZ/logs/");
+        string Time = DateTime.Now.ToString("HH:mm:ss");
+        string Date = DateTime.Now.ToString("MM-dd-yyyy");
+        string fileName = DateTime.Now.ToString("MM-dd-yyyy") + ".txt";
+        string Tpath = Path.Combine(cookiesFilePath,"../../plugins/Vote-GoldKingZ/logs/") + $"{fileName}";
+
         var GetTarget = Utilities.GetPlayerFromUserid(TargetPlayersUserID);
         if(GetTarget == null || !GetTarget.IsValid)return;
         DateTime personDate = DateTime.Now;
@@ -466,6 +819,7 @@ public class VoteKick
                 if(players == null || !players.IsValid)continue;
                 var steamid = players.SteamID;
                 if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if (!Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid))
                 {
                     Globals_VoteKick.VoteKick_ShowMenuCT.Add(steamid, true);
@@ -515,6 +869,57 @@ public class VoteKick
             if (Configs.GetConfigData().VoteKick_Mode == 2 || Configs.GetConfigData().VoteKick_Mode == 3 || Configs.GetConfigData().VoteKick_Mode == 4)
             {
                 Json_VoteKick.SaveToJsonFile(TargetPlayerSteamID, TargetPlayerName, TargerIP!.ToString(), personDate, Configs.GetConfigData().VoteKick_TimeInMins, "Vote Kicked", filename);
+
+                if(Configs.GetConfigData().Log_SendLogToText)
+                {
+                    var replacerlog = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Kicked");
+                    if(!Directory.Exists(Fpath))
+                    {
+                        Directory.CreateDirectory(Fpath);
+                    }
+
+                    if(!File.Exists(Tpath))
+                    {
+                        File.Create(Tpath);
+                    }
+
+                    try
+                    {
+                        File.AppendAllLines(Tpath, new[]{replacerlog});
+                    }catch
+                    {
+
+                    }
+                }
+                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Kicked");
+                if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
+                        });
+                    }
+                }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 2)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
+                        });
+                    }
+                }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 3)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
+                        });
+                    }
+                }
             }
             
             Server.ExecuteCommand($"kick {TargetPlayerName}");
@@ -523,6 +928,13 @@ public class VoteKick
     }
     private void HandleMenuT(CCSPlayerController Caller, ChatMenuOption option, int TargetPlayersUserID)
     {
+        string cookiesFilePath = Configs.Shared.CookiesFolderPath!;
+        string Fpath = Path.Combine(cookiesFilePath,"../../plugins/Vote-GoldKingZ/logs/");
+        string Time = DateTime.Now.ToString("HH:mm:ss");
+        string Date = DateTime.Now.ToString("MM-dd-yyyy");
+        string fileName = DateTime.Now.ToString("MM-dd-yyyy") + ".txt";
+        string Tpath = Path.Combine(cookiesFilePath,"../../plugins/Vote-GoldKingZ/logs/") + $"{fileName}";
+
         var GetTarget = Utilities.GetPlayerFromUserid(TargetPlayersUserID);
         if(GetTarget == null || !GetTarget.IsValid)return;
         DateTime personDate = DateTime.Now;
@@ -586,6 +998,7 @@ public class VoteKick
                 if(players == null || !players.IsValid)continue;
                 var steamid = players.SteamID;
                 if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if (!Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid))
                 {
                     Globals_VoteKick.VoteKick_ShowMenuT.Add(steamid, true);
@@ -635,6 +1048,57 @@ public class VoteKick
             if (Configs.GetConfigData().VoteKick_Mode == 2 || Configs.GetConfigData().VoteKick_Mode == 3 || Configs.GetConfigData().VoteKick_Mode == 4)
             {
                 Json_VoteKick.SaveToJsonFile(TargetPlayerSteamID, TargetPlayerName, TargerIP!.ToString(), personDate, Configs.GetConfigData().VoteKick_TimeInMins, "Vote Kicked", filename);
+
+                if(Configs.GetConfigData().Log_SendLogToText)
+                {
+                    var replacerlog = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Kicked");
+                    if(!Directory.Exists(Fpath))
+                    {
+                        Directory.CreateDirectory(Fpath);
+                    }
+
+                    if(!File.Exists(Tpath))
+                    {
+                        File.Create(Tpath);
+                    }
+
+                    try
+                    {
+                        File.AppendAllLines(Tpath, new[]{replacerlog});
+                    }catch
+                    {
+
+                    }
+                }
+                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Kicked");
+                if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
+                        });
+                    }
+                }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 2)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
+                        });
+                    }
+                }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 3)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
+                        });
+                    }
+                }
             }
             
             Server.ExecuteCommand($"kick {TargetPlayerName}");
@@ -644,6 +1108,13 @@ public class VoteKick
 
     private void HandleMenuALL(CCSPlayerController Caller, ChatMenuOption option, int TargetPlayersUserID)
     {
+        string cookiesFilePath = Configs.Shared.CookiesFolderPath!;
+        string Fpath = Path.Combine(cookiesFilePath,"../../plugins/Vote-GoldKingZ/logs/");
+        string Time = DateTime.Now.ToString("HH:mm:ss");
+        string Date = DateTime.Now.ToString("MM-dd-yyyy");
+        string fileName = DateTime.Now.ToString("MM-dd-yyyy") + ".txt";
+        string Tpath = Path.Combine(cookiesFilePath,"../../plugins/Vote-GoldKingZ/logs/") + $"{fileName}";
+
         var GetTarget = Utilities.GetPlayerFromUserid(TargetPlayersUserID);
         if(GetTarget == null || !GetTarget.IsValid)return;
         DateTime personDate = DateTime.Now;
@@ -703,6 +1174,7 @@ public class VoteKick
                 if(players == null || !players.IsValid)continue;
                 var steamid = players.SteamID;
                 if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if (!Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))
                 {
                     Globals_VoteKick.VoteKick_ShowMenuBOTH.Add(steamid, true);
@@ -746,6 +1218,57 @@ public class VoteKick
             if (Configs.GetConfigData().VoteKick_Mode == 2 || Configs.GetConfigData().VoteKick_Mode == 3 || Configs.GetConfigData().VoteKick_Mode == 4)
             {
                 Json_VoteKick.SaveToJsonFile(TargetPlayerSteamID, TargetPlayerName, TargerIP!.ToString(), personDate, Configs.GetConfigData().VoteKick_TimeInMins, "Vote Kicked", filename);
+
+                if(Configs.GetConfigData().Log_SendLogToText)
+                {
+                    var replacerlog = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Kicked");
+                    if(!Directory.Exists(Fpath))
+                    {
+                        Directory.CreateDirectory(Fpath);
+                    }
+
+                    if(!File.Exists(Tpath))
+                    {
+                        File.Create(Tpath);
+                    }
+
+                    try
+                    {
+                        File.AppendAllLines(Tpath, new[]{replacerlog});
+                    }catch
+                    {
+
+                    }
+                }
+                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Kicked");
+                if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
+                        });
+                    }
+                }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 2)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
+                        });
+                    }
+                }else if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 3)
+                {
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
+                        });
+                    }
+                }
             }
             
             Server.ExecuteCommand($"kick {TargetPlayerName}");

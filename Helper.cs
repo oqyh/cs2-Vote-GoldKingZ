@@ -6,12 +6,16 @@ using Newtonsoft.Json;
 using Vote_GoldKingZ.Config;
 using CounterStrikeSharp.API.Modules.Entities;
 using System.Text.RegularExpressions;
+using System.Text.Json.Serialization;
+using System.Text;
+using System.Drawing;
 
 namespace Vote_GoldKingZ;
 
 public class Helper
 {
-
+    private static readonly HttpClient _httpClient = new HttpClient();
+    private static readonly HttpClient httpClient = new HttpClient();
 
     public static void AdvancedPrintToChat(CCSPlayerController player, string message, params object[] args)
     {
@@ -128,7 +132,7 @@ public class Helper
         Globals_VoteKick.VoteKick_GetVoted.Clear();
         Globals_VoteKick.VoteKick_CallerVotedTo.Clear();
     }
-    public static void ClearVariablesVoteBanned()
+    public static void ClearVariablesVoteBan()
     {
         Globals_VoteBanned.VoteBanned_timerCT = 0f;
         Globals_VoteBanned.VoteBanned_timerT = 0f;
@@ -158,81 +162,202 @@ public class Helper
         Globals_VoteBanned.VoteBanned_GetVoted.Clear();
         Globals_VoteBanned.VoteBanned_CallerVotedTo.Clear();
     }
-    public static bool IsDirectoryReadable(string directoryPath)
+    public static void ClearVariablesVoteMute()
+    {
+        Globals_VoteMute.VoteMute_timerCT = 0f;
+        Globals_VoteMute.VoteMute_timerT = 0f;
+        Globals_VoteMute.VoteMute_timerBOTH = 0f;
+        Globals_VoteMute.VoteMute_targetPlayerNameCT = "";
+        Globals_VoteMute.VoteMute_targetPlayerNameT = "";
+        Globals_VoteMute.VoteMute_targetPlayerNameBOTH = "";
+        Globals_VoteMute.VoteMute_targetPlayerIPCT = "";
+        Globals_VoteMute.VoteMute_targetPlayerIPT = "";
+        Globals_VoteMute.VoteMute_targetPlayerIPBOTH = "";
+        Globals_VoteMute.VoteMute_targetPlayerSTEAMCT = 0;
+        Globals_VoteMute.VoteMute_targetPlayerSTEAMT = 0;
+        Globals_VoteMute.VoteMute_targetPlayerSTEAMBOTH = 0;
+        Globals_VoteMute.VoteMute_ReachHalfVoteCT = false;
+        Globals_VoteMute.VoteMute_ReachHalfVoteT = false;
+        Globals_VoteMute.VoteMute_ReachHalfVoteBoth = false;
+        Globals_VoteMute.VoteMute_countingCT = 0;
+        Globals_VoteMute.VoteMute_countingT = 0;
+        Globals_VoteMute.VoteMute_countingBoth = 0;
+        Globals_VoteMute.VoteMute_requiredct = 0;
+        Globals_VoteMute.VoteMute_requiredt = 0;
+        Globals_VoteMute.VoteMute_requiredboth = 0;
+        Globals_VoteMute.VoteMute_ShowMenuCT.Clear();
+        Globals_VoteMute.VoteMute_ShowMenuT.Clear();
+        Globals_VoteMute.VoteMute_ShowMenuBOTH.Clear();
+        Globals_VoteMute.VoteMute_Immunity.Clear();
+        Globals_VoteMute.VoteMute_GetVoted.Clear();
+        Globals_VoteMute.VoteMute_CallerVotedTo.Clear();
+    }
+    
+    public static string ReplaceMessages(string Message, string date, string time, string PlayerName, string SteamId, string ipAddress, string reason)
+    {
+        var replacedMessage = Message
+                                    .Replace("{TIME}", time)
+                                    .Replace("{DATE}", date)
+                                    .Replace("{PLAYERNAME}", PlayerName.ToString())
+                                    .Replace("{STEAMID}", SteamId.ToString())
+                                    .Replace("{IP}", ipAddress.ToString())
+                                    .Replace("{REASON}", reason);
+        return replacedMessage;
+    }
+    public static async Task SendToDiscordWebhookNormal(string webhookUrl, string message)
     {
         try
         {
-            if (!Directory.Exists(directoryPath))
-            {
-                return false;
-            }
+            var payload = new { content = message };
+            var jsonPayload = Newtonsoft.Json.JsonConvert.SerializeObject(payload);
+            var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
-            DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
+            var response = await _httpClient.PostAsync(webhookUrl, content).ConfigureAwait(false);
 
-            if ((directoryInfo.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-            {
-                return false;
-            }
-
-            string[] files = Directory.GetFiles(directoryPath);
-
-            return true;
-        }
-        catch (UnauthorizedAccessException)
-        {
-            return false;
+            
         }
         catch
         {
-            return false;
         }
     }
-    public static bool IsDirectoryWritable(string dirPath, bool throwIfFails = false)
+
+    public static async Task SendToDiscordWebhookNameLink(string webhookUrl, string message, string steamUserId, string STEAMNAME)
     {
         try
         {
-            if (OperatingSystem.IsWindows())
+            string profileLink = GetSteamProfileLink(steamUserId);
+            int colorss = int.Parse(Configs.GetConfigData().Log_DiscordSideColor, System.Globalization.NumberStyles.HexNumber);
+            Color color = Color.FromArgb(colorss >> 16, (colorss >> 8) & 0xFF, colorss & 0xFF);
+            using (var httpClient = new HttpClient())
             {
-                DirectoryInfo directoryInfo = new DirectoryInfo(dirPath);
-                if (!directoryInfo.Exists)
-                    throw new DirectoryNotFoundException($"Directory '{dirPath}' not found.");
-
-                string tempFilePath = Path.Combine(dirPath, Path.GetRandomFileName());
-                using (FileStream fs = File.Create(tempFilePath))
+                var embed = new
                 {
-                    fs.Close();
-                }
+                    type = "rich",
+                    title = STEAMNAME,
+                    url = profileLink,
+                    description = message,
+                    color = color.ToArgb() & 0xFFFFFF
+                };
 
-                File.Delete(tempFilePath);
+                var payload = new
+                {
+                    embeds = new[] { embed }
+                };
 
-                return true;
-            }
-            else
-            {
-                if (!Directory.Exists(dirPath))
-                    throw new DirectoryNotFoundException($"Directory '{dirPath}' not found.");
+                var jsonPayload = Newtonsoft.Json.JsonConvert.SerializeObject(payload);
+                var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync(webhookUrl, content).ConfigureAwait(false);
 
-                string tempFilePath = Path.Combine(dirPath, Path.GetRandomFileName());
-                File.WriteAllBytes(tempFilePath, new byte[0]);
-
-                File.Delete(tempFilePath);
-
-                return true;
             }
         }
-        catch (Exception ex)
+        catch 
         {
-            if (throwIfFails)
-                throw new IOException($"Failed to check directory writability for '{dirPath}'. See inner exception for details.", ex);
-            else
-                return false;
         }
     }
-    public static class OperatingSystem
+    public static async Task SendToDiscordWebhookNameLinkWithPicture(string webhookUrl, string message, string steamUserId, string STEAMNAME)
     {
-        public static bool IsWindows()
+        try
         {
-            return Environment.OSVersion.Platform == PlatformID.Win32NT;
+            string profileLink = GetSteamProfileLink(steamUserId);
+            string profilePictureUrl = await GetProfilePictureAsync(steamUserId, Configs.GetConfigData().Log_DiscordUsersWithNoAvatarImage);
+            int colorss = int.Parse(Configs.GetConfigData().Log_DiscordSideColor, System.Globalization.NumberStyles.HexNumber);
+            Color color = Color.FromArgb(colorss >> 16, (colorss >> 8) & 0xFF, colorss & 0xFF);
+            using (var httpClient = new HttpClient())
+            {
+                var embed = new
+                {
+                    type = "rich",
+                    description = message,
+                    color = color.ToArgb() & 0xFFFFFF,
+                    author = new
+                    {
+                        name = STEAMNAME,
+                        url = profileLink,
+                        icon_url = profilePictureUrl
+                    }
+                };
+
+                var payload = new
+                {
+                    embeds = new[] { embed }
+                };
+
+                var jsonPayload = Newtonsoft.Json.JsonConvert.SerializeObject(payload);
+                var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync(webhookUrl, content).ConfigureAwait(false);
+            }
+        }
+        catch
+        {
+
+        }
+    }
+    public static async Task<string> GetProfilePictureAsync(string steamId64, string defaultImage)
+    {
+        try
+        {
+            string apiUrl = $"https://steamcommunity.com/profiles/{steamId64}/?xml=1";
+
+            HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string xmlResponse = await response.Content.ReadAsStringAsync();
+                int startIndex = xmlResponse.IndexOf("<avatarFull><![CDATA[") + "<avatarFull><![CDATA[".Length;
+                int endIndex = xmlResponse.IndexOf("]]></avatarFull>", startIndex);
+
+                if (endIndex >= 0)
+                {
+                    string profilePictureUrl = xmlResponse.Substring(startIndex, endIndex - startIndex);
+                    return profilePictureUrl;
+                }
+                else
+                {
+                    return defaultImage;
+                }
+            }
+            else
+            {
+                return null!;
+            }
+        }
+        catch
+        {
+            return null!;
+        }
+    }
+    public static string GetSteamProfileLink(string userId)
+    {
+        return $"https://steamcommunity.com/profiles/{userId}";
+    }
+    public static void DeleteOldFiles(string folderPath, string searchPattern, TimeSpan maxAge)
+    {
+        try
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(folderPath);
+
+            if (directoryInfo.Exists)
+            {
+                FileInfo[] files = directoryInfo.GetFiles(searchPattern);
+                DateTime currentTime = DateTime.Now;
+                
+                foreach (FileInfo file in files)
+                {
+                    TimeSpan age = currentTime - file.LastWriteTime;
+
+                    if (age > maxAge)
+                    {
+                        file.Delete();
+                    }
+                }
+            }
+            else
+            {
+                
+            }
+        }
+        catch
+        {
         }
     }
     

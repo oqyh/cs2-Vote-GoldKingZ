@@ -195,11 +195,11 @@ public class Json_VoteBanned
                 string jsonData = File.ReadAllText(Fpathc);
                 List<PersonData> allPersonsData = JsonConvert.DeserializeObject<List<PersonData>>(jsonData) ?? new List<PersonData>();
 
-                List<PersonData> kickedPersons = allPersonsData.Where(p => p.Reason == Reason).ToList();
+                List<PersonData> bannedPersons = allPersonsData.Where(p => p.Reason == Reason).ToList();
 
-                foreach (var kickedPerson in kickedPersons)
+                foreach (var bannedPerson in bannedPersons)
                 {
-                    allPersonsData.Remove(kickedPerson);
+                    allPersonsData.Remove(bannedPerson);
                 }
 
                 string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);

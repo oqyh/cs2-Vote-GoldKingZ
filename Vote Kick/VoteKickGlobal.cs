@@ -30,6 +30,7 @@ public class Globals_VoteKick
     public static int VoteKick_requiredct;
     public static int VoteKick_requiredt;
     public static int VoteKick_requiredboth;
+    public static Dictionary<ulong, bool> VoteKick_Delaykick = new Dictionary<ulong, bool>();
     public static Dictionary<ulong, bool> VoteKick_ShowMenuCT = new Dictionary<ulong, bool>();
     public static Dictionary<ulong, bool> VoteKick_ShowMenuT = new Dictionary<ulong, bool>();
     public static Dictionary<ulong, bool> VoteKick_ShowMenuBOTH = new Dictionary<ulong, bool>();

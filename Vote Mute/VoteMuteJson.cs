@@ -3,7 +3,7 @@ using Vote_GoldKingZ.Config;
 
 namespace Vote_GoldKingZ;
 
-public class Json_VoteKick
+public class Json_VoteMute
 {
     public class PersonData
     {
@@ -195,11 +195,11 @@ public class Json_VoteKick
                 string jsonData = File.ReadAllText(Fpathc);
                 List<PersonData> allPersonsData = JsonConvert.DeserializeObject<List<PersonData>>(jsonData) ?? new List<PersonData>();
 
-                List<PersonData> kickedPersons = allPersonsData.Where(p => p.Reason == Reason).ToList();
+                List<PersonData> mutedPersons = allPersonsData.Where(p => p.Reason == Reason).ToList();
 
-                foreach (var kickedPerson in kickedPersons)
+                foreach (var mutedPerson in mutedPersons)
                 {
-                    allPersonsData.Remove(kickedPerson);
+                    allPersonsData.Remove(mutedPerson);
                 }
 
                 string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
