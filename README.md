@@ -242,6 +242,8 @@
 
 </details>
 </p>
+
+
 ## .:[ Language ]:.
 
 ![colors](https://github.com/oqyh/cs2-vote-kick/assets/48490385/617503c9-fe77-480d-9ce2-fca5299cdcd5)
