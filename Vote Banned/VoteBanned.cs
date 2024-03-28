@@ -855,8 +855,9 @@ public class VoteBanned
                 playersct.ForEach(player => 
                 {
                     var steamid = player.SteamID;
-                    if (Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
-                    Helper.AdvancedPrintToChat(player, Localizer["votekick.announce.halfvotes.chat.message"]);
+                    if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
+                    if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))return;
+                    Helper.AdvancedPrintToChat(player, Localizer["votebanned.announce.halfvotes.chat.message"]);
                 }); 
             }
             
@@ -1034,8 +1035,9 @@ public class VoteBanned
                 playerst.ForEach(player => 
                 {
                     var steamid = player.SteamID;
-                    if (Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
-                    Helper.AdvancedPrintToChat(player, Localizer["votekick.announce.halfvotes.chat.message"]);
+                    if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
+                    if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))return;
+                    Helper.AdvancedPrintToChat(player, Localizer["votebanned.announce.halfvotes.chat.message"]);
                 }); 
             }
             
@@ -1207,8 +1209,9 @@ public class VoteBanned
             playersall.ForEach(player => 
             {
                 var steamid = player.SteamID;
-                if (Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
-                Helper.AdvancedPrintToChat(player, Localizer["votekick.announce.halfvotes.chat.message"]);
+                if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
+                if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))return;
+                Helper.AdvancedPrintToChat(player, Localizer["votebanned.announce.halfvotes.chat.message"]);
             }); 
         }
         
