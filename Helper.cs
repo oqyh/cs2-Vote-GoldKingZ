@@ -116,6 +116,7 @@ public class Helper
         Globals_VoteKick.VoteKick_targetPlayerSTEAMCT = 0;
         Globals_VoteKick.VoteKick_targetPlayerSTEAMT = 0;
         Globals_VoteKick.VoteKick_targetPlayerSTEAMBOTH = 0;
+        Globals_VoteKick.VoteKick_Disabled = false;
         Globals_VoteKick.VoteKick_ReachHalfVoteCT = false;
         Globals_VoteKick.VoteKick_ReachHalfVoteT = false;
         Globals_VoteKick.VoteKick_ReachHalfVoteBoth = false;
@@ -129,6 +130,7 @@ public class Helper
         Globals_VoteKick.VoteKick_ShowMenuT.Clear();
         Globals_VoteKick.VoteKick_ShowMenuBOTH.Clear();
         Globals_VoteKick.VoteKick_Immunity.Clear();
+        Globals_VoteKick.VoteKick_Disable.Clear();
         Globals_VoteKick.VoteKick_GetVoted.Clear();
         Globals_VoteKick.VoteKick_CallerVotedTo.Clear();
     }
@@ -146,6 +148,7 @@ public class Helper
         Globals_VoteBanned.VoteBanned_targetPlayerSTEAMCT = 0;
         Globals_VoteBanned.VoteBanned_targetPlayerSTEAMT = 0;
         Globals_VoteBanned.VoteBanned_targetPlayerSTEAMBOTH = 0;
+        Globals_VoteBanned.VoteBanned_Disabled = false;
         Globals_VoteBanned.VoteBanned_ReachHalfVoteCT = false;
         Globals_VoteBanned.VoteBanned_ReachHalfVoteT = false;
         Globals_VoteBanned.VoteBanned_ReachHalfVoteBoth = false;
@@ -159,6 +162,7 @@ public class Helper
         Globals_VoteBanned.VoteBanned_ShowMenuT.Clear();
         Globals_VoteBanned.VoteBanned_ShowMenuBOTH.Clear();
         Globals_VoteBanned.VoteBanned_Immunity.Clear();
+        Globals_VoteBanned.VoteBanned_Disable.Clear();
         Globals_VoteBanned.VoteBanned_GetVoted.Clear();
         Globals_VoteBanned.VoteBanned_CallerVotedTo.Clear();
     }
@@ -176,6 +180,7 @@ public class Helper
         Globals_VoteMute.VoteMute_targetPlayerSTEAMCT = 0;
         Globals_VoteMute.VoteMute_targetPlayerSTEAMT = 0;
         Globals_VoteMute.VoteMute_targetPlayerSTEAMBOTH = 0;
+        Globals_VoteMute.VoteMute_Disabled = false;
         Globals_VoteMute.VoteMute_ReachHalfVoteCT = false;
         Globals_VoteMute.VoteMute_ReachHalfVoteT = false;
         Globals_VoteMute.VoteMute_ReachHalfVoteBoth = false;
@@ -189,6 +194,7 @@ public class Helper
         Globals_VoteMute.VoteMute_ShowMenuT.Clear();
         Globals_VoteMute.VoteMute_ShowMenuBOTH.Clear();
         Globals_VoteMute.VoteMute_Immunity.Clear();
+        Globals_VoteMute.VoteMute_Disable.Clear();
         Globals_VoteMute.VoteMute_GetVoted.Clear();
         Globals_VoteMute.VoteMute_CallerVotedTo.Clear();
     }
