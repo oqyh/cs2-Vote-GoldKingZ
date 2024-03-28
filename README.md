@@ -1,4 +1,4 @@
-# [CS2] Vote-GoldKingZ (1.0.4)
+# [CS2] Vote-GoldKingZ (1.0.5)
 
 ### Vote System (Kick , Mute , Banned, Vips)
 
@@ -86,7 +86,9 @@
 
   //Immunity From Getting Vote To Kick
   "VoteKick_ImmunityGroups": "@css/root,@css/admin,@css/vip,#css/admin,#css/vip",
-  
+
+  //If You Put Any Group In The String Will Disable Vote Kick Once Join Game example:("@css/root,@css/admin")
+  "VoteKick_DisableItOnJoinTheseGroups": "",
 }
 ```
 
@@ -140,6 +142,9 @@
 
   //Immunity From Getting Vote To Banned
   "VoteBanned_ImmunityGroups": "@css/root,@css/admin,@css/vip,#css/admin,#css/vip",
+
+  //If You Put Any Group In The String Will Disable Vote Ban Once Join Game example:("@css/root,@css/admin")
+  "VoteBanned_DisableItOnJoinTheseGroups": "",
 }
 ```
 
@@ -188,6 +193,9 @@
 
   //Immunity From Getting Vote To Mute
   "VoteMute_ImmunityGroups": "@css/root,@css/admin,@css/vip,#css/admin,#css/vip",
+
+  //If You Put Any Group In The String Will Disable Vote Mute Once Join Game example:("@css/root,@css/admin")
+  "VoteMute_DisableItOnJoinTheseGroups": "",
 }
 ```
 
@@ -265,6 +273,7 @@
     //==========================
 	
     "votekick.menu.name": "{purple}Vote Kick Menu",
+    "votekick.player.is.disabled": "{green}Gold KingZ {grey}| Vote Kick Is Temporarily {darkred}Disabled {grey}Admin In The Game",
     "votekick.minimum.needed": "{green}Gold KingZ {grey}| {grey}You Cant Start Vote Kick You Need Minimum {lime}{0} {grey}Players",
     "votekick.player.is.immunity": "{green}Gold KingZ {grey}| {darkred}Vote Failed On {Purple}{0} {darkred}You Cant Vote Kick VIPs",
     "votekick.player.vote.same.player": "{green}Gold KingZ {grey}| You've Already Voted To Kick {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
@@ -278,6 +287,7 @@
 
 
     "votebanned.menu.name": "{purple}Vote Ban Menu",
+    "votebanned.player.is.disabled": "{green}Gold KingZ {grey}| Vote Ban Is Temporarily {darkred}Disabled {grey}Admin In The Game",
     "votebanned.minimum.needed": "{green}Gold KingZ {grey}| {grey}You Cant Start Vote Ban You Need Minimum {lime}{0} {grey}Players",
     "votebanned.player.is.immunity": "{green}Gold KingZ {grey}| {darkred}Vote Failed On {Purple}{0} {darkred}You Cant Vote Ban VIPs",
     "votebanned.player.vote.same.player": "{green}Gold KingZ {grey}| You've Already Voted To Ban {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
@@ -291,6 +301,7 @@
 
 
     "votemute.menu.name": "{purple}Vote Mute Menu",
+    "votemute.player.is.disabled": "{green}Gold KingZ {grey}| Vote Mute Is Temporarily {darkred}Disabled {grey}Admin In The Game",
     "votemute.minimum.needed": "{green}Gold KingZ {grey}| {grey}You Cant Start Vote Mute You Need Minimum {lime}{0} {grey}Players",
     "votemute.player.is.immunity": "{green}Gold KingZ {grey}| {darkred}Vote Failed On {Purple}{0} {darkred}You Cant Vote Mute VIPs",
     "votemute.player.vote.same.player": "{green}Gold KingZ {grey}| You've Already Voted To Mute {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
@@ -306,6 +317,14 @@
 
 ## .:[ Change Log ]:.
 ```
+(1.0.5)
+-Added VoteKick_DisableItOnJoinTheseGroups
+-Added VoteBanned_DisableItOnJoinTheseGroups
+-Added VoteMute_DisableItOnJoinTheseGroups
+-Added Lang votekick.player.is.disabled
+-Added Lang votebanned.player.is.disabled
+-Added Lang votemute.player.is.disabled
+
 (1.0.4)
 -Fix Some Bugs
 -Fix "votekick.announce.halfvotes.center.message" instead "votebanned.announce.halfvotes.center.message"
