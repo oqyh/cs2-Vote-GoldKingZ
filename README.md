@@ -1,4 +1,4 @@
-# [CS2] Vote-GoldKingZ (1.0.5)
+# [CS2] Vote-GoldKingZ (1.0.6)
 
 ### Vote System (Kick , Mute , Banned, Vips)
 
@@ -61,8 +61,8 @@
   //VoteKick_TeamOnly (true) = Vote On Team Side Only
   "VoteKick_TeamOnly": false,
   
-  //Vote Percentage To Pass The Vote 6 means 0.6 || 5 means 0.5 Half
-  "VoteKick_Percentage": 6,
+  //Vote Percentage To Pass The Vote 60 means 60% || 50 means 50% Half
+  "VoteKick_Percentage": 60,
   
   //If Vote Reach Half Depend Percentage On VoteKick_Percentage Do You Want Annoce Player To Vote shortcut Depend [VoteKick_CommandsOnHalfVoteAccept] And [VoteKick_CommandsOnHalfVoteRefuse] To Kick Player Announced
   "VoteKick_CenterMessageAnnouncementOnHalfVotes": true,
@@ -117,8 +117,8 @@
   //VoteBanned_TeamOnly (true) = Vote On Team Side Only
   "VoteBanned_TeamOnly": false,
   
-  //Vote Percentage To Pass The Vote 6 means 0.6 || 5 means 0.5 Half
-  "VoteBanned_Percentage": 6,
+  //Vote Percentage To Pass The Vote 60 means 60% || 50 means 50% Half
+  "VoteBanned_Percentage": 70,
   
   //If Vote Reach Half Depend Percentage On VoteBanned_Percentage Do You Want Annoce Player To Vote shortcut Depend [VoteBanned_CommandsOnHalfVoteAccept] And [VoteBanned_CommandsOnHalfVoteRefuse] To Banned Player Announced
   "VoteBanned_CenterMessageAnnouncementOnHalfVotes": true,
@@ -172,8 +172,8 @@
   //VoteMute_TeamOnly (true) = Vote On Team Side Only
   "VoteMute_TeamOnly": false,
 
-  //Vote Percentage To Pass The Vote 6 means 0.6 || 5 means 0.5 Half
-  "VoteMute_Percentage": 7,
+  //Vote Percentage To Pass The Vote 60 means 60% || 50 means 50% Half
+  "VoteMute_Percentage": 60,
 
   //If Vote Reach Half Depend Percentage On VoteMute_Percentage Do You Want Annoce Player To Vote shortcut Depend [VoteMute_CommandsOnHalfVoteAccept] And [VoteMute_CommandsOnHalfVoteRefuse] To Mute Player Announced
   "VoteMute_CenterMessageAnnouncementOnHalfVotes": false,
@@ -317,6 +317,11 @@
 
 ## .:[ Change Log ]:.
 ```
+(1.0.6)
+-Changing VoteKick_Percentage to float
+-Changing VoteBanned_Percentage to float
+-Changing VoteMute_Percentage to float
+
 (1.0.5)
 -Added VoteKick_DisableItOnJoinTheseGroups
 -Added VoteBanned_DisableItOnJoinTheseGroups
