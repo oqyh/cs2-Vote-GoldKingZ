@@ -116,6 +116,7 @@ namespace Vote_GoldKingZ.Config
             public string VoteKick_CommandsOnHalfVoteAccept { get; set; }
             public string VoteKick_CommandsOnHalfVoteRefuse { get; set; }
             public string VoteKick_ImmunityGroups { get; set; }
+            public string VoteKick_DisableItOnJoinTheseGroups { get; set; }
             public string empty { get; set; }
 
 
@@ -152,6 +153,7 @@ namespace Vote_GoldKingZ.Config
             public string VoteBanned_CommandsOnHalfVoteAccept { get; set; }
             public string VoteBanned_CommandsOnHalfVoteRefuse { get; set; }
             public string VoteBanned_ImmunityGroups { get; set; }
+            public string VoteBanned_DisableItOnJoinTheseGroups { get; set; }
             public string empty2 { get; set; }
 
             public bool VoteMute { get; set; }
@@ -168,6 +170,7 @@ namespace Vote_GoldKingZ.Config
             public string VoteMute_CommandsOnHalfVoteAccept { get; set; }
             public string VoteMute_CommandsOnHalfVoteRefuse { get; set; }
             public string VoteMute_ImmunityGroups { get; set; }
+            public string VoteMute_DisableItOnJoinTheseGroups { get; set; }
 
 
             public string empty3 { get; set; }
@@ -220,7 +223,7 @@ namespace Vote_GoldKingZ.Config
                 VoteKick_StartOnMinimumOfXPlayers  = 5;
                 VoteKick_AllowKickedPlayersToJoinOnMapChange = false;
                 VoteKick_TeamOnly = false;
-                VoteKick_Percentage = 6;
+                VoteKick_Percentage = 60;
                 VoteKick_CenterMessageAnnouncementOnHalfVotes = false;
                 VoteKick_CenterMessageAnnouncementTimer = 25;
                 VoteKick_EvasionPunishment = false;
@@ -230,12 +233,13 @@ namespace Vote_GoldKingZ.Config
                 VoteKick_CommandsOnHalfVoteAccept = "!yes,yes,!y,y";
                 VoteKick_CommandsOnHalfVoteRefuse = "!no,no,!n,n";
                 VoteKick_ImmunityGroups = "@css/root,@css/admin,@css/vip,#css/admin,#css/vip";
+                VoteKick_DisableItOnJoinTheseGroups = "";
                 empty = "-----------------------------------------------------------------------------------";
                 VoteBanned_Mode = 0;
                 VoteBanned_TimeInDays = 1;
                 VoteBanned_StartOnMinimumOfXPlayers  = 8;
                 VoteBanned_TeamOnly = false;
-                VoteBanned_Percentage = 8;
+                VoteBanned_Percentage = 80;
                 VoteBanned_CenterMessageAnnouncementOnHalfVotes = false;
                 VoteBanned_CenterMessageAnnouncementTimer = 25;
                 VoteBanned_EvasionPunishment = false;
@@ -245,13 +249,14 @@ namespace Vote_GoldKingZ.Config
                 VoteBanned_CommandsOnHalfVoteAccept = "!yes,yes,!y,y";
                 VoteBanned_CommandsOnHalfVoteRefuse = "!no,no,!n,n";
                 VoteBanned_ImmunityGroups = "@css/root,@css/admin,@css/vip,#css/admin,#css/vip";
+                VoteBanned_DisableItOnJoinTheseGroups = "";
                 empty2 = "-----------------------------------------------------------------------------------";
                 VoteMute = false;
                 VoteMute_TimeInMins = 5;
                 VoteMute_StartOnMinimumOfXPlayers  = 5;
                 VoteMute_RemoveMutedPlayersOnMapChange = false;
                 VoteMute_TeamOnly = false;
-                VoteMute_Percentage = 7;
+                VoteMute_Percentage = 60;
                 VoteMute_CenterMessageAnnouncementOnHalfVotes = false;
                 VoteMute_CenterMessageAnnouncementTimer = 25;
                 VoteMute_EvasionPunishment = false;
@@ -260,6 +265,7 @@ namespace Vote_GoldKingZ.Config
                 VoteMute_CommandsOnHalfVoteAccept = "!yes,yes,!y,y";
                 VoteMute_CommandsOnHalfVoteRefuse = "!no,no,!n,n";
                 VoteMute_ImmunityGroups = "@css/root,@css/admin,@css/vip,#css/admin,#css/vip";
+                VoteMute_DisableItOnJoinTheseGroups = "";
                 empty3 = "-----------------------------------------------------------------------------------";
                 Log_SendLogToText = false;
                 Log_TextMessageFormat = "[{DATE} - {TIME}] {PLAYERNAME} Has Been ({REASON})  [SteamID: {STEAMID} - Ip: {IP}]";

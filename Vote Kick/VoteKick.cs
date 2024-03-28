@@ -800,10 +800,10 @@ public class VoteKick
         string[] parts = GetTargerIP!.Split(':');
         string TargerIP = parts[0];
 
-        double xPercentage = Configs.GetConfigData().VoteKick_Percentage / 10.0;
-        var CountCT = Helper.GetCounterTerroristCount();
-        var requiredct = (int)Math.Ceiling(CountCT * xPercentage);
-
+        var allCTPlayers = Helper.GetCounterTerroristCount();
+        float percentage = Configs.GetConfigData().VoteKick_Percentage;
+        int requiredct = (int)Math.Ceiling(allCTPlayers * (percentage / 100.0f));
+        
         if (!string.IsNullOrEmpty(Configs.GetConfigData().VoteKick_ImmunityGroups) && Globals_VoteKick.VoteKick_Immunity.ContainsKey(TargetPlayerSteamID))
         {
             if (!string.IsNullOrEmpty(Localizer!["votekick.player.is.immunity"]))
@@ -981,9 +981,9 @@ public class VoteKick
         string[] parts = GetTargerIP!.Split(':');
         string TargerIP = parts[0];
 
-        double xPercentage = Configs.GetConfigData().VoteKick_Percentage / 10.0;
-        var CountT = Helper.GetTerroristCount();
-        var requiredt = (int)Math.Ceiling(CountT * xPercentage);
+        var allTPlayers = Helper.GetTerroristCount();
+        float percentage = Configs.GetConfigData().VoteKick_Percentage;
+        int requiredt = (int)Math.Ceiling(allTPlayers * (percentage / 100.0f));
 
         if (!string.IsNullOrEmpty(Configs.GetConfigData().VoteKick_ImmunityGroups) && Globals_VoteKick.VoteKick_Immunity.ContainsKey(TargetPlayerSteamID))
         {
@@ -1162,9 +1162,9 @@ public class VoteKick
         string[] parts = GetTargerIP!.Split(':');
         string TargerIP = parts[0];
 
-        double xPercentage = Configs.GetConfigData().VoteKick_Percentage / 10.0;
-        var Countall = Helper.GetAllCount();
-        var requiredall = (int)Math.Ceiling(Countall * xPercentage);
+        var allPlayers = Helper.GetAllCount();
+        float percentage = Configs.GetConfigData().VoteKick_Percentage;
+        int requiredall = (int)Math.Ceiling(allPlayers * (percentage / 100.0f));
 
         if (!string.IsNullOrEmpty(Configs.GetConfigData().VoteKick_ImmunityGroups) && Globals_VoteKick.VoteKick_Immunity.ContainsKey(TargetPlayerSteamID))
         {
