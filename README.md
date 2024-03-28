@@ -1,4 +1,4 @@
-# [CS2] Vote-GoldKingZ (1.0.3)
+# [CS2] Vote-GoldKingZ (1.0.4)
 
 ### Vote System (Kick , Mute , Banned, Vips)
 
@@ -306,6 +306,10 @@
 
 ## .:[ Change Log ]:.
 ```
+(1.0.4)
+-Fix Some Bugs
+-Fix "votekick.announce.halfvotes.center.message" instead "votebanned.announce.halfvotes.center.message"
+
 (1.0.3)
   - [ Vote Kick ]
 Fix Bugs Vote Kick
