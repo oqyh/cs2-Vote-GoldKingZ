@@ -21,6 +21,7 @@ public class Globals_VoteKick
     public static ulong VoteKick_targetPlayerSTEAMCT;
     public static ulong VoteKick_targetPlayerSTEAMT;
     public static ulong VoteKick_targetPlayerSTEAMBOTH;
+    public static bool VoteKick_Disabled = false;
     public static bool VoteKick_ReachHalfVoteCT = false;
     public static bool VoteKick_ReachHalfVoteT = false;
     public static bool VoteKick_ReachHalfVoteBoth = false;
@@ -35,6 +36,7 @@ public class Globals_VoteKick
     public static Dictionary<ulong, bool> VoteKick_ShowMenuT = new Dictionary<ulong, bool>();
     public static Dictionary<ulong, bool> VoteKick_ShowMenuBOTH = new Dictionary<ulong, bool>();
     public static Dictionary<ulong, bool> VoteKick_Immunity = new Dictionary<ulong, bool>();
+    public static Dictionary<ulong, bool> VoteKick_Disable = new Dictionary<ulong, bool>();
     public static Dictionary<string, int> VoteKick_GetVoted = new Dictionary<string, int>();
     public static Dictionary<CCSPlayerController, HashSet<string>> VoteKick_CallerVotedTo = new Dictionary<CCSPlayerController, HashSet<string>>(); 
 }

@@ -50,6 +50,15 @@ public class VoteMute
         string PlayerIp = parts[0];
         string Reason = "Mute Evasion";
 
+        if(!string.IsNullOrEmpty(Configs.GetConfigData().VoteMute_DisableItOnJoinTheseGroups) && Helper.IsPlayerInGroupPermission(player, Configs.GetConfigData().VoteMute_DisableItOnJoinTheseGroups))
+        {
+            if (!Globals_VoteMute.VoteMute_Disable.ContainsKey(playerid))
+            {
+                Globals_VoteMute.VoteMute_Disable.Add(playerid, true);
+                Globals_VoteMute.VoteMute_Disabled = true;
+            }
+        }
+
         if(!string.IsNullOrEmpty(Configs.GetConfigData().VoteMute_ImmunityGroups) && Helper.IsPlayerInGroupPermission(player, Configs.GetConfigData().VoteMute_ImmunityGroups))
         {
             if (!Globals_VoteMute.VoteMute_Immunity.ContainsKey(playerid))
@@ -176,7 +185,14 @@ public class VoteMute
                 {
                     var AllCTPlayers = Helper.GetCounterTerroristController();
                     var AllCTPlayersCount = Helper.GetCounterTerroristCount();
-                    
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().VoteMute_DisableItOnJoinTheseGroups) && Globals_VoteMute.VoteMute_Disabled)
+                    {
+                        if (!string.IsNullOrEmpty(Localizer!["votemute.player.is.disabled"]))
+                        {
+                            Helper.AdvancedPrintToChat(Caller, Localizer["votemute.player.is.disabled"]);
+                        }
+                        return HookResult.Continue;
+                    }
                     if(AllCTPlayersCount < Configs.GetConfigData().VoteMute_StartOnMinimumOfXPlayers)
                     {
                         if (!string.IsNullOrEmpty(Localizer!["votemute.minimum.needed"]))
@@ -200,7 +216,14 @@ public class VoteMute
                 {
                     var AllTPlayers = Helper.GetTerroristController();
                     var AllTPlayersCount = Helper.GetTerroristCount();
-
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().VoteMute_DisableItOnJoinTheseGroups) && Globals_VoteMute.VoteMute_Disabled)
+                    {
+                        if (!string.IsNullOrEmpty(Localizer!["votemute.player.is.disabled"]))
+                        {
+                            Helper.AdvancedPrintToChat(Caller, Localizer["votemute.player.is.disabled"]);
+                        }
+                        return HookResult.Continue;
+                    }
                     if(AllTPlayersCount < Configs.GetConfigData().VoteMute_StartOnMinimumOfXPlayers)
                     {
                         if (!string.IsNullOrEmpty(Localizer!["votemute.minimum.needed"]))
@@ -224,7 +247,14 @@ public class VoteMute
             {
                 var AllPlayers = Helper.GetAllController();
                 var AllPlayersCount = Helper.GetAllCount();
-                
+                if (!string.IsNullOrEmpty(Configs.GetConfigData().VoteMute_DisableItOnJoinTheseGroups) && Globals_VoteMute.VoteMute_Disabled)
+                {
+                    if (!string.IsNullOrEmpty(Localizer!["votemute.player.is.disabled"]))
+                    {
+                        Helper.AdvancedPrintToChat(Caller, Localizer["votemute.player.is.disabled"]);
+                    }
+                    return HookResult.Continue;
+                }
                 if(AllPlayersCount < Configs.GetConfigData().VoteMute_StartOnMinimumOfXPlayers)
                 {
                     if (!string.IsNullOrEmpty(Localizer!["votemute.minimum.needed"]))
@@ -1251,7 +1281,8 @@ public class VoteMute
     {
         if (@event == null) return HookResult.Continue;
         var player = @event.Userid;
-
+        var playerid = player.SteamID;
+        
         if (player == null || !player.IsValid || player.IsBot || player.IsHLTV) return HookResult.Continue;
 
         if (Globals_VoteMute.VoteMute_CallerVotedTo.ContainsKey(player))
@@ -1267,6 +1298,20 @@ public class VoteMute
                 }
             }
             Globals_VoteMute.VoteMute_CallerVotedTo.Remove(player);
+        }
+
+        if (Globals_VoteMute.VoteMute_Disable.ContainsKey(playerid))
+        {
+            Globals_VoteMute.VoteMute_Disable.Remove(playerid);
+            foreach (var allplayers in Helper.GetAllController())
+            {
+                if(allplayers == null || !allplayers.IsValid)continue;
+                var playerssteamid = allplayers.SteamID;
+                if (!Globals_VoteMute.VoteMute_Disable.ContainsKey(playerssteamid))
+                {
+                    Globals_VoteMute.VoteMute_Disabled = false;
+                }
+            }
         }
         
         return HookResult.Continue;

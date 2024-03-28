@@ -21,6 +21,7 @@ public class Globals_VoteBanned
     public static ulong VoteBanned_targetPlayerSTEAMCT;
     public static ulong VoteBanned_targetPlayerSTEAMT;
     public static ulong VoteBanned_targetPlayerSTEAMBOTH;
+    public static bool VoteBanned_Disabled = false;
     public static bool VoteBanned_ReachHalfVoteCT = false;
     public static bool VoteBanned_ReachHalfVoteT = false;
     public static bool VoteBanned_ReachHalfVoteBoth = false;
@@ -34,6 +35,7 @@ public class Globals_VoteBanned
     public static Dictionary<ulong, bool> VoteBanned_ShowMenuT = new Dictionary<ulong, bool>();
     public static Dictionary<ulong, bool> VoteBanned_ShowMenuBOTH = new Dictionary<ulong, bool>();
     public static Dictionary<ulong, bool> VoteBanned_Immunity = new Dictionary<ulong, bool>();
+    public static Dictionary<ulong, bool> VoteBanned_Disable = new Dictionary<ulong, bool>();
     public static Dictionary<string, int> VoteBanned_GetVoted = new Dictionary<string, int>();
     public static Dictionary<CCSPlayerController, HashSet<string>> VoteBanned_CallerVotedTo = new Dictionary<CCSPlayerController, HashSet<string>>(); 
 }

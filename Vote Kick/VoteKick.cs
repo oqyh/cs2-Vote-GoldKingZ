@@ -263,13 +263,22 @@ public class VoteKick
 
     public HookResult OnEventPlayerConnectFull(EventPlayerConnectFull @event, GameEventInfo info)
     {
-        if (string.IsNullOrEmpty(Configs.GetConfigData().VoteKick_ImmunityGroups) || @event == null)return HookResult.Continue;
+        if (@event == null)return HookResult.Continue;
         var player = @event.Userid;
 
         if (player == null || !player.IsValid || player.IsBot || player.IsHLTV) return HookResult.Continue;
         var playerid = player.SteamID;
 
-        if(Helper.IsPlayerInGroupPermission(player, Configs.GetConfigData().VoteKick_ImmunityGroups))
+        if(!string.IsNullOrEmpty(Configs.GetConfigData().VoteKick_DisableItOnJoinTheseGroups) && Helper.IsPlayerInGroupPermission(player, Configs.GetConfigData().VoteKick_DisableItOnJoinTheseGroups))
+        {
+            if (!Globals_VoteKick.VoteKick_Disable.ContainsKey(playerid))
+            {
+                Globals_VoteKick.VoteKick_Disable.Add(playerid, true);
+                Globals_VoteKick.VoteKick_Disabled = true;
+            }
+        }
+
+        if(!string.IsNullOrEmpty(Configs.GetConfigData().VoteKick_ImmunityGroups) && Helper.IsPlayerInGroupPermission(player, Configs.GetConfigData().VoteKick_ImmunityGroups))
         {
             if (!Globals_VoteKick.VoteKick_Immunity.ContainsKey(playerid))
             {
@@ -313,7 +322,14 @@ public class VoteKick
                 {
                     var AllCTPlayers = Helper.GetCounterTerroristController();
                     var AllCTPlayersCount = Helper.GetCounterTerroristCount();
-                    
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().VoteKick_DisableItOnJoinTheseGroups) && Globals_VoteKick.VoteKick_Disabled)
+                    {
+                        if (!string.IsNullOrEmpty(Localizer!["votekick.player.is.disabled"]))
+                        {
+                            Helper.AdvancedPrintToChat(Caller, Localizer["votekick.player.is.disabled"]);
+                        }
+                        return HookResult.Continue;
+                    }
                     if(AllCTPlayersCount < Configs.GetConfigData().VoteKick_StartOnMinimumOfXPlayers)
                     {
                         if (!string.IsNullOrEmpty(Localizer!["votekick.minimum.needed"]))
@@ -337,7 +353,14 @@ public class VoteKick
                 {
                     var AllTPlayers = Helper.GetTerroristController();
                     var AllTPlayersCount = Helper.GetTerroristCount();
-
+                    if (!string.IsNullOrEmpty(Configs.GetConfigData().VoteKick_DisableItOnJoinTheseGroups) && Globals_VoteKick.VoteKick_Disabled)
+                    {
+                        if (!string.IsNullOrEmpty(Localizer!["votekick.player.is.disabled"]))
+                        {
+                            Helper.AdvancedPrintToChat(Caller, Localizer["votekick.player.is.disabled"]);
+                        }
+                        return HookResult.Continue;
+                    }
                     if(AllTPlayersCount < Configs.GetConfigData().VoteKick_StartOnMinimumOfXPlayers)
                     {
                         if (!string.IsNullOrEmpty(Localizer!["votekick.minimum.needed"]))
@@ -361,7 +384,14 @@ public class VoteKick
             {
                 var AllPlayers = Helper.GetAllController();
                 var AllPlayersCount = Helper.GetAllCount();
-                
+                if (!string.IsNullOrEmpty(Configs.GetConfigData().VoteKick_DisableItOnJoinTheseGroups) && Globals_VoteKick.VoteKick_Disabled)
+                {
+                    if (!string.IsNullOrEmpty(Localizer!["votekick.player.is.disabled"]))
+                    {
+                        Helper.AdvancedPrintToChat(Caller, Localizer["votekick.player.is.disabled"]);
+                    }
+                    return HookResult.Continue;
+                }
                 if(AllPlayersCount < Configs.GetConfigData().VoteKick_StartOnMinimumOfXPlayers)
                 {
                     if (!string.IsNullOrEmpty(Localizer!["votekick.minimum.needed"]))
@@ -1289,7 +1319,8 @@ public class VoteKick
     {
         if (@event == null) return HookResult.Continue;
         var player = @event.Userid;
-
+        var playerid = player.SteamID;
+        
         if (player == null || !player.IsValid || player.IsBot || player.IsHLTV) return HookResult.Continue;
 
         if (Globals_VoteKick.VoteKick_CallerVotedTo.ContainsKey(player))
@@ -1305,6 +1336,20 @@ public class VoteKick
                 }
             }
             Globals_VoteKick.VoteKick_CallerVotedTo.Remove(player);
+        }
+
+        if (Globals_VoteKick.VoteKick_Disable.ContainsKey(playerid))
+        {
+            Globals_VoteKick.VoteKick_Disable.Remove(playerid);
+            foreach (var allplayers in Helper.GetAllController())
+            {
+                if(allplayers == null || !allplayers.IsValid)continue;
+                var playerssteamid = allplayers.SteamID;
+                if (!Globals_VoteKick.VoteKick_Disable.ContainsKey(playerssteamid))
+                {
+                    Globals_VoteKick.VoteKick_Disabled = false;
+                }
+            }
         }
         
         return HookResult.Continue;

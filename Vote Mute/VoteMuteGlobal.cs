@@ -21,6 +21,7 @@ public class Globals_VoteMute
     public static ulong VoteMute_targetPlayerSTEAMCT;
     public static ulong VoteMute_targetPlayerSTEAMT;
     public static ulong VoteMute_targetPlayerSTEAMBOTH;
+    public static bool VoteMute_Disabled = false;
     public static bool VoteMute_ReachHalfVoteCT = false;
     public static bool VoteMute_ReachHalfVoteT = false;
     public static bool VoteMute_ReachHalfVoteBoth = false;
@@ -34,6 +35,7 @@ public class Globals_VoteMute
     public static Dictionary<ulong, bool> VoteMute_ShowMenuT = new Dictionary<ulong, bool>();
     public static Dictionary<ulong, bool> VoteMute_ShowMenuBOTH = new Dictionary<ulong, bool>();
     public static Dictionary<ulong, bool> VoteMute_Immunity = new Dictionary<ulong, bool>();
+    public static Dictionary<ulong, bool> VoteMute_Disable = new Dictionary<ulong, bool>();
     public static Dictionary<string, int> VoteMute_GetVoted = new Dictionary<string, int>();
     public static Dictionary<CCSPlayerController, HashSet<string>> VoteMute_CallerVotedTo = new Dictionary<CCSPlayerController, HashSet<string>>(); 
 }
