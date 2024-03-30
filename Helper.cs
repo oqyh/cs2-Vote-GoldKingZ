@@ -76,30 +76,30 @@ public class Helper
     }
     public static List<CCSPlayerController> GetCounterTerroristController() 
     {
-        var playerList = Utilities.FindAllEntitiesByDesignerName<CCSPlayerController>("cs_player_controller").Where(p => p != null && p.IsValid && p.Team == CsTeam.CounterTerrorist).ToList();
+        var playerList = Utilities.FindAllEntitiesByDesignerName<CCSPlayerController>("cs_player_controller").Where(p => p != null && p.IsValid && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected && p.Team == CsTeam.CounterTerrorist).ToList();
         return playerList;
     }
     public static List<CCSPlayerController> GetTerroristController() 
     {
-        var playerList = Utilities.FindAllEntitiesByDesignerName<CCSPlayerController>("cs_player_controller").Where(p => p != null && p.IsValid && p.Team == CsTeam.Terrorist).ToList();
+        var playerList = Utilities.FindAllEntitiesByDesignerName<CCSPlayerController>("cs_player_controller").Where(p => p != null && p.IsValid && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected && p.Team == CsTeam.Terrorist).ToList();
         return playerList;
     }
     public static List<CCSPlayerController> GetAllController() 
     {
-        var playerList = Utilities.FindAllEntitiesByDesignerName<CCSPlayerController>("cs_player_controller").Where(p => p != null && p.IsValid).ToList();
+        var playerList = Utilities.FindAllEntitiesByDesignerName<CCSPlayerController>("cs_player_controller").Where(p => p != null && p.IsValid && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected).ToList();
         return playerList;
     }
     public static int GetCounterTerroristCount()
     {
-        return Utilities.GetPlayers().Count(p => p.TeamNum == (byte)CsTeam.CounterTerrorist && !p.IsHLTV);
+        return Utilities.GetPlayers().Count(p => p != null && p.IsValid && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected && p.TeamNum == (byte)CsTeam.CounterTerrorist);
     }
     public static int GetTerroristCount()
     {
-        return Utilities.GetPlayers().Count(p => p.TeamNum == (byte)CsTeam.Terrorist && !p.IsHLTV);
+        return Utilities.GetPlayers().Count(p => p != null && p.IsValid && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected && p.TeamNum == (byte)CsTeam.Terrorist);
     }
     public static int GetAllCount()
     {
-        return Utilities.GetPlayers().Count(p => !p.IsHLTV);
+        return Utilities.GetPlayers().Count(p => p != null && p.IsValid && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected);
     }
     
     public static void ClearVariablesVoteKick()

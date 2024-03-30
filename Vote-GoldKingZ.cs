@@ -13,7 +13,7 @@ namespace Vote_GoldKingZ;
 public class VoteGoldKingZ : BasePlugin
 {
     public override string ModuleName => "Vote (Kick , Mute , Banned, Vips)";
-    public override string ModuleVersion => "1.0.6";
+    public override string ModuleVersion => "1.0.7";
     public override string ModuleAuthor => "Gold KingZ";
     public override string ModuleDescription => "https://github.com/oqyh";
     
