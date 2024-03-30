@@ -1,4 +1,4 @@
-# [CS2] Vote-GoldKingZ (1.0.6)
+# [CS2] Vote-GoldKingZ (1.0.7)
 
 ### Vote System (Kick , Mute , Banned, Vips)
 
@@ -317,6 +317,9 @@
 
 ## .:[ Change Log ]:.
 ```
+(1.0.7)
+-Fix Counting And Name List
+
 (1.0.6)
 -Changing VoteKick_Percentage to float
 -Changing VoteBanned_Percentage to float
