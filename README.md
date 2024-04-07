@@ -19,6 +19,7 @@
 - [ ] Vote Silent (Chat + Voice)
 - [ ] Vote Send Player Spec
 - [ ] Vote A Map
+- [ ] Vote A Mod (exec Config)
 
 ## .:[ Dependencies ]:.
 [Metamod:Source (2.x)](https://www.sourcemm.net/downloads.php/?branch=master)
