@@ -14,8 +14,8 @@
 
 - [x] Vote Kick 
 - [x] Vote Banned
-- [x] Vote Mute (Chat)
-- [ ] Vote Gag (Voice)
+- [x] Vote Mute (Voice)
+- [ ] Vote Gag (Chat)
 - [ ] Vote Silent (Chat + Voice)
 - [ ] Vote Send Player Spec
 - [ ] Vote A Map
