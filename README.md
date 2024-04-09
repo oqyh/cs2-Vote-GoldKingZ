@@ -557,6 +557,7 @@ Added VoteGameMode_CommandsOnHalfVoteAccept
 Added VoteGameMode_CommandsOnHalfVoteRefuse
 Added VoteGameMode_DisableItOnJoinTheseGroups
 Lang VoteGameMode
+
 - [ Log ]
 Fix Writing Bug After Creating Files Log On (Vote Banned,Vote Kick,Vote Mute)
 Fix Log_DiscordMessageFormat On (Vote Banned,Vote Kick,Vote Mute)
