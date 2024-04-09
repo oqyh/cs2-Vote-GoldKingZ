@@ -88,7 +88,7 @@ public class VoteMute
 
                     if(!File.Exists(Tpath))
                     {
-                        File.Create(Tpath);
+                        using (File.Create(Tpath)) { }
                     }
 
                     try
@@ -99,12 +99,12 @@ public class VoteMute
 
                     }
                 }
-                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, playername, playerid.ToString(), PlayerIp!.ToString(), "Mute Evasion");
+                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_DiscordMessageFormat, Date, Time, playername, playerid.ToString(), PlayerIp!.ToString(), "Mute Evasion");
                 if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
                         });
@@ -113,7 +113,7 @@ public class VoteMute
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, playerid.ToString(), playername);
                         });
@@ -122,7 +122,7 @@ public class VoteMute
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, playerid.ToString(), playername);
                         });
@@ -135,15 +135,15 @@ public class VoteMute
             {
                 pluginInstance.AddTimer(6.30f, () =>
                 {
-                    if (!string.IsNullOrEmpty(Localizer!["votemute.player.muted.successfully.message"]))
-                    {
-                        Helper.AdvancedPrintToChat(player, Localizer!["votemute.player.muted.successfully.message"], Configs.GetConfigData().VoteMute_TimeInMins);
-                    }
                     if (pluginInstance is IDisposable disposableInstance)
                     {
                         disposableInstance.Dispose();
                     }
-                });
+                    if (!string.IsNullOrEmpty(Localizer!["votemute.player.muted.successfully.message"]))
+                    {
+                        Helper.AdvancedPrintToChat(player, Localizer!["votemute.player.muted.successfully.message"], Configs.GetConfigData().VoteMute_TimeInMins);
+                    }
+                }, TimerFlags.STOP_ON_MAPCHANGE);
             });
             
                 
@@ -323,7 +323,7 @@ public class VoteMute
 
                             if(!File.Exists(Tpath))
                             {
-                                File.Create(Tpath);
+                                using (File.Create(Tpath)) { }
                             }
 
                             try
@@ -334,12 +334,12 @@ public class VoteMute
 
                             }
                         }
-                        var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, Globals_VoteMute.VoteMute_targetPlayerNameCT, Globals_VoteMute.VoteMute_targetPlayerSTEAMCT.ToString(), Globals_VoteMute.VoteMute_targetPlayerIPCT!.ToString(), "Vote Muted");
+                        var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_DiscordMessageFormat, Date, Time, Globals_VoteMute.VoteMute_targetPlayerNameCT, Globals_VoteMute.VoteMute_targetPlayerSTEAMCT.ToString(), Globals_VoteMute.VoteMute_targetPlayerIPCT!.ToString(), "Vote Muted");
                         if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
                         {
                             if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                             {
-                                Server.NextFrame(() =>
+                                Task.Run(() =>
                                 {
                                     _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
                                 });
@@ -348,7 +348,7 @@ public class VoteMute
                         {
                             if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                             {
-                                Server.NextFrame(() =>
+                                Task.Run(() =>
                                 {
                                     _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteMute.VoteMute_targetPlayerSTEAMCT.ToString(), Globals_VoteMute.VoteMute_targetPlayerNameCT);
                                 });
@@ -357,7 +357,7 @@ public class VoteMute
                         {
                             if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                             {
-                                Server.NextFrame(() =>
+                                Task.Run(() =>
                                 {
                                     _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteMute.VoteMute_targetPlayerSTEAMCT.ToString(), Globals_VoteMute.VoteMute_targetPlayerNameCT);
                                 });
@@ -434,7 +434,7 @@ public class VoteMute
 
                             if(!File.Exists(Tpath))
                             {
-                                File.Create(Tpath);
+                                using (File.Create(Tpath)) { }
                             }
 
                             try
@@ -445,12 +445,12 @@ public class VoteMute
 
                             }
                         }
-                        var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, Globals_VoteMute.VoteMute_targetPlayerNameT, Globals_VoteMute.VoteMute_targetPlayerSTEAMT.ToString(), Globals_VoteMute.VoteMute_targetPlayerIPT!.ToString(), "Vote Muted");
+                        var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_DiscordMessageFormat, Date, Time, Globals_VoteMute.VoteMute_targetPlayerNameT, Globals_VoteMute.VoteMute_targetPlayerSTEAMT.ToString(), Globals_VoteMute.VoteMute_targetPlayerIPT!.ToString(), "Vote Muted");
                         if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
                         {
                             if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                             {
-                                Server.NextFrame(() =>
+                                Task.Run(() =>
                                 {
                                     _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
                                 });
@@ -459,7 +459,7 @@ public class VoteMute
                         {
                             if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                             {
-                                Server.NextFrame(() =>
+                                Task.Run(() =>
                                 {
                                     _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteMute.VoteMute_targetPlayerSTEAMT.ToString(), Globals_VoteMute.VoteMute_targetPlayerNameT);
                                 });
@@ -468,7 +468,7 @@ public class VoteMute
                         {
                             if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                             {
-                                Server.NextFrame(() =>
+                                Task.Run(() =>
                                 {
                                     _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteMute.VoteMute_targetPlayerSTEAMT.ToString(), Globals_VoteMute.VoteMute_targetPlayerNameT);
                                 });
@@ -547,7 +547,7 @@ public class VoteMute
 
                             if(!File.Exists(Tpath))
                             {
-                                File.Create(Tpath);
+                                using (File.Create(Tpath)) { }
                             }
 
                             try
@@ -558,12 +558,12 @@ public class VoteMute
 
                             }
                         }
-                        var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, Globals_VoteMute.VoteMute_targetPlayerNameBOTH, Globals_VoteMute.VoteMute_targetPlayerSTEAMBOTH.ToString(), Globals_VoteMute.VoteMute_targetPlayerIPBOTH!.ToString(), "Vote Muted");
+                        var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_DiscordMessageFormat, Date, Time, Globals_VoteMute.VoteMute_targetPlayerNameBOTH, Globals_VoteMute.VoteMute_targetPlayerSTEAMBOTH.ToString(), Globals_VoteMute.VoteMute_targetPlayerIPBOTH!.ToString(), "Vote Muted");
                         if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
                         {
                             if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                             {
-                                Server.NextFrame(() =>
+                                Task.Run(() =>
                                 {
                                     _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
                                 });
@@ -572,7 +572,7 @@ public class VoteMute
                         {
                             if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                             {
-                                Server.NextFrame(() =>
+                                Task.Run(() =>
                                 {
                                     _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteMute.VoteMute_targetPlayerSTEAMBOTH.ToString(), Globals_VoteMute.VoteMute_targetPlayerNameBOTH);
                                 });
@@ -581,7 +581,7 @@ public class VoteMute
                         {
                             if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                             {
-                                Server.NextFrame(() =>
+                                Task.Run(() =>
                                 {
                                     _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteMute.VoteMute_targetPlayerSTEAMBOTH.ToString(), Globals_VoteMute.VoteMute_targetPlayerNameBOTH);
                                 });
@@ -772,8 +772,11 @@ public class VoteMute
             {
                 if(players == null || !players.IsValid)continue;
                 var steamid = players.SteamID;
-                if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if (!Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid))
                 {
                     Globals_VoteMute.VoteMute_ShowMenuCT.Add(steamid, true);
@@ -805,8 +808,11 @@ public class VoteMute
                 playersct.ForEach(player => 
                 {
                     var steamid = player.SteamID;
-                    if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))return;
                     if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
+                    if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))return;
+                    if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))return;
+                    if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))return;
+                    if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))return;
                     Helper.AdvancedPrintToChat(player, Localizer["votemute.announce.halfvotes.chat.message"]);
                 }); 
             }
@@ -835,7 +841,7 @@ public class VoteMute
 
                 if(!File.Exists(Tpath))
                 {
-                    File.Create(Tpath);
+                    using (File.Create(Tpath)) { }
                 }
 
                 try
@@ -846,12 +852,12 @@ public class VoteMute
 
                 }
             }
-            var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Muted");
+            var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_DiscordMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Muted");
             if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
             {
                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                 {
-                    Server.NextFrame(() =>
+                    Task.Run(() =>
                     {
                         _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
                     });
@@ -860,7 +866,7 @@ public class VoteMute
             {
                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                 {
-                    Server.NextFrame(() =>
+                    Task.Run(() =>
                     {
                         _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
                     });
@@ -869,7 +875,7 @@ public class VoteMute
             {
                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                 {
-                    Server.NextFrame(() =>
+                    Task.Run(() =>
                     {
                         _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
                     });
@@ -966,8 +972,11 @@ public class VoteMute
             {
                 if(players == null || !players.IsValid)continue;
                 var steamid = players.SteamID;
-                if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if (!Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid))
                 {
                     Globals_VoteMute.VoteMute_ShowMenuT.Add(steamid, true);
@@ -999,8 +1008,11 @@ public class VoteMute
                 playerst.ForEach(player => 
                 {
                     var steamid = player.SteamID;
-                    if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))return;
                     if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
+                    if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))return;
+                    if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))return;
+                    if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))return;
+                    if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))return;
                     Helper.AdvancedPrintToChat(player, Localizer["votemute.announce.halfvotes.chat.message"]);
                 }); 
             }
@@ -1028,7 +1040,7 @@ public class VoteMute
 
                 if(!File.Exists(Tpath))
                 {
-                    File.Create(Tpath);
+                    using (File.Create(Tpath)) { }
                 }
 
                 try
@@ -1039,12 +1051,12 @@ public class VoteMute
 
                 }
             }
-            var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Muted");
+            var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_DiscordMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Muted");
             if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
             {
                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                 {
-                    Server.NextFrame(() =>
+                    Task.Run(() =>
                     {
                         _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
                     });
@@ -1053,7 +1065,7 @@ public class VoteMute
             {
                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                 {
-                    Server.NextFrame(() =>
+                    Task.Run(() =>
                     {
                         _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
                     });
@@ -1062,7 +1074,7 @@ public class VoteMute
             {
                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                 {
-                    Server.NextFrame(() =>
+                    Task.Run(() =>
                     {
                         _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
                     });
@@ -1155,8 +1167,11 @@ public class VoteMute
             {
                 if(players == null || !players.IsValid)continue;
                 var steamid = players.SteamID;
-                if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if (!Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))
                 {
                     Globals_VoteMute.VoteMute_ShowMenuBOTH.Add(steamid, true);
@@ -1184,8 +1199,11 @@ public class VoteMute
             playerall.ForEach(player => 
             {
                 var steamid = player.SteamID;
-                if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))return;
                 if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
+                if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))return;
+                if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))return;
+                if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))return;
+                if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))return;
                 Helper.AdvancedPrintToChat(player, Localizer["votemute.announce.halfvotes.chat.message"]);
             });
         }
@@ -1211,7 +1229,7 @@ public class VoteMute
 
                 if(!File.Exists(Tpath))
                 {
-                    File.Create(Tpath);
+                    using (File.Create(Tpath)) { }
                 }
 
                 try
@@ -1222,12 +1240,12 @@ public class VoteMute
 
                 }
             }
-            var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Muted");
+            var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_DiscordMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Muted");
             if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
             {
                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                 {
-                    Server.NextFrame(() =>
+                    Task.Run(() =>
                     {
                         _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
                     });
@@ -1236,7 +1254,7 @@ public class VoteMute
             {
                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                 {
-                    Server.NextFrame(() =>
+                    Task.Run(() =>
                     {
                         _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
                     });
@@ -1245,7 +1263,7 @@ public class VoteMute
             {
                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                 {
-                    Server.NextFrame(() =>
+                    Task.Run(() =>
                     {
                         _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
                     });

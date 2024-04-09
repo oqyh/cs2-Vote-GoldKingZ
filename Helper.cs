@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json.Serialization;
 using System.Text;
 using System.Drawing;
+using System.Text.Json;
 
 namespace Vote_GoldKingZ;
 
@@ -76,30 +77,30 @@ public class Helper
     }
     public static List<CCSPlayerController> GetCounterTerroristController() 
     {
-        var playerList = Utilities.FindAllEntitiesByDesignerName<CCSPlayerController>("cs_player_controller").Where(p => p != null && p.IsValid && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected && p.Team == CsTeam.CounterTerrorist).ToList();
+        var playerList = Utilities.FindAllEntitiesByDesignerName<CCSPlayerController>("cs_player_controller").Where(p => p != null && p.IsValid && !p.IsBot && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected && p.Team == CsTeam.CounterTerrorist).ToList();
         return playerList;
     }
     public static List<CCSPlayerController> GetTerroristController() 
     {
-        var playerList = Utilities.FindAllEntitiesByDesignerName<CCSPlayerController>("cs_player_controller").Where(p => p != null && p.IsValid && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected && p.Team == CsTeam.Terrorist).ToList();
+        var playerList = Utilities.FindAllEntitiesByDesignerName<CCSPlayerController>("cs_player_controller").Where(p => p != null && p.IsValid && !p.IsBot && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected && p.Team == CsTeam.Terrorist).ToList();
         return playerList;
     }
     public static List<CCSPlayerController> GetAllController() 
     {
-        var playerList = Utilities.FindAllEntitiesByDesignerName<CCSPlayerController>("cs_player_controller").Where(p => p != null && p.IsValid && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected).ToList();
+        var playerList = Utilities.FindAllEntitiesByDesignerName<CCSPlayerController>("cs_player_controller").Where(p => p != null && p.IsValid && !p.IsBot && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected).ToList();
         return playerList;
     }
     public static int GetCounterTerroristCount()
     {
-        return Utilities.GetPlayers().Count(p => p != null && p.IsValid && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected && p.TeamNum == (byte)CsTeam.CounterTerrorist);
+        return Utilities.GetPlayers().Count(p => p != null && p.IsValid && !p.IsBot && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected && p.TeamNum == (byte)CsTeam.CounterTerrorist);
     }
     public static int GetTerroristCount()
     {
-        return Utilities.GetPlayers().Count(p => p != null && p.IsValid && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected && p.TeamNum == (byte)CsTeam.Terrorist);
+        return Utilities.GetPlayers().Count(p => p != null && p.IsValid && !p.IsBot && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected && p.TeamNum == (byte)CsTeam.Terrorist);
     }
     public static int GetAllCount()
     {
-        return Utilities.GetPlayers().Count(p => p != null && p.IsValid && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected);
+        return Utilities.GetPlayers().Count(p => p != null && p.IsValid && !p.IsBot && !p.IsHLTV && p.Connected == PlayerConnectedState.PlayerConnected);
     }
     
     public static void ClearVariablesVoteKick()
@@ -198,6 +199,88 @@ public class Helper
         Globals_VoteMute.VoteMute_GetVoted.Clear();
         Globals_VoteMute.VoteMute_CallerVotedTo.Clear();
     }
+    public static void ClearVariablesVoteGag()
+    {
+        Globals_VoteGag.VoteGag_timerCT = 0f;
+        Globals_VoteGag.VoteGag_timerT = 0f;
+        Globals_VoteGag.VoteGag_timerBOTH = 0f;
+        Globals_VoteGag.VoteGag_targetPlayerNameCT = "";
+        Globals_VoteGag.VoteGag_targetPlayerNameT = "";
+        Globals_VoteGag.VoteGag_targetPlayerNameBOTH = "";
+        Globals_VoteGag.VoteGag_targetPlayerIPCT = "";
+        Globals_VoteGag.VoteGag_targetPlayerIPT = "";
+        Globals_VoteGag.VoteGag_targetPlayerIPBOTH = "";
+        Globals_VoteGag.VoteGag_targetPlayerSTEAMCT = 0;
+        Globals_VoteGag.VoteGag_targetPlayerSTEAMT = 0;
+        Globals_VoteGag.VoteGag_targetPlayerSTEAMBOTH = 0;
+        Globals_VoteGag.VoteGag_Disabled = false;
+        Globals_VoteGag.VoteGag_ReachHalfVoteCT = false;
+        Globals_VoteGag.VoteGag_ReachHalfVoteT = false;
+        Globals_VoteGag.VoteGag_ReachHalfVoteBoth = false;
+        Globals_VoteGag.VoteGag_countingCT = 0;
+        Globals_VoteGag.VoteGag_countingT = 0;
+        Globals_VoteGag.VoteGag_countingBoth = 0;
+        Globals_VoteGag.VoteGag_requiredct = 0;
+        Globals_VoteGag.VoteGag_requiredt = 0;
+        Globals_VoteGag.VoteGag_requiredboth = 0;
+        Globals_VoteGag.VoteGag_ShowMenuCT.Clear();
+        Globals_VoteGag.VoteGag_ShowMenuT.Clear();
+        Globals_VoteGag.VoteGag_ShowMenuBOTH.Clear();
+        Globals_VoteGag.VoteGag_Immunity.Clear();
+        Globals_VoteGag.VoteGag_Disable.Clear();
+        Globals_VoteGag.VoteGag_GetVoted.Clear();
+        Globals_VoteGag.VoteGag_PlayerGaged.Clear();
+        Globals_VoteGag.VoteGag_CallerVotedTo.Clear();
+    }
+    public static void ClearVariablesVoteSilent()
+    {
+        Globals_VoteSilent.VoteSilent_timerCT = 0f;
+        Globals_VoteSilent.VoteSilent_timerT = 0f;
+        Globals_VoteSilent.VoteSilent_timerBOTH = 0f;
+        Globals_VoteSilent.VoteSilent_targetPlayerNameCT = "";
+        Globals_VoteSilent.VoteSilent_targetPlayerNameT = "";
+        Globals_VoteSilent.VoteSilent_targetPlayerNameBOTH = "";
+        Globals_VoteSilent.VoteSilent_targetPlayerIPCT = "";
+        Globals_VoteSilent.VoteSilent_targetPlayerIPT = "";
+        Globals_VoteSilent.VoteSilent_targetPlayerIPBOTH = "";
+        Globals_VoteSilent.VoteSilent_targetPlayerSTEAMCT = 0;
+        Globals_VoteSilent.VoteSilent_targetPlayerSTEAMT = 0;
+        Globals_VoteSilent.VoteSilent_targetPlayerSTEAMBOTH = 0;
+        Globals_VoteSilent.VoteSilent_Disabled = false;
+        Globals_VoteSilent.VoteSilent_ReachHalfVoteCT = false;
+        Globals_VoteSilent.VoteSilent_ReachHalfVoteT = false;
+        Globals_VoteSilent.VoteSilent_ReachHalfVoteBoth = false;
+        Globals_VoteSilent.VoteSilent_countingCT = 0;
+        Globals_VoteSilent.VoteSilent_countingT = 0;
+        Globals_VoteSilent.VoteSilent_countingBoth = 0;
+        Globals_VoteSilent.VoteSilent_requiredct = 0;
+        Globals_VoteSilent.VoteSilent_requiredt = 0;
+        Globals_VoteSilent.VoteSilent_requiredboth = 0;
+        Globals_VoteSilent.VoteSilent_ShowMenuCT.Clear();
+        Globals_VoteSilent.VoteSilent_ShowMenuT.Clear();
+        Globals_VoteSilent.VoteSilent_ShowMenuBOTH.Clear();
+        Globals_VoteSilent.VoteSilent_Immunity.Clear();
+        Globals_VoteSilent.VoteSilent_Disable.Clear();
+        Globals_VoteSilent.VoteSilent_GetVoted.Clear();
+        Globals_VoteSilent.VoteSilent_PlayerGaged.Clear();
+        Globals_VoteSilent.VoteSilent_CallerVotedTo.Clear();
+    }
+    public static void ClearVariablesVoteGameMode()
+    {
+        Globals_VoteGameMode.VoteGameMode_timerBOTH = 0f;
+        Globals_VoteGameMode.VoteGameMode_targetPlayerNameBOTH = "";
+        Globals_VoteGameMode.VoteGameMode_targetPlayerIPBOTH = "";
+        Globals_VoteGameMode.VoteGameMode_targetPlayerSTEAMBOTH = 0;
+        Globals_VoteGameMode.VoteGameMode_Disabled = false;
+        Globals_VoteGameMode.VoteGameMode_ReachHalfVoteBoth = false;
+        Globals_VoteGameMode.VoteGameMode_countingBoth = 0;
+        Globals_VoteGameMode.VoteGameMode_requiredboth = 0;
+        Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.Clear();
+        Globals_VoteGameMode.VoteGameMode_Immunity.Clear();
+        Globals_VoteGameMode.VoteGameMode_Disable.Clear();
+        Globals_VoteGameMode.VoteGameMode_GetVoted.Clear();
+        Globals_VoteGameMode.VoteGameMode_CallerVotedTo.Clear();
+    }
     
     public static string ReplaceMessages(string Message, string date, string time, string PlayerName, string SteamId, string ipAddress, string reason)
     {
@@ -208,6 +291,14 @@ public class Helper
                                     .Replace("{STEAMID}", SteamId.ToString())
                                     .Replace("{IP}", ipAddress.ToString())
                                     .Replace("{REASON}", reason);
+        return replacedMessage;
+    }
+    public static string ReplaceMessagesMode(string Message, string date, string time, string GameModeName)
+    {
+        var replacedMessage = Message
+                                    .Replace("{TIME}", time)
+                                    .Replace("{DATE}", date)
+                                    .Replace("{GAMEMODE}", GameModeName.ToString());
         return replacedMessage;
     }
     public static async Task SendToDiscordWebhookNormal(string webhookUrl, string message)
@@ -366,5 +457,33 @@ public class Helper
         {
         }
     }
-    
+    public static void CreateDefaultWeaponsJson(string jsonFilePath)
+    {
+        if (!File.Exists(jsonFilePath))
+        {
+            var configData = new Dictionary<string, object>
+            {
+                { "1vs1", new { Config = "1vs1.cfg" } },
+                { "Competitive", new { Config = "Comp.cfg" } }
+            };
+
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+
+            string json = System.Text.Json.JsonSerializer.Serialize(configData, options);
+
+            File.WriteAllText(jsonFilePath, json);
+        }
+    }
+    public static string RemoveLeadingSpaces(string content)
+    {
+        string[] lines = content.Split('\n');
+        for (int i = 0; i < lines.Length; i++)
+        {
+            lines[i] = lines[i].TrimStart();
+        }
+        return string.Join("\n", lines);
+    }
 }

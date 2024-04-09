@@ -4,6 +4,7 @@ using Vote_GoldKingZ.Config;
 using CounterStrikeSharp.API.Modules.Menu;
 using Microsoft.Extensions.Localization;
 using CounterStrikeSharp.API.Modules.Utils;
+using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Commands;
 using System.Text.Json.Serialization;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
@@ -70,7 +71,7 @@ public class VoteBanned
 
                     if(!File.Exists(Tpath))
                     {
-                        File.Create(Tpath);
+                        using (File.Create(Tpath)) { }
                     }
 
                     try
@@ -82,12 +83,12 @@ public class VoteBanned
                     }
                 }
 
-                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, playername, playerid.ToString(), PlayerIp!.ToString(), "Banned Evasion");
+                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_DiscordMessageFormat, Date, Time, playername, playerid.ToString(), PlayerIp!.ToString(), "Banned Evasion");
                 if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
                         });
@@ -96,7 +97,7 @@ public class VoteBanned
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, playerid.ToString(), playername);
                         });
@@ -105,7 +106,7 @@ public class VoteBanned
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, playerid.ToString(), playername);
                         });
@@ -124,16 +125,16 @@ public class VoteBanned
                         {
                             Helper.AdvancedPrintToChat(player, Localizer!["votebanned.player.delay.message"], Configs.GetConfigData().VoteBanned_TimeInDays);
                         }
-                    });
+                    }, TimerFlags.STOP_ON_MAPCHANGE);
                     
                     pluginInstance.AddTimer(10.30f, () =>
                     {
-                        Server.ExecuteCommand($"kick {playername}");
                         if (pluginInstance is IDisposable disposableInstance)
                         {
                             disposableInstance.Dispose();
                         }
-                    });
+                        Server.ExecuteCommand($"kick {playername}");
+                    }, TimerFlags.STOP_ON_MAPCHANGE);
                 });
             }else
             {
@@ -157,7 +158,7 @@ public class VoteBanned
 
                     if(!File.Exists(Tpath))
                     {
-                        File.Create(Tpath);
+                        using (File.Create(Tpath)) { }
                     }
 
                     try
@@ -168,12 +169,12 @@ public class VoteBanned
 
                     }
                 }
-                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, playername, playerid.ToString(), PlayerIp!.ToString(), "Banned Evasion");
+                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_DiscordMessageFormat, Date, Time, playername, playerid.ToString(), PlayerIp!.ToString(), "Banned Evasion");
                 if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
                         });
@@ -182,7 +183,7 @@ public class VoteBanned
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, playerid.ToString(), playername);
                         });
@@ -191,7 +192,7 @@ public class VoteBanned
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, playerid.ToString(), playername);
                         });
@@ -217,7 +218,7 @@ public class VoteBanned
 
                     if(!File.Exists(Tpath))
                     {
-                        File.Create(Tpath);
+                        using (File.Create(Tpath)) { }
                     }
 
                     try
@@ -228,12 +229,12 @@ public class VoteBanned
 
                     }
                 }
-                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, playername, playerid.ToString(), PlayerIp!.ToString(), "Banned Evasion");
+                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_DiscordMessageFormat, Date, Time, playername, playerid.ToString(), PlayerIp!.ToString(), "Banned Evasion");
                 if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
                         });
@@ -242,7 +243,7 @@ public class VoteBanned
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, playerid.ToString(), playername);
                         });
@@ -251,7 +252,7 @@ public class VoteBanned
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, playerid.ToString(), playername);
                         });
@@ -465,7 +466,7 @@ public class VoteBanned
 
                                 if(!File.Exists(Tpath))
                                 {
-                                    File.Create(Tpath);
+                                    using (File.Create(Tpath)) { }
                                 }
 
                                 try
@@ -477,12 +478,12 @@ public class VoteBanned
                                 }
                             }
 
-                            var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, Globals_VoteBanned.VoteBanned_targetPlayerNameCT, Globals_VoteBanned.VoteBanned_targetPlayerSTEAMCT.ToString(), Globals_VoteBanned.VoteBanned_targetPlayerIPCT!.ToString(), "Vote Banned");
+                            var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_DiscordMessageFormat, Date, Time, Globals_VoteBanned.VoteBanned_targetPlayerNameCT, Globals_VoteBanned.VoteBanned_targetPlayerSTEAMCT.ToString(), Globals_VoteBanned.VoteBanned_targetPlayerIPCT!.ToString(), "Vote Banned");
                             if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
                             {
                                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                                 {
-                                    Server.NextFrame(() =>
+                                    Task.Run(() =>
                                     {
                                         _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
                                     });
@@ -491,7 +492,7 @@ public class VoteBanned
                             {
                                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                                 {
-                                    Server.NextFrame(() =>
+                                    Task.Run(() =>
                                     {
                                         _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteBanned.VoteBanned_targetPlayerSTEAMCT.ToString(), Globals_VoteBanned.VoteBanned_targetPlayerNameCT);
                                     });
@@ -500,7 +501,7 @@ public class VoteBanned
                             {
                                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                                 {
-                                    Server.NextFrame(() =>
+                                    Task.Run(() =>
                                     {
                                         _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteBanned.VoteBanned_targetPlayerSTEAMCT.ToString(), Globals_VoteBanned.VoteBanned_targetPlayerNameCT);
                                     });
@@ -557,7 +558,7 @@ public class VoteBanned
 
                                 if(!File.Exists(Tpath))
                                 {
-                                    File.Create(Tpath);
+                                    using (File.Create(Tpath)) { }
                                 }
 
                                 try
@@ -568,12 +569,12 @@ public class VoteBanned
 
                                 }
                             }
-                            var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, Globals_VoteBanned.VoteBanned_targetPlayerNameT, Globals_VoteBanned.VoteBanned_targetPlayerSTEAMT.ToString(), Globals_VoteBanned.VoteBanned_targetPlayerIPT!.ToString(), "Vote Banned");
+                            var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_DiscordMessageFormat, Date, Time, Globals_VoteBanned.VoteBanned_targetPlayerNameT, Globals_VoteBanned.VoteBanned_targetPlayerSTEAMT.ToString(), Globals_VoteBanned.VoteBanned_targetPlayerIPT!.ToString(), "Vote Banned");
                             if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
                             {
                                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                                 {
-                                    Server.NextFrame(() =>
+                                    Task.Run(() =>
                                     {
                                         _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
                                     });
@@ -582,7 +583,7 @@ public class VoteBanned
                             {
                                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                                 {
-                                    Server.NextFrame(() =>
+                                    Task.Run(() =>
                                     {
                                         _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteBanned.VoteBanned_targetPlayerSTEAMT.ToString(), Globals_VoteBanned.VoteBanned_targetPlayerNameT);
                                     });
@@ -591,7 +592,7 @@ public class VoteBanned
                             {
                                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                                 {
-                                    Server.NextFrame(() =>
+                                    Task.Run(() =>
                                     {
                                         _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteBanned.VoteBanned_targetPlayerSTEAMT.ToString(), Globals_VoteBanned.VoteBanned_targetPlayerNameT);
                                     });
@@ -650,7 +651,7 @@ public class VoteBanned
 
                                 if(!File.Exists(Tpath))
                                 {
-                                    File.Create(Tpath);
+                                    using (File.Create(Tpath)) { }
                                 }
 
                                 try
@@ -662,12 +663,12 @@ public class VoteBanned
                                 }
                             }
 
-                            var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, Globals_VoteBanned.VoteBanned_targetPlayerNameBOTH, Globals_VoteBanned.VoteBanned_targetPlayerSTEAMBOTH.ToString(), Globals_VoteBanned.VoteBanned_targetPlayerIPBOTH!.ToString(), "Vote Banned");
+                            var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_DiscordMessageFormat, Date, Time, Globals_VoteBanned.VoteBanned_targetPlayerNameBOTH, Globals_VoteBanned.VoteBanned_targetPlayerSTEAMBOTH.ToString(), Globals_VoteBanned.VoteBanned_targetPlayerIPBOTH!.ToString(), "Vote Banned");
                             if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
                             {
                                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                                 {
-                                    Server.NextFrame(() =>
+                                    Task.Run(() =>
                                     {
                                         _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
                                     });
@@ -676,7 +677,7 @@ public class VoteBanned
                             {
                                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                                 {
-                                    Server.NextFrame(() =>
+                                    Task.Run(() =>
                                     {
                                         _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteBanned.VoteBanned_targetPlayerSTEAMBOTH.ToString(), Globals_VoteBanned.VoteBanned_targetPlayerNameBOTH);
                                     });
@@ -685,7 +686,7 @@ public class VoteBanned
                             {
                                 if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                                 {
-                                    Server.NextFrame(() =>
+                                    Task.Run(() =>
                                     {
                                         _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, Globals_VoteBanned.VoteBanned_targetPlayerSTEAMBOTH.ToString(), Globals_VoteBanned.VoteBanned_targetPlayerNameBOTH);
                                     });
@@ -853,8 +854,11 @@ public class VoteBanned
             {
                 if(players == null || !players.IsValid)continue;
                 var steamid = players.SteamID;
+                if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if (!Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid))
                 {
                     Globals_VoteBanned.VoteBanned_ShowMenuCT.Add(steamid, true);
@@ -885,8 +889,11 @@ public class VoteBanned
                 playersct.ForEach(player => 
                 {
                     var steamid = player.SteamID;
+                    if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))return;
+                    if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))return;
                     if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
                     if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))return;
+                    if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))return;
                     Helper.AdvancedPrintToChat(player, Localizer["votebanned.announce.halfvotes.chat.message"]);
                 }); 
             }
@@ -915,7 +922,7 @@ public class VoteBanned
 
                     if(!File.Exists(Tpath))
                     {
-                        File.Create(Tpath);
+                        using (File.Create(Tpath)) { }
                     }
 
                     try
@@ -926,12 +933,12 @@ public class VoteBanned
 
                     }
                 }
-                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Banned");
+                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_DiscordMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Banned");
                 if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
                         });
@@ -940,7 +947,7 @@ public class VoteBanned
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
                         });
@@ -949,7 +956,7 @@ public class VoteBanned
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
                         });
@@ -1032,8 +1039,11 @@ public class VoteBanned
             {
                 if(players == null || !players.IsValid)continue;
                 var steamid = players.SteamID;
+                if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if (!Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid))
                 {
                     Globals_VoteBanned.VoteBanned_ShowMenuT.Add(steamid, true);
@@ -1065,8 +1075,11 @@ public class VoteBanned
                 playerst.ForEach(player => 
                 {
                     var steamid = player.SteamID;
+                    if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))return;
+                    if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))return;
                     if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
                     if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))return;
+                    if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))return;
                     Helper.AdvancedPrintToChat(player, Localizer["votebanned.announce.halfvotes.chat.message"]);
                 }); 
             }
@@ -1095,7 +1108,7 @@ public class VoteBanned
 
                     if(!File.Exists(Tpath))
                     {
-                        File.Create(Tpath);
+                        using (File.Create(Tpath)) { }
                     }
 
                     try
@@ -1106,12 +1119,12 @@ public class VoteBanned
 
                     }
                 }
-                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Banned");
+                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_DiscordMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Banned");
                 if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
                         });
@@ -1120,7 +1133,7 @@ public class VoteBanned
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
                         });
@@ -1129,7 +1142,7 @@ public class VoteBanned
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
                         });
@@ -1210,8 +1223,11 @@ public class VoteBanned
             {
                 if(players == null || !players.IsValid)continue;
                 var steamid = players.SteamID;
+                if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if (!Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))
                 {
                     Globals_VoteBanned.VoteBanned_ShowMenuBOTH.Add(steamid, true);
@@ -1239,8 +1255,11 @@ public class VoteBanned
             playersall.ForEach(player => 
             {
                 var steamid = player.SteamID;
+                if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))return;
+                if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))return;
                 if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
                 if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))return;
+                if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))return;
                 Helper.AdvancedPrintToChat(player, Localizer["votebanned.announce.halfvotes.chat.message"]);
             }); 
         }
@@ -1267,7 +1286,7 @@ public class VoteBanned
 
                     if(!File.Exists(Tpath))
                     {
-                        File.Create(Tpath);
+                        using (File.Create(Tpath)) { }
                     }
 
                     try
@@ -1278,12 +1297,12 @@ public class VoteBanned
 
                     }
                 }
-                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_TextMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Banned");
+                var replacerlogd = Helper.ReplaceMessages(Configs.GetConfigData().Log_DiscordMessageFormat, Date, Time, TargetPlayerName, TargetPlayerSteamID.ToString(), TargerIP!.ToString(), "Vote Banned");
                 if(Configs.GetConfigData().Log_SendLogToDiscordOnMode == 1)
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNormal(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd);
                         });
@@ -1292,7 +1311,7 @@ public class VoteBanned
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNameLink(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
                         });
@@ -1301,7 +1320,7 @@ public class VoteBanned
                 {
                     if (!string.IsNullOrEmpty(Configs.GetConfigData().Log_DiscordMessageFormat))
                     {
-                        Server.NextFrame(() =>
+                        Task.Run(() =>
                         {
                             _ = Helper.SendToDiscordWebhookNameLinkWithPicture(Configs.GetConfigData().Log_DiscordWebHookURL, replacerlogd, TargetPlayerSteamID.ToString(), TargetPlayerName);
                         });

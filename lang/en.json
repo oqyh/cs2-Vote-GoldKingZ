@@ -10,7 +10,7 @@
     "votekick.chat.message": " {green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted To Kick {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",
     "votekick.announce.kick.successfully.message": "{green}Gold KingZ {grey}| Vote Successfully, {Purple}{0} {grey}Has Been Kicked",
     "votekick.announce.halfvotes.chat.message": "{green}Gold KingZ {grey}| Votes Reached Half Type {yellow}!yes {grey}/ {yellow}!y {grey}Or {red}!no {grey}/ {red}!n {grey}To Vote Kick",
-    "votekick.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='grey'>Kick player: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Kick Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Remove Kick Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>",
+    "votekick.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='grey'>Kick player: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Accept Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Decline Kick Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>",
 
 
     "votebanned.menu.name": "{purple}Vote Ban Menu",
@@ -24,7 +24,7 @@
     "votebanned.chat.message": " {green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted To Ban {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",
     "votebanned.announce.banned.successfully.message": "{green}Gold KingZ {grey}| Vote Successfully, {Purple}{0} {grey}Has Been Banned",
     "votebanned.announce.halfvotes.chat.message": "{green}Gold KingZ {grey}| Votes Reached Half Type {yellow}!yes {grey}/ {yellow}!y {grey}Or {red}!no {grey}/ {red}!n {grey}To Vote Ban",
-    "votebanned.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='red'>Ban player: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Ban Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Remove Ban Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>",
+    "votebanned.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='red'>Ban player: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Accept Ban Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Decline Ban Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>",
 
 
     "votemute.menu.name": "{purple}Vote Mute Menu",
@@ -38,5 +38,42 @@
     "votemute.player.muted.successfully.message": "{green}Gold KingZ {grey}| You Are Muted For {red}{0} {grey}Mins",
     "votemute.announce.muted.successfully.message": "{green}Gold KingZ {grey}| Vote Successfully, {Purple}{0} {grey}Has Been Muted",
     "votemute.announce.halfvotes.chat.message": "{green}Gold KingZ {grey}| Votes Reached Half Type {yellow}!yes {grey}/ {yellow}!y {grey}Or {red}!no {grey}/ {red}!n {grey}To Vote Mute",
-    "votemute.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='red'>Mute player: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Mute Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Remove Mute Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>"
+    "votemute.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='red'>Mute player: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Accept Mute Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Decline Mute Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>",
+    
+    "votegag.menu.name": "{purple}Vote Gag Menu",
+    "votegag.player.is.disabled": "{green}Gold KingZ {grey}| Vote Gag Is Temporarily {darkred}Disabled {grey}Admin In The Game",
+    "votegag.minimum.needed": "{green}Gold KingZ {grey}| {grey}You Cant Start Vote Gag You Need Minimum {lime}{0} {grey}Players",
+    "votegag.player.is.immunity": "{green}Gold KingZ {grey}| {darkred}Vote Failed On {Purple}{0} {darkred}You Cant Vote Gag VIPs",
+    "votegag.player.vote.same.player": "{green}Gold KingZ {grey}| You've Already Voted To Gag {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votegag.player.vote.same.yes": "{green}Gold KingZ {grey}| You've Already Voted {lime}Yes {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votegag.player.vote.same.no": "{green}Gold KingZ {grey}| You've Already Voted {red}No {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votegag.chat.message": " {green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted To Gag {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",
+    "votegag.player.gaged.successfully.message": "{green}Gold KingZ {grey}| You Are Gaged For {red}{0} {grey}Mins",
+    "votegag.announce.gaged.successfully.message": "{green}Gold KingZ {grey}| Vote Successfully, {Purple}{0} {grey}Has Been Gaged",
+    "votegag.announce.halfvotes.chat.message": "{green}Gold KingZ {grey}| Votes Reached Half Type {yellow}!yes {grey}/ {yellow}!y {grey}Or {red}!no {grey}/ {red}!n {grey}To Vote Gag",
+    "votegag.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='red'>Gag player: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Accept Gag Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Decline Gag Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>",
+
+    "votesilent.menu.name": "{purple}Vote Silent Menu",
+    "votesilent.player.is.disabled": "{green}Gold KingZ {grey}| Vote Silent Is Temporarily {darkred}Disabled {grey}Admin In The Game",
+    "votesilent.minimum.needed": "{green}Gold KingZ {grey}| {grey}You Cant Start Vote Silent You Need Minimum {lime}{0} {grey}Players",
+    "votesilent.player.is.immunity": "{green}Gold KingZ {grey}| {darkred}Vote Failed On {Purple}{0} {darkred}You Cant Vote Silent VIPs",
+    "votesilent.player.vote.same.player": "{green}Gold KingZ {grey}| You've Already Voted To Silent {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votesilent.player.vote.same.yes": "{green}Gold KingZ {grey}| You've Already Voted {lime}Yes {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votesilent.player.vote.same.no": "{green}Gold KingZ {grey}| You've Already Voted {red}No {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votesilent.chat.message": " {green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted To Silent {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",
+    "votesilent.player.silented.successfully.message": "{green}Gold KingZ {grey}| You Are Silented For {red}{0} {grey}Mins",
+    "votesilent.announce.silented.successfully.message": "{green}Gold KingZ {grey}| Vote Successfully, {Purple}{0} {grey}Has Been Silented",
+    "votesilent.announce.halfvotes.chat.message": "{green}Gold KingZ {grey}| Votes Reached Half Type {yellow}!yes {grey}/ {yellow}!y {grey}Or {red}!no {grey}/ {red}!n {grey}To Vote Silent",
+    "votesilent.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='red'>Silent player: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Accept Silent Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Decline Silent Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>",
+
+    "votegamemode.menu.name": "{purple}Vote Game Mode Menu",
+    "votegamemode.player.is.disabled": "{green}Gold KingZ {grey}| Vote Game Mode Is Temporarily {darkred}Disabled {grey}Admin In The Game",
+    "votegamemode.minimum.needed": "{green}Gold KingZ {grey}| {grey}You Cant Start Vote Game Mode You Need Minimum {lime}{0} {grey}Players",
+    "votegamemode.player.vote.same.player": "{green}Gold KingZ {grey}| You've Already Voted To Game Mode {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votegamemode.player.vote.same.yes": "{green}Gold KingZ {grey}| You've Already Voted {lime}Yes {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votegamemode.player.vote.same.no": "{green}Gold KingZ {grey}| You've Already Voted {red}No {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votegamemode.chat.message": " {green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted To Change Game Mode To {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",
+    "votegamemode.announce.gamemode.successfully.message": "{green}Gold KingZ {grey}| Vote Successfully, Changing Game Mode To {Purple}{0}",
+    "votegamemode.announce.halfvotes.chat.message": "{green}Gold KingZ {grey}| Votes Reached Half Type {yellow}!yes {grey}/ {yellow}!y {grey}Or {red}!no {grey}/ {red}!n {grey}To Vote Game Mode",
+    "votegamemode.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='red'>Change Mode: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Accept Vote Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Decline Vote Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>"
 }
