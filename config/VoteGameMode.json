@@ -1,8 +1,0 @@
-{
-  "1vs1": {
-    "Config": "1vs1.cfg"
-  },
-  "Competitive": {
-    "Config": "Comp.cfg"
-  }
-}
