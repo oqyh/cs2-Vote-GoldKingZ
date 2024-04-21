@@ -1,4 +1,13 @@
 {
+    "voteadmin.not.allowed": "{green}Gold KingZ {grey}| {darkred}This Command Only For Admins Only",
+    "voteadmin.choose.file": "{purple}Choose Which File",
+    "voteadmin.choose.player": "{purple}Choose Which Player",
+    "voteadmin.delete.player": "{purple}Are You Sure Want To Delete {lime} {0} {grey}?",
+    "voteadmin.player.detail": "{darkred}-------------------------------------------- {nextline} {green}Gold KingZ {grey}| Name: {Purple}{0} {grey}|| SteamID: {Purple}{1}{nextline}{green}Gold KingZ {grey}| IpAdress: {Purple}{2}{nextline}{green}Gold KingZ {grey}| Date: {Purple}{3}{nextline}{green}Gold KingZ {grey}| Restricted: {grey}Days:{Purple}{4} {grey}Mins:{Purple}{5}{nextline}{green}Gold KingZ {grey}| Reason: {lime}{6}{nextline}{darkred}-------------------------------------------- ",
+    "voteadmin.answer.yes": "{lime}Yes",
+    "voteadmin.answer.no": "{darkred}No",
+    "voteadmin.player.successfully": "{green}Gold KingZ {grey}| {Purple}{0} {grey}successfully Deleted",
+
     "votekick.menu.name": "{purple}Vote Kick Menu",
     "votekick.player.is.disabled": "{green}Gold KingZ {grey}| Vote Kick Is Temporarily {darkred}Disabled {grey}Admin In The Game",
     "votekick.minimum.needed": "{green}Gold KingZ {grey}| {grey}You Cant Start Vote Kick You Need Minimum {lime}{0} {grey}Players",
@@ -75,5 +84,16 @@
     "votegamemode.chat.message": " {green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted To Change Game Mode To {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",
     "votegamemode.announce.gamemode.successfully.message": "{green}Gold KingZ {grey}| Vote Successfully, Changing Game Mode To {Purple}{0}",
     "votegamemode.announce.halfvotes.chat.message": "{green}Gold KingZ {grey}| Votes Reached Half Type {yellow}!yes {grey}/ {yellow}!y {grey}Or {red}!no {grey}/ {red}!n {grey}To Vote Game Mode",
-    "votegamemode.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='red'>Change Mode: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Accept Vote Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Decline Vote Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>"
+    "votegamemode.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='red'>Change Mode: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Accept Vote Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Decline Vote Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>",
+    
+    "votemap.menu.name": "{purple}Vote Map Menu",
+    "votemap.player.is.disabled": "{green}Gold KingZ {grey}| Vote Map Is Temporarily {darkred}Disabled {grey}Admin In The Game",
+    "votemap.minimum.needed": "{green}Gold KingZ {grey}| {grey}You Cant Start Vote Map You Need Minimum {lime}{0} {grey}Players",
+    "votemap.player.vote.same.player": "{green}Gold KingZ {grey}| You've Already Voted To Map {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votemap.player.vote.same.yes": "{green}Gold KingZ {grey}| You've Already Voted {lime}Yes {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votemap.player.vote.same.no": "{green}Gold KingZ {grey}| You've Already Voted {red}No {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votemap.chat.message": " {green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted To Change Map To {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",
+    "votemap.announce.map.successfully.message": "{green}Gold KingZ {grey}| Vote Successfully, Changing Map To {Purple}{0}",
+    "votemap.announce.halfvotes.chat.message": "{green}Gold KingZ {grey}| Votes Reached Half Type {yellow}!yes {grey}/ {yellow}!y {grey}Or {red}!no {grey}/ {red}!n {grey}To Vote Map",
+    "votemap.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='red'>Change Map: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Accept Vote Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Decline Vote Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>"
 }

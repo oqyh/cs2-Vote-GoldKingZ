@@ -10,6 +10,9 @@ using System.Text.Json.Serialization;
 using System.Text;
 using System.Drawing;
 using System.Text.Json;
+using System.Timers;
+using System;
+using System.Threading;
 
 namespace Vote_GoldKingZ;
 
@@ -281,6 +284,26 @@ public class Helper
         Globals_VoteGameMode.VoteGameMode_GetVoted.Clear();
         Globals_VoteGameMode.VoteGameMode_CallerVotedTo.Clear();
     }
+    public static void ClearVariablesVoteMap()
+    {
+        Globals_VoteMap.VoteMap_timerBOTH = 0f;
+        Globals_VoteMap.VoteMap_targetPlayerNameBOTH = "";
+        Globals_VoteMap.VoteMap_targetPlayerIPBOTH = "";
+        Globals_VoteMap.VoteMap_targetPlayerSTEAMBOTH = 0;
+        Globals_VoteMap.VoteMap_Disabled = false;
+        Globals_VoteMap.VoteMap_ReachHalfVoteBoth = false;
+        Globals_VoteMap.VoteMap_countingBoth = 0;
+        Globals_VoteMap.VoteMap_requiredboth = 0;
+        Globals_VoteMap.VoteMap_ShowMenuBOTH.Clear();
+        Globals_VoteMap.VoteMap_Immunity.Clear();
+        Globals_VoteMap.VoteMap_Disable.Clear();
+        Globals_VoteMap.VoteMap_GetVoted.Clear();
+        Globals_VoteMap.VoteMap_CallerVotedTo.Clear();
+    }
+    public static void ClearVariablesVoteAdmin()
+    {
+        Globals_VoteAdmin.VoteAdmin_Admins.Clear();
+    }
     
     public static string ReplaceMessages(string Message, string date, string time, string PlayerName, string SteamId, string ipAddress, string reason)
     {
@@ -299,6 +322,14 @@ public class Helper
                                     .Replace("{TIME}", time)
                                     .Replace("{DATE}", date)
                                     .Replace("{GAMEMODE}", GameModeName.ToString());
+        return replacedMessage;
+    }
+    public static string ReplaceMessagesMap(string Message, string date, string time, string Map)
+    {
+        var replacedMessage = Message
+                                    .Replace("{TIME}", time)
+                                    .Replace("{DATE}", date)
+                                    .Replace("{MAP}", Map.ToString());
         return replacedMessage;
     }
     public static async Task SendToDiscordWebhookNormal(string webhookUrl, string message)
@@ -465,6 +496,30 @@ public class Helper
             {
                 { "1vs1", new { Config = "1vs1.cfg" } },
                 { "Competitive", new { Config = "Comp.cfg" } }
+            };
+
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+
+            string json = System.Text.Json.JsonSerializer.Serialize(configData, options);
+
+            File.WriteAllText(jsonFilePath, json);
+        }
+    }
+    public static void CreateDefaultWeaponsJson2(string jsonFilePath)
+    {
+        if (!File.Exists(jsonFilePath))
+        {
+            var configData = new Dictionary<string, Dictionary<string, string>>
+            {
+                { "host:3084197740", new Dictionary<string, string> { { "Display", "aim_deagle_lego" } } },
+                { "ds:aim_ag_texture2", new Dictionary<string, string> { { "Display", "Aim Texture" } } },
+                { "de_dust2", new Dictionary<string, string> { { "Display", "Dust 2" } } },
+                { "de_inferno", new Dictionary<string, string>() },
+                { "cs_office", new Dictionary<string, string>() },
+                { "cs_italy", new Dictionary<string, string>() }
             };
 
             var options = new JsonSerializerOptions

@@ -12,9 +12,10 @@ public class Json_VoteGag
         public string? PlayerIPAddress { get; set; }
         public DateTime DateAndTime { get; set; }
         public int RestrictedForXMins { get; set; }
+        public int RestrictedForXDays { get; set; }
         public string? Reason { get; set; }
     }
-    public static void SaveToJsonFile(ulong PlayerSteamID, string PlayerName, string PlayerIPAddress, DateTime DateAndTime, int RestrictedForXMins, string Reason, string filename)
+    public static void SaveToJsonFile(ulong PlayerSteamID, string PlayerName, string PlayerIPAddress, DateTime DateAndTime, int RestrictedForXMins, int RestrictedForXDays, string Reason, string filename)
     {
         string cookiesFilePath = Configs.Shared.CookiesFolderPath!;
         string Fpath = Path.Combine(cookiesFilePath, "../../plugins/Vote-GoldKingZ/Cookies/");
@@ -44,11 +45,25 @@ public class Json_VoteGag
             }
             else
             {
-                PersonData newPerson = new PersonData { PlayerSteamID = PlayerSteamID, PlayerName = PlayerName, PlayerIPAddress = PlayerIPAddress, DateAndTime = DateAndTime, RestrictedForXMins = RestrictedForXMins, Reason = Reason };
-                allPersonsData.Add(newPerson);
+                if(Configs.GetConfigData().VoteGag_ChangeTimeInMinsToDays)
+                {
+                    PersonData newPerson = new PersonData { PlayerSteamID = PlayerSteamID, PlayerName = PlayerName, PlayerIPAddress = PlayerIPAddress, DateAndTime = DateAndTime, RestrictedForXDays = RestrictedForXDays, Reason = Reason };
+                    allPersonsData.Add(newPerson);
+                }else
+                {
+                    PersonData newPerson = new PersonData { PlayerSteamID = PlayerSteamID, PlayerName = PlayerName, PlayerIPAddress = PlayerIPAddress, DateAndTime = DateAndTime, RestrictedForXMins = RestrictedForXMins, Reason = Reason };
+                    allPersonsData.Add(newPerson);
+                }
+            }
+
+            if(Configs.GetConfigData().VoteGag_ChangeTimeInMinsToDays)
+            {
+                allPersonsData.RemoveAll(p => (DateTime.Now - p.DateAndTime).TotalDays > RestrictedForXMins);
+            }else
+            {
+                allPersonsData.RemoveAll(p => (DateTime.Now - p.DateAndTime).TotalMinutes > RestrictedForXDays);
             }
             
-            allPersonsData.RemoveAll(p => (DateTime.Now - p.DateAndTime).TotalMinutes > RestrictedForXMins);
 
             string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
             try
@@ -80,23 +95,46 @@ public class Json_VoteGag
 
                 PersonData targetPerson = allPersonsData.Find(p => p.PlayerSteamID == targetId)!;
 
-                if (targetPerson != null && (DateTime.Now - targetPerson.DateAndTime<= TimeSpan.FromMinutes(Time)))
+                if(Configs.GetConfigData().VoteGag_ChangeTimeInMinsToDays)
                 {
-                    return targetPerson;
-                }
-                else if (targetPerson != null)
+                    if (targetPerson != null && (DateTime.Now - targetPerson.DateAndTime<= TimeSpan.FromDays(Time)))
+                    {
+                        return targetPerson;
+                    }
+                    else if (targetPerson != null)
+                    {
+                        allPersonsData.Remove(targetPerson);
+                        string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
+                        try
+                        {
+                            File.WriteAllText(Fpathc, updatedJsonData);
+                        }
+                        catch
+                        {
+                            // Handle exception
+                        }
+                    }
+                }else
                 {
-                    allPersonsData.Remove(targetPerson);
-                    string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
-                    try
+                    if (targetPerson != null && (DateTime.Now - targetPerson.DateAndTime<= TimeSpan.FromMinutes(Time)))
                     {
-                        File.WriteAllText(Fpathc, updatedJsonData);
+                        return targetPerson;
                     }
-                    catch
+                    else if (targetPerson != null)
                     {
-                        // Handle exception
+                        allPersonsData.Remove(targetPerson);
+                        string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
+                        try
+                        {
+                            File.WriteAllText(Fpathc, updatedJsonData);
+                        }
+                        catch
+                        {
+                            // Handle exception
+                        }
                     }
                 }
+                
             }
         }
         catch
@@ -119,21 +157,43 @@ public class Json_VoteGag
 
                 PersonData targetPerson = allPersonsData.Find(p => p.PlayerIPAddress == PlayerIPAddress)!;
 
-                if (targetPerson != null && (DateTime.Now - targetPerson.DateAndTime<= TimeSpan.FromMinutes(Time)))
+                if(Configs.GetConfigData().VoteGag_ChangeTimeInMinsToDays)
                 {
-                    return targetPerson;
-                }
-                else if (targetPerson != null)
-                {
-                    allPersonsData.Remove(targetPerson);
-                    string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
-                    try
+                    if (targetPerson != null && (DateTime.Now - targetPerson.DateAndTime<= TimeSpan.FromDays(Time)))
                     {
-                        File.WriteAllText(Fpathc, updatedJsonData);
+                        return targetPerson;
                     }
-                    catch
+                    else if (targetPerson != null)
                     {
-                        // Handle exception
+                        allPersonsData.Remove(targetPerson);
+                        string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
+                        try
+                        {
+                            File.WriteAllText(Fpathc, updatedJsonData);
+                        }
+                        catch
+                        {
+                            // Handle exception
+                        }
+                    }
+                }else
+                {
+                    if (targetPerson != null && (DateTime.Now - targetPerson.DateAndTime<= TimeSpan.FromMinutes(Time)))
+                    {
+                        return targetPerson;
+                    }
+                    else if (targetPerson != null)
+                    {
+                        allPersonsData.Remove(targetPerson);
+                        string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
+                        try
+                        {
+                            File.WriteAllText(Fpathc, updatedJsonData);
+                        }
+                        catch
+                        {
+                            // Handle exception
+                        }
                     }
                 }
             }
@@ -158,21 +218,43 @@ public class Json_VoteGag
 
                 PersonData targetPerson = allPersonsData.Find(p => p.Reason == reason)!;
 
-                if (targetPerson != null && (DateTime.Now - targetPerson.DateAndTime<= TimeSpan.FromMinutes(Time)))
+                if(Configs.GetConfigData().VoteGag_ChangeTimeInMinsToDays)
                 {
-                    return targetPerson;
-                }
-                else if (targetPerson != null)
-                {
-                    allPersonsData.Remove(targetPerson);
-                    string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
-                    try
+                    if (targetPerson != null && (DateTime.Now - targetPerson.DateAndTime<= TimeSpan.FromDays(Time)))
                     {
-                        File.WriteAllText(Fpathc, updatedJsonData);
+                        return targetPerson;
                     }
-                    catch
+                    else if (targetPerson != null)
                     {
-                        // Handle exception
+                        allPersonsData.Remove(targetPerson);
+                        string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
+                        try
+                        {
+                            File.WriteAllText(Fpathc, updatedJsonData);
+                        }
+                        catch
+                        {
+                            // Handle exception
+                        }
+                    }
+                }else
+                {
+                    if (targetPerson != null && (DateTime.Now - targetPerson.DateAndTime<= TimeSpan.FromMinutes(Time)))
+                    {
+                        return targetPerson;
+                    }
+                    else if (targetPerson != null)
+                    {
+                        allPersonsData.Remove(targetPerson);
+                        string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
+                        try
+                        {
+                            File.WriteAllText(Fpathc, updatedJsonData);
+                        }
+                        catch
+                        {
+                            // Handle exception
+                        }
                     }
                 }
             }
@@ -195,11 +277,11 @@ public class Json_VoteGag
                 string jsonData = File.ReadAllText(Fpathc);
                 List<PersonData> allPersonsData = JsonConvert.DeserializeObject<List<PersonData>>(jsonData) ?? new List<PersonData>();
 
-                List<PersonData> gagedPersons = allPersonsData.Where(p => p.Reason == Reason).ToList();
+                List<PersonData> GagedPersons = allPersonsData.Where(p => p.Reason == Reason).ToList();
 
-                foreach (var GagedPersons in gagedPersons)
+                foreach (var GAGPerson in GagedPersons)
                 {
-                    allPersonsData.Remove(GagedPersons);
+                    allPersonsData.Remove(GAGPerson);
                 }
 
                 string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
@@ -230,7 +312,15 @@ public class Json_VoteGag
                 string jsonData = File.ReadAllText(Fpathc);
                 List<PersonData> allPersonsData = JsonConvert.DeserializeObject<List<PersonData>>(jsonData) ?? new List<PersonData>();
 
-                allPersonsData.RemoveAll(p => (DateTime.Now - p.DateAndTime).TotalMinutes > Time);
+                if(Configs.GetConfigData().VoteGag_ChangeTimeInMinsToDays)
+                {
+                    allPersonsData.RemoveAll(p => (DateTime.Now - p.DateAndTime).TotalDays > Time);
+                }else
+                {
+                    allPersonsData.RemoveAll(p => (DateTime.Now - p.DateAndTime).TotalMinutes > Time);
+                }
+
+                
 
                 string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
                 try
@@ -269,7 +359,13 @@ public class Json_VoteGag
                 string jsonData = File.ReadAllText(Fpathc);
                 List<PersonData> allPersonsData = JsonConvert.DeserializeObject<List<PersonData>>(jsonData) ?? new List<PersonData>();
 
-                allPersonsData.RemoveAll(p => (DateTime.Now - p.DateAndTime).TotalMinutes > Time);
+                if(Configs.GetConfigData().VoteGag_ChangeTimeInMinsToDays)
+                {
+                    allPersonsData.RemoveAll(p => (DateTime.Now - p.DateAndTime).TotalDays > Time);
+                }else
+                {
+                    allPersonsData.RemoveAll(p => (DateTime.Now - p.DateAndTime).TotalMinutes > Time);
+                }
 
                 string updatedJsonData = JsonConvert.SerializeObject(allPersonsData, Formatting.Indented);
                 try

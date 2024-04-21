@@ -11,25 +11,27 @@ namespace Vote_GoldKingZ;
 [MinimumApiVersion(164)]
 public class VoteGoldKingZ : BasePlugin
 {
-    public override string ModuleName => "Vote (Kick , Mute , Banned, Vips)";
-    public override string ModuleVersion => "1.0.8";
+    public override string ModuleName => "Vote (Kick, Banned, Mute, Gag, Silent, Gamemode, Map, Vips)";
+    public override string ModuleVersion => "1.0.9";
     public override string ModuleAuthor => "Gold KingZ";
     public override string ModuleDescription => "https://github.com/oqyh";
     
+    private readonly VoteAdmin _VoteAdmin= new();
     private readonly VoteKick _VoteKick = new();
     private readonly VoteBanned _VoteBanned = new();
     private readonly VoteMute _VoteMute = new();
     private readonly VoteGag _VoteGag = new();
     private readonly VoteSilent _VoteSilent = new();
     private readonly VoteGameMode _VoteGameMode = new();
+    private readonly VoteMap _VoteMap = new();
     private readonly VoteKickCenterAnnouncement _VoteKickCenterAnnouncement = new();
     private readonly VoteBannedCenterAnnouncement _VoteBannedCenterAnnouncement = new();
     private readonly VoteMuteCenterAnnouncement _VoteMuteCenterAnnouncement = new();
     private readonly VoteGagCenterAnnouncement _VoteGagCenterAnnouncement = new();
     private readonly VoteSilentCenterAnnouncement _VoteSilentCenterAnnouncement = new();
     private readonly VoteGameModeCenterAnnouncement _VoteGameModeCenterAnnouncement = new();
+    private readonly VoteMapCenterAnnouncement _VoteMapCenterAnnouncement = new();
     internal static IStringLocalizer? Stringlocalizer;
-    public bool missingdll = false;
     
     public override void Load(bool hotReload)
     {
@@ -38,6 +40,7 @@ public class VoteGoldKingZ : BasePlugin
         Configs.Load(ModulePath, Server.GameDirectory);
 
         Stringlocalizer = Localizer;
+        _VoteAdmin.SetStringLocalizer(Localizer);
         _VoteKick.SetStringLocalizer(Localizer);
         _VoteKickCenterAnnouncement.SetStringLocalizer(Localizer);
         _VoteBanned.SetStringLocalizer(Localizer);
@@ -50,6 +53,8 @@ public class VoteGoldKingZ : BasePlugin
         _VoteSilentCenterAnnouncement.SetStringLocalizer(Localizer);
         _VoteGameMode.SetStringLocalizer(Localizer);
         _VoteGameModeCenterAnnouncement.SetStringLocalizer(Localizer);
+        _VoteMap.SetStringLocalizer(Localizer);
+        _VoteMapCenterAnnouncement.SetStringLocalizer(Localizer);
 
         AddCommandListener("say", OnPlayerSayPublic, HookMode.Pre);
         AddCommandListener("say_team", OnPlayerSayTeam, HookMode.Pre);
@@ -171,6 +176,11 @@ public class VoteGoldKingZ : BasePlugin
     {
         if(@event == null)return HookResult.Continue;
 
+        if(!string.IsNullOrEmpty(Configs.GetConfigData().VoteAdmin_Groups))
+        {
+            _VoteAdmin.OnEventPlayerChat(@event, info);
+        }
+
         if(Configs.GetConfigData().VoteKick_Mode != 0)
         {
             _VoteKick.OnEventPlayerChat(@event, info);
@@ -198,6 +208,10 @@ public class VoteGoldKingZ : BasePlugin
         if(Configs.GetConfigData().VoteGameMode)
         {
             _VoteGameMode.OnEventPlayerChat(@event, info);
+        }
+        if(Configs.GetConfigData().VoteMap)
+        {
+            _VoteMap.OnEventPlayerChat(@event, info);
         }
         return HookResult.Continue;
     }
@@ -232,11 +246,20 @@ public class VoteGoldKingZ : BasePlugin
         {
             _VoteGameModeCenterAnnouncement.OnTick();
         }
+        if(Configs.GetConfigData().VoteMap)
+        {
+            _VoteMapCenterAnnouncement.OnTick();
+        }
     }
 
     public HookResult OnEventPlayerConnectFull(EventPlayerConnectFull @event, GameEventInfo info)
     {
         if (@event == null)return HookResult.Continue;
+        
+        if(!string.IsNullOrEmpty(Configs.GetConfigData().VoteAdmin_Groups))
+        {
+            _VoteAdmin.OnEventPlayerConnectFull(@event, info);
+        }
 
         if(Configs.GetConfigData().VoteKick_Mode != 0)
         {
@@ -265,12 +288,21 @@ public class VoteGoldKingZ : BasePlugin
         {
             _VoteGameMode.OnEventPlayerConnectFull(@event, info);
         }
-        
+        if(Configs.GetConfigData().VoteMap)
+        {
+            _VoteMap.OnEventPlayerConnectFull(@event, info);
+        }
         return HookResult.Continue;
     }
     public HookResult OnPlayerDisconnect(EventPlayerDisconnect @event, GameEventInfo info)
     {
         if (@event == null) return HookResult.Continue;
+
+        if(!string.IsNullOrEmpty(Configs.GetConfigData().VoteAdmin_Groups))
+        {
+            _VoteAdmin.OnPlayerDisconnect(@event, info);
+        }
+
         if(Configs.GetConfigData().VoteKick_Mode != 0)
         {
             _VoteKick.OnPlayerDisconnect(@event, info);
@@ -300,6 +332,10 @@ public class VoteGoldKingZ : BasePlugin
         {
             _VoteGameMode.OnPlayerDisconnect(@event, info);
         }
+        if(Configs.GetConfigData().VoteMap)
+        {
+            _VoteMap.OnPlayerDisconnect(@event, info);
+        }
         return HookResult.Continue;
     }
     public void OnClientPutInServer(int playerSlot)
@@ -317,6 +353,11 @@ public class VoteGoldKingZ : BasePlugin
 
     public void OnMapEnd()
     {
+        if(!string.IsNullOrEmpty(Configs.GetConfigData().VoteAdmin_Groups))
+        {
+            _VoteAdmin.OnMapEnd();
+        }
+
         if(Configs.GetConfigData().VoteKick_Mode != 0)
         {
             _VoteKick.OnMapEnd();
@@ -344,10 +385,19 @@ public class VoteGoldKingZ : BasePlugin
         {
             _VoteGameMode.OnMapEnd();
         }
+        if(Configs.GetConfigData().VoteMap)
+        {
+            _VoteMap.OnMapEnd();
+        }
     }
 
     public override void Unload(bool hotReload)
     {
+        if(!string.IsNullOrEmpty(Configs.GetConfigData().VoteAdmin_Groups))
+        {
+            Helper.ClearVariablesVoteAdmin();
+        }
+
         if(Configs.GetConfigData().VoteKick_Mode != 0)
         {
             Helper.ClearVariablesVoteKick();
@@ -374,6 +424,10 @@ public class VoteGoldKingZ : BasePlugin
         if(Configs.GetConfigData().VoteGameMode)
         {
             Helper.ClearVariablesVoteGameMode();
+        }
+        if(Configs.GetConfigData().VoteMap)
+        {
+            Helper.ClearVariablesVoteMap();
         }
     }
 }

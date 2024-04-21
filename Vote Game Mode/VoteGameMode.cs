@@ -92,6 +92,7 @@ public class VoteGameMode
                 }
                 return HookResult.Continue;
             }
+
             if(AllPlayersCount < Configs.GetConfigData().VoteGameMode_StartOnMinimumOfXPlayers)
             {
                 if (!string.IsNullOrEmpty(Localizer!["votegamemode.minimum.needed"]))
@@ -102,7 +103,7 @@ public class VoteGameMode
             }
             if(AllPlayersCount >= Configs.GetConfigData().VoteGameMode_StartOnMinimumOfXPlayers)
             {
-                string jsonFilePath = Path.Combine(cookiesFilePath, "../../plugins/Vote-GoldKingZ/config/GameMode.json");
+                string jsonFilePath = Path.Combine(cookiesFilePath, "../../plugins/Vote-GoldKingZ/config/VoteGameMode.json");
                 string jsonData = File.ReadAllText(jsonFilePath);
                 var data = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(jsonData);
                 if (data == null) return HookResult.Continue;
@@ -122,9 +123,7 @@ public class VoteGameMode
         string[] Accept = Configs.GetConfigData().VoteGameMode_CommandsOnHalfVoteAccept.Split(',');
 
         if (Accept.Any(cmd => cmd.Equals(message, StringComparison.OrdinalIgnoreCase)))
-        {
-            DateTime personDate = DateTime.Now;
-            
+        {            
             if (Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(CallerSteamID) && Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH[CallerSteamID])
             {
                 if (!Globals_VoteGameMode.VoteGameMode_CallerVotedTo.ContainsKey(Caller))
@@ -194,7 +193,6 @@ public class VoteGameMode
                                 disposableInstance.Dispose();
                             }
                             Server.ExecuteCommand($"exec {Execcfg + Gamemodechosecfg}");
-                            Server.PrintToConsole($"You Choosen {GamemodechoseName} || {Gamemodechosecfg} || exec {Execcfg + Gamemodechosecfg}");
                         }, TimerFlags.STOP_ON_MAPCHANGE);
                     });
                     
@@ -222,7 +220,6 @@ public class VoteGameMode
         string[] Refuse = Configs.GetConfigData().VoteGameMode_CommandsOnHalfVoteRefuse.Split(',');
         if (Refuse.Any(cmd => cmd.Equals(message, StringComparison.OrdinalIgnoreCase)))
         {
-            DateTime personDate = DateTime.Now;
             if (Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(CallerSteamID) && Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH[CallerSteamID])
             {
                 if (!Globals_VoteGameMode.VoteGameMode_CallerVotedTo.ContainsKey(Caller))
@@ -261,7 +258,6 @@ public class VoteGameMode
         string Date = DateTime.Now.ToString("MM-dd-yyyy");
         string fileName = DateTime.Now.ToString("MM-dd-yyyy") + ".txt";
         string Tpath = Path.Combine(cookiesFilePath,"../../plugins/Vote-GoldKingZ/logs/") + $"{fileName}";
-        DateTime personDate = DateTime.Now;
 
         var CallerName = Caller.PlayerName;
         var CallerTeam = Caller.TeamNum;
@@ -299,6 +295,7 @@ public class VoteGameMode
             {
                 if(players == null || !players.IsValid)continue;
                 var steamid = players.SteamID;
+                if(Globals_VoteMap.VoteMap_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))continue;
@@ -331,6 +328,7 @@ public class VoteGameMode
             playerall.ForEach(player => 
             {
                 var steamid = player.SteamID;
+                if(Globals_VoteMap.VoteMap_ShowMenuBOTH.ContainsKey(steamid))return;
                 if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))return;
                 if(Globals_VoteBanned.VoteBanned_ShowMenuCT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuT.ContainsKey(steamid) || Globals_VoteBanned.VoteBanned_ShowMenuBOTH.ContainsKey(steamid))return;
                 if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
@@ -391,7 +389,6 @@ public class VoteGameMode
                         disposableInstance.Dispose();
                     }
                     Server.ExecuteCommand($"exec {Exec + ChoosenModeCfg}");
-                    Server.PrintToConsole($"You Choosen {ChoosenModeName} || {ChoosenModeCfg} || exec {Exec + ChoosenModeCfg}");
                 }, TimerFlags.STOP_ON_MAPCHANGE);
             });
 

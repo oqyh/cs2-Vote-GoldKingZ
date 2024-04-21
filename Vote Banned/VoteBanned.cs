@@ -45,21 +45,19 @@ public class VoteBanned
         if (player == null || !player.IsValid || player.IsBot || player.IsHLTV)return;
         var playerid = player.SteamID;
         var playername = player.PlayerName;
-        var GetPlayerIp = player.IpAddress;
-        string[] parts = GetPlayerIp!.Split(':');
-        string PlayerIp = parts[0];
+        string PlayerIp = player.IpAddress?.Split(':')[0] ?? "InvildIpAdress";
         string Reason = "Banned Evasion";
 
-        Json_VoteBanned.PersonData personDataIP = Json_VoteBanned.RetrievePersonDataByIp(PlayerIp, Configs.GetConfigData().VoteBanned_TimeInDays, filename);
-        Json_VoteBanned.PersonData personDataID = Json_VoteBanned.RetrievePersonDataById(playerid, Configs.GetConfigData().VoteBanned_TimeInDays, filename);
-        Json_VoteBanned.PersonData personDataREASON = Json_VoteBanned.RetrievePersonDataByReason(Reason, Configs.GetConfigData().VoteBanned_TimeInDays, filename);
+        Json_VoteBanned.PersonData personDataIP = Json_VoteBanned.RetrievePersonDataByIp(PlayerIp, Configs.GetConfigData().VoteBanned_TimeInMins, filename);
+        Json_VoteBanned.PersonData personDataID = Json_VoteBanned.RetrievePersonDataById(playerid, Configs.GetConfigData().VoteBanned_TimeInMins, filename);
+        Json_VoteBanned.PersonData personDataREASON = Json_VoteBanned.RetrievePersonDataByReason(Reason, Configs.GetConfigData().VoteBanned_TimeInMins, filename);
         DateTime personDate = DateTime.Now;
 
-        if(Configs.GetConfigData().VoteBanned_Mode == 1 && Json_VoteBanned.IsPlayerSteamIDRestricted(playerid, Configs.GetConfigData().VoteBanned_TimeInDays, filename))
+        if(Configs.GetConfigData().VoteBanned_Mode == 1 && Json_VoteBanned.IsPlayerSteamIDRestricted(playerid, Configs.GetConfigData().VoteBanned_TimeInMins, filename))
         {
             if(Configs.GetConfigData().VoteBanned_EvasionPunishment && personDataID != null && personDataID.PlayerSteamID == playerid && personDataREASON != null && personDataID.Reason != Reason)
             {
-                Json_VoteBanned.SaveToJsonFile(playerid, playername, PlayerIp!.ToString(), personDate, Configs.GetConfigData().VoteBanned_EvasionPunishmentTimeInDays, "Banned Evasion", filename);
+                Json_VoteBanned.SaveToJsonFile(playerid, playername, PlayerIp!.ToString(), personDate, Configs.GetConfigData().VoteBanned_EvasionPunishmentTimeInDays, Configs.GetConfigData().VoteBanned_EvasionPunishmentTimeInDays, "Banned Evasion", filename);
                 
                 if(Configs.GetConfigData().Log_SendLogToText)
                 {
@@ -123,7 +121,7 @@ public class VoteBanned
                     {
                         if (!string.IsNullOrEmpty(Localizer!["votebanned.player.delay.message"]))
                         {
-                            Helper.AdvancedPrintToChat(player, Localizer!["votebanned.player.delay.message"], Configs.GetConfigData().VoteBanned_TimeInDays);
+                            Helper.AdvancedPrintToChat(player, Localizer!["votebanned.player.delay.message"], Configs.GetConfigData().VoteBanned_TimeInMins);
                         }
                     }, TimerFlags.STOP_ON_MAPCHANGE);
                     
@@ -142,11 +140,11 @@ public class VoteBanned
             }
         }
         
-        if(Configs.GetConfigData().VoteBanned_Mode == 2 && Json_VoteBanned.IsPlayerIPRestricted(PlayerIp, Configs.GetConfigData().VoteBanned_TimeInDays, filename))
+        if(Configs.GetConfigData().VoteBanned_Mode == 2 && Json_VoteBanned.IsPlayerIPRestricted(PlayerIp, Configs.GetConfigData().VoteBanned_TimeInMins, filename))
         {
             if(Configs.GetConfigData().VoteBanned_EvasionPunishment && personDataIP != null && personDataIP.PlayerIPAddress == PlayerIp && personDataREASON != null && personDataID!.Reason != Reason)
             {
-                Json_VoteBanned.SaveToJsonFile(playerid, playername, PlayerIp!.ToString(), personDate, Configs.GetConfigData().VoteBanned_EvasionPunishmentTimeInDays, "Banned Evasion", filename);
+                Json_VoteBanned.SaveToJsonFile(playerid, playername, PlayerIp!.ToString(), personDate, Configs.GetConfigData().VoteBanned_EvasionPunishmentTimeInDays, Configs.GetConfigData().VoteBanned_EvasionPunishmentTimeInDays, "Banned Evasion", filename);
 
                 if(Configs.GetConfigData().Log_SendLogToText)
                 {
@@ -202,11 +200,11 @@ public class VoteBanned
             Server.ExecuteCommand($"kick {playername}");
         }
 
-        if(Configs.GetConfigData().VoteBanned_Mode == 3 && (Json_VoteBanned.IsPlayerIPRestricted(PlayerIp, Configs.GetConfigData().VoteBanned_TimeInDays, filename) || Json_VoteBanned.IsPlayerSteamIDRestricted(playerid, Configs.GetConfigData().VoteBanned_TimeInDays, filename)))
+        if(Configs.GetConfigData().VoteBanned_Mode == 3 && (Json_VoteBanned.IsPlayerIPRestricted(PlayerIp, Configs.GetConfigData().VoteBanned_TimeInMins, filename) || Json_VoteBanned.IsPlayerSteamIDRestricted(playerid, Configs.GetConfigData().VoteBanned_TimeInMins, filename)))
         {
             if(Configs.GetConfigData().VoteBanned_EvasionPunishment && (personDataIP != null && personDataIP.PlayerIPAddress == PlayerIp && personDataREASON != null && personDataID!.Reason != Reason || personDataID != null && personDataID.PlayerSteamID == playerid && personDataREASON != null && personDataID.Reason != Reason))
             {
-                Json_VoteBanned.SaveToJsonFile(playerid, playername, PlayerIp!.ToString(), personDate, Configs.GetConfigData().VoteBanned_EvasionPunishmentTimeInDays, "Banned Evasion", filename);
+                Json_VoteBanned.SaveToJsonFile(playerid, playername, PlayerIp!.ToString(), personDate, Configs.GetConfigData().VoteBanned_EvasionPunishmentTimeInDays, Configs.GetConfigData().VoteBanned_EvasionPunishmentTimeInDays, "Banned Evasion", filename);
 
                 if(Configs.GetConfigData().Log_SendLogToText)
                 {
@@ -345,7 +343,7 @@ public class VoteBanned
                     {
                         foreach (var players in AllCTPlayers)
                         {
-                            if(Caller == players)continue;
+                            if(Caller == players || players == null || !players.IsValid)continue;
                             var TargetPlayersNames = players.PlayerName;
                             var TargetPlayersUserID = (int)players.UserId!;
                             VoteBannedMenu.AddMenuOption(TargetPlayersNames, (Caller, option) => HandleMenuCT(Caller, option, TargetPlayersUserID));
@@ -376,7 +374,7 @@ public class VoteBanned
                     {
                         foreach (var players in AllTPlayers)
                         {
-                            if(Caller == players)continue;
+                            if(Caller == players || players == null || !players.IsValid)continue;
                             var TargetPlayersNames = players.PlayerName;
                             var TargetPlayersUserID = (int)players.UserId!;
                             VoteBannedMenu.AddMenuOption(TargetPlayersNames, (Caller, option) => HandleMenuT(Caller, option, TargetPlayersUserID));
@@ -407,7 +405,7 @@ public class VoteBanned
                 {
                     foreach (var players in AllPlayers)
                     {
-                        if(Caller == players)continue;
+                        if(Caller == players || players == null || !players.IsValid)continue;
                         var TargetPlayersNames = players.PlayerName;
                         var TargetPlayersUserID = (int)players.UserId!;
                         VoteBannedMenu.AddMenuOption(TargetPlayersNames, (Caller, option) => HandleMenuALL(Caller, option, TargetPlayersUserID));
@@ -454,7 +452,7 @@ public class VoteBanned
                     {
                         if (Configs.GetConfigData().VoteBanned_Mode == 1 || Configs.GetConfigData().VoteBanned_Mode == 2 || Configs.GetConfigData().VoteBanned_Mode == 3)
                         {
-                            Json_VoteBanned.SaveToJsonFile(Globals_VoteBanned.VoteBanned_targetPlayerSTEAMCT, Globals_VoteBanned.VoteBanned_targetPlayerNameCT, Globals_VoteBanned.VoteBanned_targetPlayerIPCT!.ToString(), personDate, Configs.GetConfigData().VoteBanned_TimeInDays, "Vote Banned", filename);
+                            Json_VoteBanned.SaveToJsonFile(Globals_VoteBanned.VoteBanned_targetPlayerSTEAMCT, Globals_VoteBanned.VoteBanned_targetPlayerNameCT, Globals_VoteBanned.VoteBanned_targetPlayerIPCT!.ToString(), personDate, Configs.GetConfigData().VoteBanned_TimeInMins, Configs.GetConfigData().VoteBanned_TimeInMins, "Vote Banned", filename);
 
                             if(Configs.GetConfigData().Log_SendLogToText)
                             {
@@ -546,7 +544,7 @@ public class VoteBanned
                     {
                         if (Configs.GetConfigData().VoteBanned_Mode == 1 || Configs.GetConfigData().VoteBanned_Mode == 2 || Configs.GetConfigData().VoteBanned_Mode == 3)
                         {
-                            Json_VoteBanned.SaveToJsonFile(Globals_VoteBanned.VoteBanned_targetPlayerSTEAMT, Globals_VoteBanned.VoteBanned_targetPlayerNameT, Globals_VoteBanned.VoteBanned_targetPlayerIPT!.ToString(), personDate, Configs.GetConfigData().VoteBanned_TimeInDays, "Vote Banned", filename);
+                            Json_VoteBanned.SaveToJsonFile(Globals_VoteBanned.VoteBanned_targetPlayerSTEAMT, Globals_VoteBanned.VoteBanned_targetPlayerNameT, Globals_VoteBanned.VoteBanned_targetPlayerIPT!.ToString(), personDate, Configs.GetConfigData().VoteBanned_TimeInMins, Configs.GetConfigData().VoteBanned_TimeInMins, "Vote Banned", filename);
 
                             if(Configs.GetConfigData().Log_SendLogToText)
                             {
@@ -639,7 +637,7 @@ public class VoteBanned
                     {
                         if (Configs.GetConfigData().VoteBanned_Mode == 1 || Configs.GetConfigData().VoteBanned_Mode == 2 || Configs.GetConfigData().VoteBanned_Mode == 3)
                         {
-                            Json_VoteBanned.SaveToJsonFile(Globals_VoteBanned.VoteBanned_targetPlayerSTEAMBOTH, Globals_VoteBanned.VoteBanned_targetPlayerNameBOTH, Globals_VoteBanned.VoteBanned_targetPlayerIPBOTH!.ToString(), personDate, Configs.GetConfigData().VoteBanned_TimeInDays, "Vote Banned", filename);
+                            Json_VoteBanned.SaveToJsonFile(Globals_VoteBanned.VoteBanned_targetPlayerSTEAMBOTH, Globals_VoteBanned.VoteBanned_targetPlayerNameBOTH, Globals_VoteBanned.VoteBanned_targetPlayerIPBOTH!.ToString(), personDate, Configs.GetConfigData().VoteBanned_TimeInMins, Configs.GetConfigData().VoteBanned_TimeInMins, "Vote Banned", filename);
 
                             if(Configs.GetConfigData().Log_SendLogToText)
                             {
@@ -804,9 +802,7 @@ public class VoteBanned
         var TargetPlayerSteamID = GetTarget.SteamID;
         var TargetPlayerTeam = GetTarget.TeamNum;
 
-        var GetTargerIP = GetTarget.IpAddress;
-        string[] parts = GetTargerIP!.Split(':');
-        string TargerIP = parts[0];
+        string TargerIP = GetTarget.IpAddress?.Split(':')[0] ?? "InvildIpAdress";
 
         var allCTPlayers = Helper.GetCounterTerroristCount();
         float percentage = Configs.GetConfigData().VoteBanned_Percentage;
@@ -856,6 +852,7 @@ public class VoteBanned
                 var steamid = players.SteamID;
                 if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteMap.VoteMap_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))continue;
@@ -891,6 +888,7 @@ public class VoteBanned
                     var steamid = player.SteamID;
                     if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))return;
                     if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))return;
+                    if(Globals_VoteMap.VoteMap_ShowMenuBOTH.ContainsKey(steamid))return;
                     if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
                     if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))return;
                     if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))return;
@@ -910,7 +908,7 @@ public class VoteBanned
         {
             if (Configs.GetConfigData().VoteBanned_Mode == 1 || Configs.GetConfigData().VoteBanned_Mode == 2 || Configs.GetConfigData().VoteBanned_Mode == 3)
             {
-                Json_VoteBanned.SaveToJsonFile(TargetPlayerSteamID, TargetPlayerName, TargerIP!.ToString(), personDate, Configs.GetConfigData().VoteBanned_TimeInDays, "Vote Banned", filename);
+                Json_VoteBanned.SaveToJsonFile(TargetPlayerSteamID, TargetPlayerName, TargerIP!.ToString(), personDate, Configs.GetConfigData().VoteBanned_TimeInMins, Configs.GetConfigData().VoteBanned_TimeInMins, "Vote Banned", filename);
 
                 if(Configs.GetConfigData().Log_SendLogToText)
                 {
@@ -988,9 +986,7 @@ public class VoteBanned
         var TargetPlayerSteamID = GetTarget.SteamID;
         var TargetPlayerTeam = GetTarget.TeamNum;
 
-        var GetTargerIP = GetTarget.IpAddress;
-        string[] parts = GetTargerIP!.Split(':');
-        string TargerIP = parts[0];
+        string TargerIP = GetTarget.IpAddress?.Split(':')[0] ?? "InvildIpAdress";
 
         var allTPlayers = Helper.GetTerroristCount();
         float percentage = Configs.GetConfigData().VoteBanned_Percentage;
@@ -1041,6 +1037,7 @@ public class VoteBanned
                 var steamid = players.SteamID;
                 if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteMap.VoteMap_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))continue;
@@ -1077,6 +1074,7 @@ public class VoteBanned
                     var steamid = player.SteamID;
                     if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))return;
                     if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))return;
+                    if(Globals_VoteMap.VoteMap_ShowMenuBOTH.ContainsKey(steamid))return;
                     if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
                     if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))return;
                     if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))return;
@@ -1096,7 +1094,7 @@ public class VoteBanned
         {
             if (Configs.GetConfigData().VoteBanned_Mode == 1 || Configs.GetConfigData().VoteBanned_Mode == 2 || Configs.GetConfigData().VoteBanned_Mode == 3)
             {
-                Json_VoteBanned.SaveToJsonFile(TargetPlayerSteamID, TargetPlayerName, TargerIP!.ToString(), personDate, Configs.GetConfigData().VoteBanned_TimeInDays, "Vote Banned", filename);
+                Json_VoteBanned.SaveToJsonFile(TargetPlayerSteamID, TargetPlayerName, TargerIP!.ToString(), personDate, Configs.GetConfigData().VoteBanned_TimeInMins, Configs.GetConfigData().VoteBanned_TimeInMins, "Vote Banned", filename);
 
                 if(Configs.GetConfigData().Log_SendLogToText)
                 {
@@ -1176,9 +1174,7 @@ public class VoteBanned
         var TargetPlayerSteamID = GetTarget.SteamID;
         var TargetPlayerTeam = GetTarget.TeamNum;
 
-        var GetTargerIP = GetTarget.IpAddress;
-        string[] parts = GetTargerIP!.Split(':');
-        string TargerIP = parts[0];
+        string TargerIP = GetTarget.IpAddress?.Split(':')[0] ?? "InvildIpAdress";
 
         var allPlayers = Helper.GetAllCount();
         float percentage = Configs.GetConfigData().VoteBanned_Percentage;
@@ -1225,6 +1221,7 @@ public class VoteBanned
                 var steamid = players.SteamID;
                 if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))continue;
+                if(Globals_VoteMap.VoteMap_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))continue;
                 if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))continue;
@@ -1257,6 +1254,7 @@ public class VoteBanned
                 var steamid = player.SteamID;
                 if(Globals_VoteGag.VoteGag_ShowMenuCT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuT.ContainsKey(steamid) || Globals_VoteGag.VoteGag_ShowMenuBOTH.ContainsKey(steamid))return;
                 if(Globals_VoteGameMode.VoteGameMode_ShowMenuBOTH.ContainsKey(steamid))return;
+                if(Globals_VoteMap.VoteMap_ShowMenuBOTH.ContainsKey(steamid))return;
                 if(Globals_VoteKick.VoteKick_ShowMenuCT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuT.ContainsKey(steamid) || Globals_VoteKick.VoteKick_ShowMenuBOTH.ContainsKey(steamid))return;
                 if(Globals_VoteMute.VoteMute_ShowMenuCT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuT.ContainsKey(steamid) || Globals_VoteMute.VoteMute_ShowMenuBOTH.ContainsKey(steamid))return;
                 if(Globals_VoteSilent.VoteSilent_ShowMenuCT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuT.ContainsKey(steamid) || Globals_VoteSilent.VoteSilent_ShowMenuBOTH.ContainsKey(steamid))return;
@@ -1274,7 +1272,7 @@ public class VoteBanned
         {
             if (Configs.GetConfigData().VoteBanned_Mode == 1 || Configs.GetConfigData().VoteBanned_Mode == 2 || Configs.GetConfigData().VoteBanned_Mode == 3)
             {
-                Json_VoteBanned.SaveToJsonFile(TargetPlayerSteamID, TargetPlayerName, TargerIP!.ToString(), personDate, Configs.GetConfigData().VoteBanned_TimeInDays, "Vote Banned", filename);
+                Json_VoteBanned.SaveToJsonFile(TargetPlayerSteamID, TargetPlayerName, TargerIP!.ToString(), personDate, Configs.GetConfigData().VoteBanned_TimeInMins, Configs.GetConfigData().VoteBanned_TimeInMins, "Vote Banned", filename);
 
                 if(Configs.GetConfigData().Log_SendLogToText)
                 {
@@ -1375,7 +1373,7 @@ public class VoteBanned
                 }
             }
         }
-        
+        Globals_VoteBanned.VoteBanned_Immunity.Remove(playerid);
         return HookResult.Continue;
     }
     public void OnMapEnd()
