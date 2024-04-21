@@ -387,7 +387,7 @@
 > Note: Config Located In ..\addons\counterstrikesharp\plugins\Vote-GoldKingZ\config\VoteMap.json                                          
 > After Setup Maps You Can Use `"Display": "New Name"` To Rename Map Name In Menu                                                                                    
 > `host:` Means Link Of The Map Example https://steamcommunity.com/sharedfiles/filedetails/?id=3084197740 Will Be `host:3084197740`                                          
-> `ds:` Means What What Server Map Has In `ds_workshop_listmaps`                                                                                    
+> `ds:` Means What Server Map Has In `ds_workshop_listmaps`                                                                                    
 > `None Prefix` Means Normal Map de_dust2, cs_office etc..                                                                                                                             
 
 ```json
