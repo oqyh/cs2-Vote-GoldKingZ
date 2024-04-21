@@ -646,9 +646,10 @@ Added VoteMute_ChangeTimeInMinsToDays
 Fix Some Bugs
 Fix Null IpAdress
 Added VoteSilent_ChangeTimeInMinsToDays
+
   - [ Log ]
-Added VoteSilent_ChangeTimeInMinsToDays
-Added VoteSilent_ChangeTimeInMinsToDays
+Added Log_MapFormat
+Added Log_DiscordMapFormat
 
 (1.0.8)
 -Fix Some Bugs
@@ -705,8 +706,10 @@ Added VoteGameMode_DisableItOnJoinTheseGroups
 Lang VoteGameMode
 
 - [ Log ]
-Added Log_MapFormat
-Added Log_DiscordMapFormat
+Fix Writing Bug After Creating Files Log On (Vote Banned,Vote Kick,Vote Mute)
+Fix Log_DiscordMessageFormat On (Vote Banned,Vote Kick,Vote Mute)
+Added Log_GameModeFormat
+Added Log_DiscordGameModeFormat
 
 (1.0.7)
 -Fix Counting And Name List
