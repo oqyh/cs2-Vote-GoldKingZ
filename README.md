@@ -1,6 +1,6 @@
-# [CS2] Vote-GoldKingZ (1.0.8)
+# [CS2] Vote-GoldKingZ (1.0.9)
 
-### Vote System (Kick , Mute , Banned, Vips)
+### Vote (Kick, Banned, Mute, Gag, Silent, Gamemode, Map, Vips)
 
 
 ![center](https://github.com/oqyh/cs2-Vote-GoldKingZ/assets/48490385/16a5904b-d618-4082-8678-ddbf7f42dce4)
@@ -12,14 +12,16 @@
 
 ## Todo List
 
+- [x] Admin Control Votes InGame
 - [x] Vote Kick 
 - [x] Vote Banned
 - [x] Vote Mute (Voice)
 - [x] Vote Gag (Chat)
 - [x] Vote Silent (Chat + Voice)
 - [x] Vote A Game Mod (exec Config)
+- [x] Vote A Map
 - [ ] Vote Send Player Spec
-- [ ] Vote A Map
+
 
 
 ## .:[ Dependencies ]:.
@@ -38,6 +40,21 @@
 > Config Located In ..\addons\counterstrikesharp\plugins\Vote-GoldKingZ\config\config.json                                           
 >
 
+<p><details><summary> [ Vote Admin ] </summary>
+
+```json
+{
+  //Commands Ingame To Open Voted Menu
+  "VoteAdmin_CommandsInGame": "!votesadmin,!voteadmin",
+
+  //Admin Flags
+  "VoteAdmin_Groups": "@css/root,@css/admin",
+}
+```
+
+</details>
+</p>
+
 <p><details><summary> [ Vote Kick ] </summary>
 
 ```json
@@ -53,6 +70,9 @@
   //If Vote Pass How Many In Mins Should Kicked Player Wait To Join Back
   "VoteKick_TimeInMins": 5,
 
+  //Change VoteKick_TimeInMins To Days
+  "VoteKick_ChangeTimeInMinsToDays": false,
+
   //Minimum Of Players To Start Vote Kick
   "VoteKick_StartOnMinimumOfXPlayers": 5,
 
@@ -66,7 +86,7 @@
   //Vote Percentage To Pass The Vote 60 means 60% || 50 means 50% Half
   "VoteKick_Percentage": 60,
   
-  //If Vote Reach Half Depend Percentage On VoteKick_Percentage Do You Want Annoce Player To Vote shortcut Depend [VoteKick_CommandsOnHalfVoteAccept] And [VoteKick_CommandsOnHalfVoteRefuse] To Kick Player Announced
+  //If Vote Reach Half Depend Percentage On VoteKick_Percentage Do You Want Annoce Players To Vote shortcut Depend [VoteKick_CommandsOnHalfVoteAccept] And [VoteKick_CommandsOnHalfVoteRefuse] To Kick Player Announced
   "VoteKick_CenterMessageAnnouncementOnHalfVotes": true,
   
   //If VoteKick_CenterMessageAnnouncementOnHalfVotes Enabled How Many In Secs To Show Message
@@ -109,8 +129,11 @@
   //VoteBanned_Mode (3) = Banned And Restrict SteamID And IpAddress From Joining
   "VoteBanned_Mode": 0,
   
-  //If Vote Pass How Many In Days Should Banned Player Wait To Join Back
-  "VoteBanned_TimeInDays": 5,
+  //If Vote Pass How Many In Mins Should Banned Player Wait To Join Back
+  "VoteBanned_TimeInMins": 1,
+
+  //Change VoteBanned_TimeInMins To Days
+  "VoteBanned_ChangeTimeInMinsToDays": true,
 
   //Minimum Of Players To Start Vote Ban
   "VoteBanned_StartOnMinimumOfXPlayers": 5,
@@ -122,7 +145,7 @@
   //Vote Percentage To Pass The Vote 60 means 60% || 50 means 50% Half
   "VoteBanned_Percentage": 70,
   
-  //If Vote Reach Half Depend Percentage On VoteBanned_Percentage Do You Want Annoce Player To Vote shortcut Depend [VoteBanned_CommandsOnHalfVoteAccept] And [VoteBanned_CommandsOnHalfVoteRefuse] To Banned Player Announced
+  //If Vote Reach Half Depend Percentage On VoteBanned_Percentage Do You Want Annoce Players To Vote shortcut Depend [VoteBanned_CommandsOnHalfVoteAccept] And [VoteBanned_CommandsOnHalfVoteRefuse] To Banned Player Announced
   "VoteBanned_CenterMessageAnnouncementOnHalfVotes": true,
   
   //If VoteBanned_CenterMessageAnnouncementOnHalfVotes Enabled How Many In Secs To Show Message
@@ -164,6 +187,9 @@
   //If Vote Pass How Many In Mins Should Mute Player
   "VoteMute_TimeInMins": 5,
 
+  //Change VoteMute_TimeInMins To Days
+  "VoteMute_ChangeTimeInMinsToDays": false,
+
   //Minimum Of Players To Start Vote Mute
   "VoteMute_StartOnMinimumOfXPlayers": 5,
 
@@ -177,7 +203,7 @@
   //Vote Percentage To Pass The Vote 60 means 60% || 50 means 50% Half
   "VoteMute_Percentage": 60,
 
-  //If Vote Reach Half Depend Percentage On VoteMute_Percentage Do You Want Annoce Player To Vote shortcut Depend [VoteMute_CommandsOnHalfVoteAccept] And [VoteMute_CommandsOnHalfVoteRefuse] To Mute Player Announced
+  //If Vote Reach Half Depend Percentage On VoteMute_Percentage Do You Want Annoce Players To Vote shortcut Depend [VoteMute_CommandsOnHalfVoteAccept] And [VoteMute_CommandsOnHalfVoteRefuse] To Mute Player Announced
   "VoteMute_CenterMessageAnnouncementOnHalfVotes": false,
 
   //If VoteMute_CenterMessageAnnouncementOnHalfVotes Enabled How Many In Secs To Show Message
@@ -216,6 +242,9 @@
   //If Vote Pass How Many In Mins Should Gag Player
   "VoteGag_TimeInMins": 5,
 
+  //Change VoteGag_TimeInMins To Days
+  "VoteGag_ChangeTimeInMinsToDays": false,
+
   //Minimum Of Players To Start Vote Gag
   "VoteGag_StartOnMinimumOfXPlayers": 5,
 
@@ -229,7 +258,7 @@
   //Vote Percentage To Pass The Vote 60 means 60% || 50 means 50% Half
   "VoteGag_Percentage": 60,
 
-  //If Vote Reach Half Depend Percentage On VoteGag_Percentage Do You Want Annoce Player To Vote shortcut Depend [VoteGag_CommandsOnHalfVoteAccept] And [VoteGag_CommandsOnHalfVoteRefuse] To Gag Player Announced
+  //If Vote Reach Half Depend Percentage On VoteGag_Percentage Do You Want Annoce Players To Vote shortcut Depend [VoteGag_CommandsOnHalfVoteAccept] And [VoteGag_CommandsOnHalfVoteRefuse] To Gag Player Announced
   "VoteGag_CenterMessageAnnouncementOnHalfVotes": false,
 
   //If VoteGag_CenterMessageAnnouncementOnHalfVotes Enabled How Many In Secs To Show Message
@@ -270,6 +299,9 @@
   //If Vote Pass How Many In Mins Should Silent Player
   "VoteSilent_TimeInMins": 5,
 
+  //Change VoteSilent_TimeInMins To Days
+  "VoteSilent_ChangeTimeInMinsToDays": false,
+
   //Minimum Of Players To Start Vote Silent
   "VoteSilent_StartOnMinimumOfXPlayers": 5,
 
@@ -283,7 +315,7 @@
   //Vote Percentage To Pass The Vote 60 means 60% || 50 means 50% Half
   "VoteSilent_Percentage": 60,
 
-  //If Vote Reach Half Depend Percentage On VoteSilent_Percentage Do You Want Annoce Player To Vote shortcut Depend [VoteSilent_CommandsOnHalfVoteAccept] And [VoteSilent_CommandsOnHalfVoteRefuse] To Silent Player Announced
+  //If Vote Reach Half Depend Percentage On VoteSilent_Percentage Do You Want Annoce Players To Vote shortcut Depend [VoteSilent_CommandsOnHalfVoteAccept] And [VoteSilent_CommandsOnHalfVoteRefuse] To Silent Player Announced
   "VoteSilent_CenterMessageAnnouncementOnHalfVotes": false,
 
   //If VoteSilent_CenterMessageAnnouncementOnHalfVotes Enabled How Many In Secs To Show Message
@@ -316,7 +348,7 @@
 <details>
 <summary> [ Vote Game Mode ] </summary>
 
-> Note: Config Located In ..\addons\counterstrikesharp\plugins\Vote-GoldKingZ\config\GameMode.json                                          
+> Note: Config Located In ..\addons\counterstrikesharp\plugins\Vote-GoldKingZ\config\VoteGameMode.json                                          
 > After Setup Game Modes Names Put Your Cfgs In Folder Located In ..\cfg\Vote-GoldKingZ\
 
 ```json
@@ -330,7 +362,7 @@
   //Vote Percentage To Pass The Vote 60 means 60% || 50 means 50% Half
   "VoteGameMode_Percentage": 60,
 
-  //If Vote Reach Half Depend Percentage On VoteGameMode_Percentage Do You Want Annoce Player To Vote shortcut Depend [VoteGameMode_CommandsOnHalfVoteAccept] And [VoteGameMode_CommandsOnHalfVoteRefuse] To Game Mode Announced
+  //If Vote Reach Half Depend Percentage On VoteGameMode_Percentage Do You Want Annoce Players To Vote shortcut Depend [VoteGameMode_CommandsOnHalfVoteAccept] And [VoteGameMode_CommandsOnHalfVoteRefuse] To Game Mode Announced
   "VoteGameMode_CenterMessageAnnouncementOnHalfVotes": false,
 
   //If VoteSilent_CenterMessageAnnouncementOnHalfVotes Enabled How Many In Secs To Show Message
@@ -349,6 +381,44 @@
 </details>
 </p>
 
+<details>
+<summary> [ Vote Map ] </summary>
+
+> Note: Config Located In ..\addons\counterstrikesharp\plugins\Vote-GoldKingZ\config\VoteMap.json                                          
+> After Setup Maps You Can Use `"Display": "New Name"` To Rename Map Name In Menu                                                                                    
+> `host:` Means Link Of The Map Example https://steamcommunity.com/sharedfiles/filedetails/?id=3084197740 Will Be `host:3084197740`                                          
+> `ds:` Means What What Server Map Has In `ds_workshop_listmaps`                                                                                    
+> `None Prefix` Means Normal Map de_dust2, cs_office etc..                                                                                                                             
+
+```json
+{
+  //Enable Or Disable Vote Map
+  "VoteMap": false,
+
+  //Minimum Of Players To Start Vote Map
+  "VoteMap_StartOnMinimumOfXPlayers": 5,
+
+  //Vote Percentage To Pass The Vote 60 means 60% || 50 means 50% Half
+  "VoteMap_Percentage": 60,
+
+  //If Vote Reach Half Depend Percentage On VoteMap_Percentage Do You Want Annoce Players To Vote shortcut Depend [VoteMap_CommandsOnHalfVoteAccept] And [VoteMap_CommandsOnHalfVoteRefuse] To Map Announced
+  "VoteMap_CenterMessageAnnouncementOnHalfVotes": false,
+
+  //If VoteSilent_CenterMessageAnnouncementOnHalfVotes Enabled How Many In Secs To Show Message
+  "VoteMap_CenterMessageAnnouncementTimer": 25,
+
+  //Commands Ingame
+  "VoteMap_CommandsToVote": "!votemaps,!votemap",
+  "VoteMap_CommandsOnHalfVoteAccept": "!yes,yes,!y,y",
+  "VoteMap_CommandsOnHalfVoteRefuse": "!no,no,!n,n",
+
+  //If You Put Any Group In The String Will Disable Vote Game Mode Once Join Game example:("@css/root,@css/admin,#css/admin")
+  "VoteMap_DisableItOnJoinTheseGroups": "",
+}
+```
+
+</details>
+</p>
 
 <p><details><summary> [ Log ] </summary>
 
@@ -362,6 +432,7 @@
     //{PLAYERNAME} = Player Name
     //{REASON} = Reason (votekick,vote banned,etc...)
     //{GAMEMODE} = Game Mode Name
+    //{MAP} = Map Name
     //{STEAMID} = ex: 76561198206086993
     //{IP} = ex: 127.0.0.0
     //==========================
@@ -372,6 +443,7 @@
     //If Log_SendLogToText Enabled How Do You Like Message Look Like
     "Log_TextMessageFormat": "[{DATE} - {TIME}] {PLAYERNAME} Has Been ({REASON})  [SteamID: {STEAMID} - Ip: {IP}]",
     "Log_GameModeFormat": "[{DATE} - {TIME}] Vote Game Mode Choosed To Change To ({GAMEMODE})",
+    "Log_MapFormat": "[{DATE} - {TIME}] Vote Map Choosed To Change To ({MAP})",
 
     //If Log_SendLogToText Enabled Auto Delete Logs If More Than X (Days) Old
     "Log_AutoDeleteLogsMoreThanXdaysOld": 0,
@@ -392,6 +464,7 @@
     //If Log_SendLogToDiscordOnMode (1) or (2) or (3) How Do You Like Message Look Like
     "Log_DiscordMessageFormat": "[{DATE} - {TIME}] {PLAYERNAME} Has Been ({REASON})  [SteamID: {STEAMID} - Ip: {IP}]",
     "Log_DiscordGameModeFormat": "[{DATE} - {TIME}] Vote Game Mode Choosed To Change To ({GAMEMODE})",
+    "Log_DiscordMapFormat": "[{DATE} - {TIME}] Vote Map Choosed To Change To ({MAP})",
 
     //If Log_SendLogToDiscordOnMode (3) And Player Doesn't Have Profile Picture Which Picture Do You Like To Be Replaced
     "Log_DiscordUsersWithNoAvatarImage": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b5/b5bd56c1aa4644a474a2e4972be27ef9e82e517e_full.jpg",
@@ -408,8 +481,9 @@
 
 
 ```json
+
 {
-    //==========================
+	//==========================
     //        Colors
     //==========================
     //{Yellow} {Gold} {Silver} {Blue} {DarkBlue} {BlueGrey} {Magenta} {LightRed}
@@ -422,6 +496,15 @@
 	//<br> = Next Line On HUD Center Message
     //==========================
 	
+    "voteadmin.not.allowed": "{green}Gold KingZ {grey}| {darkred}This Command Only For Admins Only",
+    "voteadmin.choose.file": "{purple}Choose Which File",
+    "voteadmin.choose.player": "{purple}Choose Which Player",
+    "voteadmin.delete.player": "{purple}Are You Sure Want To Delete {lime} {0} {grey}?",
+    "voteadmin.player.detail": "{darkred}-------------------------------------------- {nextline} {green}Gold KingZ {grey}| Name: {Purple}{0} {grey}|| SteamID: {Purple}{1}{nextline}{green}Gold KingZ {grey}| IpAdress: {Purple}{2}{nextline}{green}Gold KingZ {grey}| Date: {Purple}{3}{nextline}{green}Gold KingZ {grey}| Restricted: {grey}Days:{Purple}{4} {grey}Mins:{Purple}{5}{nextline}{green}Gold KingZ {grey}| Reason: {lime}{6}{nextline}{darkred}-------------------------------------------- ",
+    "voteadmin.answer.yes": "{lime}Yes",
+    "voteadmin.answer.no": "{darkred}No",
+    "voteadmin.player.successfully": "{green}Gold KingZ {grey}| {Purple}{0} {grey}successfully Deleted",
+
     "votekick.menu.name": "{purple}Vote Kick Menu",
     "votekick.player.is.disabled": "{green}Gold KingZ {grey}| Vote Kick Is Temporarily {darkred}Disabled {grey}Admin In The Game",
     "votekick.minimum.needed": "{green}Gold KingZ {grey}| {grey}You Cant Start Vote Kick You Need Minimum {lime}{0} {grey}Players",
@@ -498,12 +581,72 @@
     "votegamemode.chat.message": " {green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted To Change Game Mode To {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",
     "votegamemode.announce.gamemode.successfully.message": "{green}Gold KingZ {grey}| Vote Successfully, Changing Game Mode To {Purple}{0}",
     "votegamemode.announce.halfvotes.chat.message": "{green}Gold KingZ {grey}| Votes Reached Half Type {yellow}!yes {grey}/ {yellow}!y {grey}Or {red}!no {grey}/ {red}!n {grey}To Vote Game Mode",
-    "votegamemode.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='red'>Change Mode: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Accept Vote Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Decline Vote Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>"
+    "votegamemode.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='red'>Change Mode: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Accept Vote Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Decline Vote Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>",
+    
+    "votemap.menu.name": "{purple}Vote Map Menu",
+    "votemap.player.is.disabled": "{green}Gold KingZ {grey}| Vote Map Is Temporarily {darkred}Disabled {grey}Admin In The Game",
+    "votemap.minimum.needed": "{green}Gold KingZ {grey}| {grey}You Cant Start Vote Map You Need Minimum {lime}{0} {grey}Players",
+    "votemap.player.vote.same.player": "{green}Gold KingZ {grey}| You've Already Voted To Map {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votemap.player.vote.same.yes": "{green}Gold KingZ {grey}| You've Already Voted {lime}Yes {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votemap.player.vote.same.no": "{green}Gold KingZ {grey}| You've Already Voted {red}No {grey}To {Purple}{0} {grey}[ {Olive}{1} {grey}/ {Olive}{2} {grey}]",
+    "votemap.chat.message": " {green}Gold KingZ {grey}| {Purple}{0} {grey}Wanted To Change Map To {Magenta}{1} {grey}[ {Olive}{2} {grey}/ {Olive}{3} {grey}]",
+    "votemap.announce.map.successfully.message": "{green}Gold KingZ {grey}| Vote Successfully, Changing Map To {Purple}{0}",
+    "votemap.announce.halfvotes.chat.message": "{green}Gold KingZ {grey}| Votes Reached Half Type {yellow}!yes {grey}/ {yellow}!y {grey}Or {red}!no {grey}/ {red}!n {grey}To Vote Map",
+    "votemap.announce.halfvotes.center.message": "<font color='purple'>Vote Reach Half</font> <font color='darkred'>{0} Secs</font> <br> <font color='red'>Change Map: </font> <font color='lightblue'>{1} ?</font> <br> <font class='fontSize-l' color='green'> [ {2} / {3} ] </font> <br> <font color='grey'>To Accept Vote Say</font> <font color='yellow'>!yes</font><font color='grey'>/</font><font color='yellow'>!y</font> <br> <font color='grey'>To Decline Vote Say</font> <font color='yellow'>!no</font><font color='grey'>/</font><font color='yellow'>!n</font>"
 }
+
 ```
 
 ## .:[ Change Log ]:.
 ```
+(1.0.9)
+-Fix Some Bugs
+
+  - [ Vote Admin ]
+Added VoteAdmin_CommandsInGame
+Added VoteAdmin_Groups
+Lang VoteAdmin
+
+  - [ Vote Map ]
+Added VoteMap
+Added VoteMap_StartOnMinimumOfXPlayers
+Added VoteMap_Percentage
+Added VoteMap_CenterMessageAnnouncementOnHalfVotes
+Added VoteMap_CenterMessageAnnouncementTimer
+Added VoteMap_CommandsToVote
+Added VoteMap_CommandsOnHalfVoteAccept
+Added VoteMap_CommandsOnHalfVoteRefuse
+Added VoteMap_DisableItOnJoinTheseGroups 
+Lang VoteMap
+
+  - [ Vote Banned ]
+Fix Some Bugs
+Fix Null IpAdress
+Change VoteBanned_TimeInDays To VoteBanned_TimeInMins
+Added VoteBanned_ChangeTimeInMinsToDays
+
+  - [ Vote Gag ]
+Fix Some Bugs
+Fix Null IpAdress
+Added VoteGag_ChangeTimeInMinsToDays
+
+  - [ Vote Kick ]
+Fix Some Bugs
+Fix Null IpAdress
+Added VoteKick_ChangeTimeInMinsToDays
+
+
+
+  - [ Vote Mute ]
+Fix Some Bugs
+Fix Null IpAdress
+Added VoteMute_ChangeTimeInMinsToDays
+
+  - [ Vote Silent ]
+Fix Some Bugs
+Fix Null IpAdress
+Added VoteSilent_ChangeTimeInMinsToDays
+
 (1.0.8)
 -Fix Some Bugs
 -Remove Bot From Counting + List Players
